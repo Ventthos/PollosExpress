@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="imagen">
+    <file>inicioDeSesion.png</file>
+  </qresource>
+</RCC>
