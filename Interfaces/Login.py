@@ -18,6 +18,7 @@ class Login(Ui_MainWindow, QtWidgets.QMainWindow):
             password="$ShotGunKin0805",
             database="u119126_pollos2LaVengazaDelPollo"
         )
+        self.pushButton.clicked.connect(self.iniciarSesion)
 
     def iniciarSesion(self):
         user = self.lineEdit.text()
