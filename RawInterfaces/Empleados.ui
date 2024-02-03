@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>856</width>
-    <height>579</height>
+    <height>611</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -87,8 +87,8 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>26</width>
-                <height>26</height>
+                <width>29</width>
+                <height>29</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -152,17 +152,29 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>276</width>
-              <height>440</height>
+              <width>272</width>
+              <height>454</height>
              </rect>
             </property>
            </widget>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="agregar_empleado">
+           <property name="styleSheet">
+            <string notr="true">
+#agregar_empleado {
+	background-color: #e73a4b;
+	color: white;
+	font-weight: bold;
+}
+
+#agregar_empleado:hover {
+	background-color: #EC5B69;
+}</string>
+           </property>
            <property name="text">
-            <string>PushButton</string>
+            <string>Agregar empleado</string>
            </property>
           </widget>
          </item>
@@ -197,7 +209,16 @@
 	background-color: white;
 	border-radius: 14px;
 }
-</string>
+
+#datos_widget QPushButton{
+	background-color: #e73a4b;
+	color: white;
+	font-weight: bold;
+}
+
+#datos_widget QPushButton:Hover{
+	background-color: #EC5B69;
+}</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="leftMargin">
@@ -285,7 +306,9 @@
 	background-color: #013a70;
 	padding: 4px;
 	color: white;
-	border: 1px solid red ;
+	border-bottom: 1px solid red;
+	border-top: 1px solid red;
+	border-right: 1px solid red;
 	border-top-right-radius: 6px;
 	border-bottom-right-radius: 6px;
 }
@@ -293,7 +316,14 @@
 #frame_2 QLabel{
 	background-color: #013a70;
 	padding: 4px;
-}</string>
+	border-bottom-left-radius: 6px;
+	border-top-left-radius: 6px;
+	border-bottom: 1px solid red;
+	border-top: 1px solid red;
+	border-left: 1px solid red;
+}
+
+</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
@@ -309,8 +339,8 @@
                 <widget class="QLabel" name="label">
                  <property name="maximumSize">
                   <size>
-                   <width>46</width>
-                   <height>46</height>
+                   <width>34</width>
+                   <height>34</height>
                   </size>
                  </property>
                  <property name="sizeIncrement">
@@ -351,8 +381,8 @@
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>46</width>
-                   <height>46</height>
+                   <width>34</width>
+                   <height>34</height>
                   </size>
                  </property>
                  <property name="sizeIncrement">
@@ -402,6 +432,15 @@
             </item>
             <item>
              <widget class="QGroupBox" name="groupBox_2">
+              <property name="styleSheet">
+               <string notr="true">#groupBox_2 QLineEdit {
+	background-color: #013a70;
+	padding: 4px;
+	color: white;
+	border: 1px solid red;
+	border-radius: 6px;
+}</string>
+              </property>
               <property name="title">
                <string>Datos de la cuenta</string>
               </property>
@@ -447,14 +486,14 @@
               <item>
                <widget class="QPushButton" name="pushButton_3">
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>Editar</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_2">
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>Eliminar</string>
                 </property>
                </widget>
               </item>
@@ -471,6 +510,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../aaaaa.qrc"/>
+ </resources>
  <connections/>
 </ui>
