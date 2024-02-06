@@ -21,8 +21,8 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.background = QtWidgets.QWidget(Form)
         self.background.setStyleSheet("#background{\n"
-"    background-color: purple;\n"
-"}")
+                                      "    border-image: url(../img/Empleado.png);\n"
+                                      "}")
         self.background.setObjectName("background")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background)
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -51,7 +51,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.iconoBuscar.sizePolicy().hasHeightForWidth())
         self.iconoBuscar.setSizePolicy(sizePolicy)
-        self.iconoBuscar.setMaximumSize(QtCore.QSize(29, 29))
+        self.iconoBuscar.setMaximumSize(QtCore.QSize(26, 26))
         self.iconoBuscar.setStyleSheet("#iconoBuscar{\n"
 "    background-color: #185791;\n"
 "    border-top-left-radius: 10px;\n"
@@ -88,7 +88,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.contenidoScroll = QtWidgets.QWidget()
-        self.contenidoScroll.setGeometry(QtCore.QRect(0, 0, 272, 454))
+        self.contenidoScroll.setGeometry(QtCore.QRect(0, 0, 276, 464))
         self.contenidoScroll.setObjectName("contenidoScroll")
         self.scrollArea.setWidget(self.contenidoScroll)
         self.verticalLayout_2.addWidget(self.scrollArea)
@@ -98,6 +98,7 @@ class Ui_Form(object):
 "    background-color: #e73a4b;\n"
 "    color: white;\n"
 "    font-weight: bold;\n"
+"padding:8px;\n"
 "}\n"
 "\n"
 "#agregar_empleado:hover {\n"
@@ -116,6 +117,7 @@ class Ui_Form(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.datos)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.datos_widget = QtWidgets.QWidget(self.datos)
+        self.datos_widget.setEnabled(True)
         self.datos_widget.setStyleSheet("#datos_widget{\n"
 "    background-color: white;\n"
 "    border-radius: 14px;\n"
@@ -203,7 +205,7 @@ class Ui_Form(object):
         self.formLayout.setHorizontalSpacing(0)
         self.formLayout.setObjectName("formLayout")
         self.label = QtWidgets.QLabel(self.frame_2)
-        self.label.setMaximumSize(QtCore.QSize(34, 34))
+        self.label.setMaximumSize(QtCore.QSize(30, 30))
         self.label.setSizeIncrement(QtCore.QSize(1, 1))
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -219,7 +221,7 @@ class Ui_Form(object):
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.lineEdit)
         self.label_2 = QtWidgets.QLabel(self.frame_2)
         self.label_2.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_2.setMaximumSize(QtCore.QSize(34, 34))
+        self.label_2.setMaximumSize(QtCore.QSize(30, 30))
         self.label_2.setSizeIncrement(QtCore.QSize(1, 1))
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -233,7 +235,7 @@ class Ui_Form(object):
         self.lineEdit_2.setFont(font)
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEdit_2)
-        self.verticalLayout_4.addWidget(self.frame_2)
+        self.verticalLayout_4.addWidget(self.frame_2, 0, QtCore.Qt.AlignTop)
         self.formLayout_4 = QtWidgets.QFormLayout()
         self.formLayout_4.setObjectName("formLayout_4")
         self.rolLabel = QtWidgets.QLabel(self.datos_widget)
@@ -272,7 +274,7 @@ class Ui_Form(object):
         self.checkBox.setFont(font)
         self.checkBox.setObjectName("checkBox")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.checkBox)
-        self.verticalLayout_4.addWidget(self.groupBox_2)
+        self.verticalLayout_4.addWidget(self.groupBox_2, 0, QtCore.Qt.AlignTop)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_3 = QtWidgets.QPushButton(self.datos_widget)
