@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtGui
 from RawInterfaces.Promociones import Ui_MainWindow
 from Objects.Producto import Producto
+from Objects.TiposPromocion import TipoPromocion
 import mysql.connector
 from tkinter import messagebox
 
@@ -17,6 +18,7 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         )
         self.cursor = self.connection.cursor()
         #Llenar las comboboxes
+        self.LlenarCombos()
 
     def ObtenerDatos(self):
         self.connection.reconnect()
@@ -28,9 +30,19 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
             ArregloProductos.append(Producto(*result))
         self.HelloWorld(ArregloProductos)
         scriptObtener = "SELECT * FROM tipo_de_promocion"
-        return ArregloProductos
+        self.cursor.execute(scriptObtener)
+        results = self.cursor.fetchall()
+        ArregloTipos = []
+        for result in results:
+            ArregloTipos.append(TipoPromocion(*result))
+        self.HelloWorld(ArregloTipos)
+        return (ArregloProductos, ArregloTipos)
     def LlenarCombos(self):
-        pass
+        ArrPro, ArrTipo = self.ObtenerDatos()
+        for producto in ArrPro:
+            self.PromocionBox.addItem(producto.nombre)
+        for tipoPromocion in ArrTipo:
+            self.TipoPromocionBox.addItem(tipoPromocion.nombre)
     def HelloWorld(self, str):
         print(str)
 
