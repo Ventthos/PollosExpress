@@ -67,6 +67,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QFrame" name="frame">
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -134,28 +137,35 @@
          </item>
          <item>
           <widget class="QScrollArea" name="scrollArea">
-           <property name="styleSheet">
-            <string notr="true">#scrollArea{
-	border: 0px solid black;
-	border-radius: 14px;
-}
-#contenidoScroll{
-	background-color: white;
-	
-}</string>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
            </property>
            <property name="widgetResizable">
             <bool>true</bool>
            </property>
-           <widget class="QWidget" name="contenidoScroll">
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>276</width>
-              <height>464</height>
+              <width>274</width>
+              <height>459</height>
              </rect>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+            </layout>
            </widget>
           </widget>
          </item>
