@@ -20,10 +20,10 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.background = QtWidgets.QWidget(Form)
-        self.background.setStyleSheet("#background{\n"
-                                      "    border-image: url(../img/Empleado.png);\n"
-                                      "}")
-        self.background.setObjectName("background")
+        self.background.setStyleSheet("#background_home{\n"
+"    border-image: url(../img/Empleado.png);\n"
+"}")
+        self.background.setObjectName("background_home")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background)
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout.setContentsMargins(20, 20, 20, 20)
@@ -39,6 +39,7 @@ class Ui_Form(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.listado)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame = QtWidgets.QFrame(self.listado)
+        self.frame.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -77,20 +78,18 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.barraBusqueda)
         self.verticalLayout_2.addWidget(self.frame)
         self.scrollArea = QtWidgets.QScrollArea(self.listado)
-        self.scrollArea.setStyleSheet("#scrollArea{\n"
-"    border: 0px solid black;\n"
-"    border-radius: 14px;\n"
-"}\n"
-"#contenidoScroll{\n"
-"    background-color: white;\n"
-"    \n"
-"}")
+        self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea.setObjectName("scrollArea")
-        self.contenidoScroll = QtWidgets.QWidget()
-        self.contenidoScroll.setGeometry(QtCore.QRect(0, 0, 276, 464))
-        self.contenidoScroll.setObjectName("contenidoScroll")
-        self.scrollArea.setWidget(self.contenidoScroll)
+        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 274, 459))
+        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_6.setSpacing(2)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.addWidget(self.scrollArea)
         self.agregar_empleado = QtWidgets.QPushButton(self.listado)
         self.agregar_empleado.setStyleSheet("\n"
