@@ -31,33 +31,45 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.__roles = []
         self.__empleadoActivo = None
 
+        # Coso para poder agregar empleados
+        self.agregarBoton = QtWidgets.QPushButton()
+        self.agregarBoton.setText("Agregar empleado")
+        self.agregarBoton.clicked.connect(self.__agregarEmpleado)
+        self.agregar_empleado_activo = False
+        self.horizontalLayout_3.addWidget(self.agregarBoton)
+        self.agregarBoton.hide()
+
+        self.agregar_empleado.clicked.connect(self.__configure_aregar_empleado)
+
+
         self.__updateEmpleados()
 
     def __createEmpleadoObject(self) -> Empleado:
-        if self.__inputContraseña == "":
+        if self.lineEdit_3.text() == "":
             empleado = Empleado(
-                str(self.__inputName.get()),
-                str(self.__inputLastname1.get()),
-                str(self.__inputLastname2.get()),
-                str(self.__inputCel.get()),
-                float(self.__inputSueldo.get()),
-                int(self.__findRol(self.__inputRol.get())),
-                bool(self.__isAdmin.get()),
-                'V'
+                str(self.nombre_entry.text()),
+                str(self.apellido_p_entry.text()),
+                str(self.apellido_m_entry.text()),
+                str(self.lineEdit.text()),
+                float(self.lineEdit_2.text()),
+                int(self.__findRol(self.rolComboBox.currentText(), "database")),
+                bool(self.checkBox.isChecked()),
+                'V',
+                contraseña= ""
             )
             print("Empleado sin contraseña creado")
 
         else:
             empleado = Empleado(
-                str(self.__inputName.get()),
-                str(self.__inputLastname1.get()),
-                str(self.__inputLastname2.get()),
-                str(self.__inputCel.get()),
-                float(self.__inputSueldo.get()),
-                self.__findRol(self.__inputRol.get()),
-                bool(self.__isAdmin.get()),
+                str(self.nombre_entry.text()),
+                str(self.apellido_p_entry.text()),
+                str(self.apellido_m_entry.text()),
+                str(self.lineEdit.text()),
+                float(self.lineEdit_2.text()),
+                int(self.__findRol(self.rolComboBox.currentText(), "database")),
+                bool(self.checkBox.isChecked()),
                 'V',
-                str(self.__inputContraseña.get())
+                str(self.lineEdit_3.text())
 
             )
             print("Empleado con contraseña creado")
@@ -70,12 +82,24 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
             rolesNombre.append(rol.getNombre())
         return rolesNombre
 
-    def __findRol(self, nombre: str):
-        for rol in self.__roles:
-            if rol.getNombre() == nombre:
-                return rol._getId()
+    def __findRol(self, nombre: str, mode: str):
+        print(nombre)
+        if mode == "local":
+            for rolIndex in range(len(self.__roles)):
+                if self.__roles[rolIndex].getNombre() == nombre:
+                    return rolIndex
+        else:
+            for rol in self.__roles:
+                print(rol.getNombre())
+                if rol.getNombre() == nombre:
+                    print("ya encontrre")
+                    print(rol._getId())
+                    return rol._getId()
+
 
     def __updateEmpleados(self):
+        for widget in range(self.verticalLayout_6.count()-1,-1, -1):
+            self.verticalLayout_6.removeWidget(self.verticalLayout_6.itemAt(widget).widget())
         empleados = self.__userManager.Read()
         for empleado in empleados:
             if empleado.activo == 'V':
@@ -86,17 +110,58 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         empleados.clear()
 
+        roles = self.__updateRoles()
+        self.rolComboBox.addItems(roles)
+
     def __show_empleado(self, widget):
         empleado: Empleado = widget.data
-        if(self.datos_widget.isHidden()):
+        if self.datos_widget.isHidden():
             self.datos_widget.show()
+        if self.agregar_empleado_activo:
+            self.agregar_empleado_activo = False
+            self.agregarBoton.hide()
+            self.pushButton_2.show()
+            self.pushButton_3.show()
+            self.agregar_empleado.setEnabled(True)
+
         self.nombre_entry.setText(empleado.getNombre())
         self.apellido_p_entry.setText(empleado.getApellido_paterno())
         self.apellido_m_entry.setText(empleado.getApellido_materno())
         self.lineEdit.setText(empleado.getCelular())
         self.lineEdit_2.setText(str(empleado.getSueldo()))
-        self.lineEdit_3.setText(empleado.getCelular())
+        if empleado.getAdministrador() is None:
+            self.lineEdit_3.setText("")
+        else:
+            self.lineEdit_3.setText(empleado.getContraseña())
         self.checkBox.setChecked(empleado.getAdministrador())
+        self.rolComboBox.setCurrentIndex(self.__findRol(empleado.getIdRol(), "local"))
+
+    def __configure_aregar_empleado(self):
+        if self.datos_widget.isHidden():
+            self.datos_widget.show()
+
+        self.pushButton_3.hide()
+        self.pushButton_2.hide()
+        self.agregarBoton.show()
+        self.agregar_empleado_activo = True
+        self.agregar_empleado.setEnabled(False)
+
+        self.nombre_entry.setText("")
+        self.apellido_p_entry.setText("")
+        self.apellido_m_entry.setText("")
+        self.lineEdit.setText("")
+        self.lineEdit_2.setText("")
+        self.lineEdit_3.setText("")
+        self.checkBox.setChecked(False)
+        self.rolComboBox.setCurrentIndex(-1)
+
+    def __agregarEmpleado(self):
+        empleado = self.__createEmpleadoObject()
+        self.__userManager.Create(empleado)
+        self.__updateEmpleados()
+        self.__configure_aregar_empleado()
+
+
 
 if __name__ == "__main__":
     import sys

@@ -1,20 +1,15 @@
 class Empleado:
-    __contraseña = str
-    __id = int
-    __nombre = str
-    __apellido_paterno = str
-    __apellido_materno = str
-    __celular = str
-    __sueldo = float
-    __id_rol = int
-    __administrador = bool
 
     def __init__(self, nombre: str, apellido_paterno: str, apellido_materno: str, celular: str, sueldo: float,
                  id_rol: int, administrator: bool, active: str, contraseña: str = None, id: int = None):
         if id is not None:
             self._setId(id)
+        else:
+            self.__id = None
         if contraseña is not None:
             self.setContraseña(contraseña)
+        else:
+            self.__contraseña = ""
         self.setNombre(nombre)
         self.setApellido_paterno(apellido_paterno)
         self.setApellido_materno(apellido_materno)

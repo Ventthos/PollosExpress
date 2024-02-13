@@ -52,7 +52,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.iconoBuscar.sizePolicy().hasHeightForWidth())
         self.iconoBuscar.setSizePolicy(sizePolicy)
-        self.iconoBuscar.setMaximumSize(QtCore.QSize(26, 26))
+        self.iconoBuscar.setMaximumSize(QtCore.QSize(26, 40))
         self.iconoBuscar.setStyleSheet("#iconoBuscar{\n"
 "    background-color: #185791;\n"
 "    border-top-left-radius: 10px;\n"
@@ -81,7 +81,7 @@ class Ui_Form(object):
         self.scrollArea = QtWidgets.QScrollArea(self.listado)
         self.scrollArea.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.scrollArea.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea.setObjectName("scrollArea")
@@ -89,7 +89,7 @@ class Ui_Form(object):
         self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 271, 453))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
-        self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+        self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.verticalLayout_6.setSpacing(2)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
@@ -246,6 +246,9 @@ class Ui_Form(object):
         self.rolLabel.setObjectName("rolLabel")
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.rolLabel)
         self.rolComboBox = QtWidgets.QComboBox(self.datos_widget)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.rolComboBox.setFont(font)
         self.rolComboBox.setObjectName("rolComboBox")
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.rolComboBox)
         self.verticalLayout_4.addLayout(self.formLayout_4)

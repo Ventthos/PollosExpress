@@ -13,8 +13,8 @@ if __name__ != "__main__":
             super().__init__(conexion)
 
         def Create(self, empleado: Empleado) -> None:
-
-            if empleado.getContraseña() is None:
+            print(empleado.getContraseña())
+            if empleado.getContraseña() == "":
                 SQLScript = ("INSERT INTO empleado(nombre,apellido_paterno, apellido_materno, celular, sueldo, id_rol, administrator) "
                              f"VALUES('{empleado.getNombre()}', '{empleado.getApellido_paterno()}', "
                              f"'{empleado.getApellido_materno()}', '{empleado.getCelular()}', {empleado.getSueldo()}, "
