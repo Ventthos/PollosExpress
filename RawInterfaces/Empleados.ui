@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
+    <width>857</width>
     <height>611</height>
    </rect>
   </property>
@@ -108,6 +108,9 @@
               <property name="scaledContents">
                <bool>true</bool>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -157,13 +160,16 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>274</width>
-              <height>459</height>
+              <width>271</width>
+              <height>453</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <property name="spacing">
               <number>2</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMinimumSize</enum>
              </property>
             </layout>
            </widget>
@@ -354,7 +360,7 @@ padding:8px;
                  <property name="maximumSize">
                   <size>
                    <width>30</width>
-                   <height>30</height>
+                   <height>50</height>
                   </size>
                  </property>
                  <property name="sizeIncrement">
@@ -372,6 +378,9 @@ padding:8px;
                   <string>sp</string>
                  </property>
                  <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -396,7 +405,7 @@ padding:8px;
                  <property name="maximumSize">
                   <size>
                    <width>30</width>
-                   <height>30</height>
+                   <height>50</height>
                   </size>
                  </property>
                  <property name="sizeIncrement">
@@ -414,6 +423,9 @@ padding:8px;
                   <string>so</string>
                  </property>
                  <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -524,8 +536,6 @@ padding:8px;
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../aaaaa.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
