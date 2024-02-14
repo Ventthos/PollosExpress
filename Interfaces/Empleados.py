@@ -39,6 +39,10 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.horizontalLayout_3.addWidget(self.agregarBoton)
         self.agregarBoton.hide()
 
+        # Conectar para poder eliminar y update
+        self.pushButton_3.clicked.connect(self.__editar_empleado)
+        self.pushButton_2.clicked.connect(self.__eliminar_empleado)
+
         self.agregar_empleado.clicked.connect(self.__configure_aregar_empleado)
 
 
@@ -99,6 +103,8 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
     def __updateEmpleados(self):
         for widget in range(self.verticalLayout_6.count()-1,-1, -1):
+            print("borrado")
+            self.verticalLayout_6.itemAt(widget).widget().hide()
             self.verticalLayout_6.removeWidget(self.verticalLayout_6.itemAt(widget).widget())
         empleados = self.__userManager.Read()
         for empleado in empleados:
@@ -111,10 +117,12 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         empleados.clear()
 
         roles = self.__updateRoles()
+        self.rolComboBox.clear()
         self.rolComboBox.addItems(roles)
 
     def __show_empleado(self, widget):
         empleado: Empleado = widget.data
+        self.__empleadoActivo = empleado
         if self.datos_widget.isHidden():
             self.datos_widget.show()
         if self.agregar_empleado_activo:
@@ -161,7 +169,17 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.__updateEmpleados()
         self.__configure_aregar_empleado()
 
+    def __editar_empleado(self):
+        self.__userManager.Update(self.__empleadoActivo.getId(), self.__createEmpleadoObject())
+        self.__updateEmpleados()
 
+    def __eliminar_empleado(self):
+        self.__userManager.Delete(self.__empleadoActivo.getId())
+        self.__updateEmpleados()
+        if self.verticalLayout_6.count() > 0:
+            self.__show_empleado(self.verticalLayout_6.itemAt(0).widget())
+        else:
+            self.__configure_aregar_empleado()
 
 if __name__ == "__main__":
     import sys

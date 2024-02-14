@@ -20,10 +20,10 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.background = QtWidgets.QWidget(Form)
-        self.background.setStyleSheet("#background{\n"
-"    background-color: purple;\n"
+        self.background.setStyleSheet("#background-Empleado{\n"
+"    border-image: url(../img/Empleado.png);\n"
 "}")
-        self.background.setObjectName("background")
+        self.background.setObjectName("background-Empleado")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background)
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout.setContentsMargins(20, 20, 20, 20)
