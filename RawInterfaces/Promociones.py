@@ -14,10 +14,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1018, 789)
+        MainWindow.resize(1018, 821)
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(253, 253, 253))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(253, 253, 253))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(253, 253, 253))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        MainWindow.setPalette(palette)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("#centralwidget {\n"
-"background-color: #8fb8de;\n"
+"border-image: url(../img/promociones.jpg);\n"
 "}")
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -63,7 +74,7 @@ class Ui_MainWindow(object):
         self.scrollAreaPromociones.setWidgetResizable(True)
         self.scrollAreaPromociones.setObjectName("scrollAreaPromociones")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 238, 590))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 238, 622))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollAreaPromociones.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollAreaPromociones, 3, 0, 1, 1)
@@ -81,10 +92,12 @@ class Ui_MainWindow(object):
         self.GridDatos.setContentsMargins(0, 100, -1, -1)
         self.GridDatos.setObjectName("GridDatos")
         self.FechaFinalBox = QtWidgets.QDateEdit(self.GridPromociones2)
+        self.FechaFinalBox.setCalendarPopup(True)
         self.FechaFinalBox.setObjectName("FechaFinalBox")
         self.GridDatos.addWidget(self.FechaFinalBox, 3, 1, 1, 1)
         self.FechaInicioBox = QtWidgets.QDateEdit(self.GridPromociones2)
         self.FechaInicioBox.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
+        self.FechaInicioBox.setCalendarPopup(True)
         self.FechaInicioBox.setObjectName("FechaInicioBox")
         self.GridDatos.addWidget(self.FechaInicioBox, 3, 0, 1, 1)
         self.TipoPromocionBox = QtWidgets.QComboBox(self.GridPromociones2)
@@ -142,6 +155,7 @@ class Ui_MainWindow(object):
         self.label_5.setStyleSheet("#label_5{\n"
 "color: white;\n"
 "}")
+        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
         self.label_5.setObjectName("label_5")
         self.GridPromociones.addWidget(self.label_5, 0, 0, 1, 1)
         self.gridLayout_2 = QtWidgets.QGridLayout()
