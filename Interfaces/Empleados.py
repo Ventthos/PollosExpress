@@ -106,6 +106,7 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
             print("borrado")
             self.verticalLayout_6.itemAt(widget).widget().hide()
             self.verticalLayout_6.removeWidget(self.verticalLayout_6.itemAt(widget).widget())
+
             self.verticalLayout_6.itemAt(widget).widget().deleteLater()
         empleados = self.__userManager.Read()
         for empleado in empleados:
