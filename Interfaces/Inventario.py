@@ -20,7 +20,8 @@ class Inventario(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle('Inventario')
-        self.resize(1200, 700)  # Tamaño más pequeño para la ventana
+        #self.resize(525, 700)
+        self.resize(1200, 700)
 
         # Crear tabla y área de desplazamiento
         self.table_widget = QTableWidget()
@@ -90,7 +91,7 @@ class Inventario(QMainWindow):
         
         # También deshabilitar el cuadro para buscar ID
         self.id_producto_edit.setEnabled(self.botones_habilitados)
-
+        self.id_producto_edit.clear()
 
     def cargar_datos(self):
         cursor = self.__conection.cursor()
@@ -101,10 +102,26 @@ class Inventario(QMainWindow):
         # Limpiar la tabla antes de cargar nuevos datos
         self.table_widget.setRowCount(0)
 
+        if not rows:
+            QMessageBox.information(self, 'Información', 'No hay registros en la tabla.')
+            return
+
         for row_number, row_data in enumerate(rows):
             self.table_widget.insertRow(row_number)
             for column_number, data in enumerate(row_data):
-                self.table_widget.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+                item = QTableWidgetItem(str(data))
+                # Alinear el texto al centro
+                item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.table_widget.setItem(row_number, column_number, item)
+
+        # Ajustar el ancho de las columnas para que se ajusten al contenido
+        self.table_widget.resizeColumnsToContents()
+
+        # Establecer ancho mínimo para cada columna
+        self.table_widget.setColumnWidth(0, 290)  # ID Producto
+        self.table_widget.setColumnWidth(1, 290)  # Nombre Producto
+        self.table_widget.setColumnWidth(2, 290)  # Unidad
+        self.table_widget.setColumnWidth(3, 285)  # Cantidad
 
     def buscar_id(self):
         id_producto = self.id_producto_edit.text()
@@ -116,14 +133,14 @@ class Inventario(QMainWindow):
                     row = item.row()
                     self.table_widget.verticalScrollBar().setValue(row)
             else:
-                QMessageBox.warning(self, 'Advertencia', 'El ID no se encuentra en la tabla.')
+                QMessageBox.warning(self, 'Advertencia', 'El ID no se encuentra en la base de datos.')
+        self.id_producto_edit.clear()
 
     def actualizar_datos(self):
         # Simplemente volvemos a cargar los datos
         self.cargar_datos()
         # Mostramos el mensaje de datos actualizados
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-
 
 if __name__ == '__main__':
     app = QApplication([])
