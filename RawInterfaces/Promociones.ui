@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>808</width>
-    <height>597</height>
+    <width>1018</width>
+    <height>789</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,7 +131,7 @@ color: white;
            <x>0</x>
            <y>0</y>
            <width>238</width>
-           <height>398</height>
+           <height>590</height>
           </rect>
          </property>
         </widget>
@@ -149,8 +149,8 @@ color: white;
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>120</width>
-        <height>20</height>
+        <width>400</width>
+        <height>200</height>
        </size>
       </property>
      </spacer>
@@ -164,12 +164,12 @@ color: white;
        <number>20</number>
       </property>
       <property name="rightMargin">
-       <number>60</number>
+       <number>50</number>
       </property>
       <property name="bottomMargin">
        <number>10</number>
       </property>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <layout class="QGridLayout" name="GridDatos">
@@ -318,17 +318,25 @@ color: white;
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QTextEdit" name="textEdit">
-        <property name="maximumSize">
-         <size>
-          <width>500</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
+      <item row="5" column="0">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="EditarPromocionButton">
+          <property name="text">
+           <string>Editar Promocion</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="BorrarPromocionBoton">
+          <property name="text">
+           <string>Borrar Promocion</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -344,6 +352,9 @@ color: white;
         </property>
        </spacer>
       </item>
+      <item row="2" column="0">
+       <widget class="QTextEdit" name="textodescripcion"/>
+      </item>
      </layout>
     </item>
    </layout>
@@ -353,7 +364,7 @@ color: white;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>808</width>
+     <width>1018</width>
      <height>26</height>
     </rect>
    </property>
