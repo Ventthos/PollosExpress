@@ -10,11 +10,16 @@ CREATE TABLE inventario (
     nombre_producto VARCHAR(100) NOT NULL,
     unidad VARCHAR(3) NOT NULL,
     cantidad INT NOT NULL,
+    estado BOOLEAN NOT NULL,
     PRIMARY KEY(id_producto),
     FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
+    #FOREIGN KEY(estado) REFERENCES producto(activo)
 );
-# ALTER TABLE u119126_pollos2LaVengazaDelPollo.inventario MODIFY COLUMN cantidad INT NOT NULL;
 
-INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad) VALUES (20, 'Mollo con pole', 'KG', 10);
+#INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (20, 'Mollo con pole', 'KG', 10, 0);
+INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (31, 'Pollo asado', 'KG', 20, TRUE);
+INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (34, 'Hace algo', '--', 20, TRUE);
+INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (35, 'Nuevo producto', '--', 0, TRUE);
+INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (36, 'Prueba', '--', 0, TRUE);
 
 SELECT * FROM inventario;
