@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem, QScrollArea, QHBoxLayout, QMessageBox, QDialog, QFormLayout, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem, QScrollArea, QHBoxLayout, QMessageBox, QInputDialog, QFileDialog
 from PyQt5 import QtCore
 import mysql.connector
 import datetime
@@ -19,8 +19,7 @@ class Inventario(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Inventario')
-        #self.resize(525, 700)
+        self.setWindowTitle('Pollos Express | Inventario')
         self.resize(1200, 700)
 
         # Crear tabla y área de desplazamiento
@@ -60,7 +59,7 @@ class Inventario(QMainWindow):
         self.candado_button = QPushButton('🔒')
 
         # Conectar señal y slot
-        self.candado_button.clicked.connect(self.toggle_botones)
+        self.candado_button.clicked.connect(self.toggle_bloqueo)
 
         # Crear botón de exportar
         self.exportar_button = QPushButton('Exportar')
@@ -99,17 +98,9 @@ class Inventario(QMainWindow):
         # Inicialmente los botones están habilitados
         self.botones_habilitados = True
 
-    def toggle_botones(self):
-        # Cambiar el estado habilitado/deshabilitado de los botones
-        self.botones_habilitados = not self.botones_habilitados
-        self.buscar_button.setEnabled(self.botones_habilitados)
-        self.informacion_button.setEnabled(self.botones_habilitados)
-        self.actualizar_button.setEnabled(self.botones_habilitados)
-        self.exportar_button.setEnabled(self.botones_habilitados)
-        
-        # También deshabilitar el cuadro para buscar ID
-        self.id_producto_edit.setEnabled(self.botones_habilitados)
-        self.id_producto_edit.clear()
+        # Definir contraseñas para bloquear/desbloquear
+        self.contraseña_bloqueo = "1234"
+        self.contraseña_desbloqueo = "5678"
 
     def cargar_datos(self):
         cursor = self.__conection.cursor()
@@ -210,7 +201,41 @@ class Inventario(QMainWindow):
         # Simplemente volvemos a cargar los datos
         self.cargar_datos()
         # Mostramos el mensaje de datos actualizados
-        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
+
+    def toggle_bloqueo(self):
+        if self.botones_habilitados:
+            # Pedir contraseña para bloquear
+            contraseña, ok = QInputDialog.getText(self, 'Contraseña', 'Ingrese la contraseña para bloquear:')
+
+            # Verificar si la contraseña es correcta
+            if ok and contraseña == self.contraseña_bloqueo:
+                self.botones_habilitados = False
+                # Deshabilitar botones y caja de texto
+                self.buscar_button.setEnabled(False)
+                self.informacion_button.setEnabled(False)
+                self.actualizar_button.setEnabled(False)
+                self.exportar_button.setEnabled(False)
+                self.id_producto_edit.setEnabled(False)
+                self.candado_button.setText('🔓')
+            else:
+                QMessageBox.warning(self, 'Advertencia', 'Contraseña incorrecta.')
+        else:
+            # Pedir contraseña para desbloquear
+            contraseña, ok = QInputDialog.getText(self, 'Contraseña', 'Ingrese la contraseña para desbloquear:')
+
+            # Verificar si la contraseña es correcta
+            if ok and contraseña == self.contraseña_desbloqueo:
+                self.botones_habilitados = True
+                # Habilitar botones y caja de texto
+                self.buscar_button.setEnabled(True)
+                self.informacion_button.setEnabled(True)
+                self.actualizar_button.setEnabled(True)
+                self.exportar_button.setEnabled(True)
+                self.id_producto_edit.setEnabled(True)
+                self.candado_button.setText('🔒')
+            else:
+                QMessageBox.warning(self, 'Advertencia', 'Contraseña incorrecta.')
 
 if __name__ == '__main__':
     app = QApplication([])
