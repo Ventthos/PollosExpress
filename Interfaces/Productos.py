@@ -55,7 +55,6 @@ class ProductosInterface(QWidget, Ui_Form):
 
         productos:list[Producto] = self.__productManager.ReadSimplified()
         for producto in productos:
-            print(producto)
             nuevoElemento = ImageFrame(producto.nombre, data=producto)
             nuevoElemento.add_event(self.showProducto)
             self.verticalLayout_6.addWidget(nuevoElemento)
@@ -148,7 +147,6 @@ class ProductosInterface(QWidget, Ui_Form):
         for i in range(self.table_productos_paquete.rowCount()):
             ids.append(int(self.table_productos_paquete.item(i, 3).text()))
 
-        ids.append(self.productoActivo.id)
         for i in range(self.verticalLayout_6.count()):
             if (self.verticalLayout_6.itemAt(i).widget().data.id not in ids
                     and not self.verticalLayout_6.itemAt(i).widget().data.esPaquete):
@@ -164,11 +162,16 @@ class ProductosInterface(QWidget, Ui_Form):
             messagebox.showerror("Error", "Ocurrió un error al crear el producto, cheque los datos "
                                           "ingresados e intente de nuevo")
         else:
-            if self.productoActivo.esPaquete:
+            if self.checkBox_paquete_producto.isChecked():
+                ultimoProducto = self.__productManager.getLastId()
                 ids = []
                 for i in range(self.table_productos_paquete.rowCount()):
-                    ids.append(int(self.table_productos_paquete.item(i, 3).text()))
-                self.__productManager.agregarProductosPaquete(self.productoActivo.id, ids)
+                    ids.append((int(self.table_productos_paquete.item(i, 3).text()),
+                               int(self.table_productos_paquete.cellWidget(i, 1).text())))
+                self.__productManager.agregarProductosPaquete(ultimoProducto, ids)
+            self.__updateProductos()
+            self.configure_agregar_producto()
+
 
     def appendRowsToTable(self, products):
         i = self.table_productos_paquete.rowCount()

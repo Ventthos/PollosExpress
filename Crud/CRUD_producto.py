@@ -103,15 +103,18 @@ if __name__ != "__main__":
                 result = self._cursor.fetchall()
                 productos = []
                 for resultado in result:
+                    print(resultado[1])
                     route = f"../userImages/product_{resultado[1]}.png"
                     producto = Producto(resultado[1], resultado[2], resultado[3], resultado[6], route, resultado[0],
                                         driveCode=resultado[4], activo=resultado[5])
 
                     # Resultado 6 es si es que es paquete, si lo es, le agregamos sus productos
                     if resultado[6]:
+                        print("Es paquete")
                         # Reconnect es para poder volver a lanzar otro comando SQL
                         self._conection.reconnect()
                         productosPaquete = self.readProductosPaquete(resultado[0])
+                        print(productosPaquete)
                         producto.productosPaquete = productosPaquete
 
                     productos.append(producto)
@@ -126,10 +129,13 @@ if __name__ != "__main__":
                                     driveCode=resultado[4])
 
                 if resultado[6]:
+                    print("Producto: ")
+                    print(resultado[1])
                     # Reconnect es para poder volver a lanzar otro comando SQL
                     self._conection.reconnect()
                     productosPaquete = self.readProductosPaquete(resultado[0])
                     producto.productosPaquete = productosPaquete
+                    print(productosPaquete)
 
                 return producto
 
@@ -169,8 +175,8 @@ if __name__ != "__main__":
 
         def agregarProductosPaquete(self,  id, productos: list[(int, int)]):
             for producto in productos:
-                script = (f"INSERT INTO paquete_producto(id_paquete, id_producto) "
-                          f"VALUES({id}, {producto});")
+                script = (f"INSERT INTO paquete_producto(id_paquete, id_producto, cantidad) "
+                          f"VALUES({id}, {producto[0]}, {producto[1]});")
                 self._cursor.execute(script)
                 self._conection.commit()
 
@@ -188,12 +194,14 @@ if __name__ != "__main__":
             self.agregarProductosPaquete(self.getLastId(), productos)
 
         def readProductosPaquete(self, id):
+            print(f"id: {id}")
             script = ("SELECT p1.*, p2.nombre, p3.nombre FROM paquete_producto as p1 INNER JOIN producto as p2 "
-                      "ON p1.id_paquete = p2.id_producto INNER JOIN producto as p3 ON p1.id_producto = p3.id_producto;"
-                      f"WHERE id_paquete = {id}")
+                      "ON p1.id_paquete = p2.id_producto INNER JOIN producto as p3 ON p1.id_producto = p3.id_producto "
+                      f"WHERE p1.id_paquete = {id};")
             self._conection.commit()
             self._cursor.execute(script)
             result = self._cursor.fetchall()
+            print(result)
             return result
 
 
