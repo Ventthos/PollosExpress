@@ -25,8 +25,20 @@ class InterfazBusquedaProducto(InterfazBusquedaProductos.Ui_Form, QWidget):
         super().__init__()
         self.setupUi(self)
         self.padre = padre
+        self.pushButton_agregar_productos_busqueda.clicked.connect(self.returnProducts)
+
+    def clearGrid(self):
+        for i in range(self.gridLayout.rowCount()):
+            for j in range(self.gridLayout.columnCount()):
+                widget: QWidget = self.gridLayout.itemAtPosition(i,j)
+                if widget is not None:
+                    widget = widget.widget()
+                    widget.hide()
+                    self.gridLayout.removeWidget(widget)
+                    widget.destroy()
 
     def cargarProductos(self, productos):
+        self.clearGrid()
         i = 0
         j = 0
         for producto in productos:
@@ -39,13 +51,16 @@ class InterfazBusquedaProducto(InterfazBusquedaProductos.Ui_Form, QWidget):
             self.gridLayout.addWidget(productoCargado, j, i, Qt.AlignHCenter)
             i += 1
 
-    def returnProducts(self) -> list[int]:
+    def returnProducts(self):
         productosChecked = []
         for i in range(self.gridLayout.count()):
-            widget: WidgetProduct = self.gridLayout.itemAt(i)
+            widget: WidgetProduct = self.gridLayout.itemAt(i).widget()
             if widget.boton_agregar_producto_widget.isChecked():
-                productosChecked.append(widget.id)
-        return productosChecked
+                productosChecked.append((None, widget.id, 1, None, widget.nombre_producto_widget.text()))
+        print(productosChecked)
+        self.padre.appendRowsToTable(productosChecked)
+
+
 
 if __name__ == "__main__":
     import sys

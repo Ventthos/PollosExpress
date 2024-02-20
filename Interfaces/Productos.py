@@ -88,24 +88,10 @@ class ProductosInterface(QWidget, Ui_Form):
             self.checkBox_paquete_producto.show()
             self.table_productos_paquete.show()
             self.agregar_producto_paquete.show()
+            self.table_productos_paquete.setRowCount(0)
 
             # Poner los productos en la tabla
-            self.table_productos_paquete.setRowCount(len(data.productosPaquete))
-            i = 0
-            for producto in data.productosPaquete:
-                print(producto)
-                nombreProducto = QTableWidgetItem(producto[4])
-                cantidadProducto = QLineEdit()
-                cantidadProducto.setText(str(producto[2]))
-                botonEliminar = QPushButton()
-                botonEliminar.setText("Eliminar")
-                idProducto = QTableWidgetItem(str(producto[1]))
-
-                self.table_productos_paquete.setItem(i, 0, nombreProducto)
-                self.table_productos_paquete.setCellWidget(i, 1, cantidadProducto)
-                self.table_productos_paquete.setCellWidget(i, 2, botonEliminar)
-                self.table_productos_paquete.setItem(i, 3, idProducto)
-                i += 1
+            self.appendRowsToTable(data.productosPaquete)
 
     def checkBox_activar_paquetes(self):
         if self.checkBox_paquete_producto.isChecked():
@@ -160,7 +146,7 @@ class ProductosInterface(QWidget, Ui_Form):
         ids = []
         productosNoSeleccionados = []
         for i in range(self.table_productos_paquete.rowCount()):
-            ids.append(self.table_productos_paquete.cellWidget(i, 4).text())
+            ids.append(int(self.table_productos_paquete.item(i, 3).text()))
 
         ids.append(self.productoActivo.id)
         for i in range(self.verticalLayout_6.count()):
@@ -179,6 +165,25 @@ class ProductosInterface(QWidget, Ui_Form):
         else:
             print("Producto creado")
             pass
+
+    def appendRowsToTable(self, products):
+        i = self.table_productos_paquete.rowCount()
+        self.table_productos_paquete.setRowCount(self.table_productos_paquete.rowCount() + len(products))
+
+        for producto in products:
+            print(producto)
+            nombreProducto = QTableWidgetItem(producto[4])
+            cantidadProducto = QLineEdit()
+            cantidadProducto.setText(str(producto[2]))
+            botonEliminar = QPushButton()
+            botonEliminar.setText("Eliminar")
+            idProducto = QTableWidgetItem(str(producto[1]))
+
+            self.table_productos_paquete.setItem(i, 0, nombreProducto)
+            self.table_productos_paquete.setCellWidget(i, 1, cantidadProducto)
+            self.table_productos_paquete.setCellWidget(i, 2, botonEliminar)
+            self.table_productos_paquete.setItem(i, 3, idProducto)
+            i += 1
 
 if __name__ == "__main__":
     import sys
