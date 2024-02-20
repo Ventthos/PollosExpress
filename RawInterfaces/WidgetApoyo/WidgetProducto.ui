@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>150</width>
-    <height>201</height>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,7 @@
      <property name="styleSheet">
       <string notr="true">#fondo_cuadrado_busqueda{
 	background-color:white;
+	border-radius: 10px;
 }</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="2,1,1,1">
@@ -50,6 +51,12 @@
         </property>
         <property name="text">
          <string>TextLabel</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -92,11 +99,21 @@
 }
 
 #boton_agregar_producto_widget::hover{
-	background-color: #61a5e3;
+	background-color: #b0cae3;
+}
+
+#boton_agregar_producto_widget::checked{
+	background-color: #74a3cd;
 }</string>
         </property>
         <property name="text">
          <string>Agregar</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>

@@ -5,6 +5,7 @@ from RawInterfaces.Productos import Ui_Form
 import mysql.connector
 from Crud.CRUD_producto import CrudProducto, Producto
 from Interfaces.WidgetApoyo.NoImageFrame import ImageFrame
+from Interfaces.WidgetApoyo.WidgetsProducto import WidgetProduct, InterfazBusquedaProducto
 import os
 
 from tkinter import messagebox
@@ -13,10 +14,11 @@ class ProductosInterface(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
         self.__conection = mysql.connector.connect(
-            user="root",
-            host="localhost",
-            port="3307",
-            database="pollosexpress"
+            user="u119126_pollos2LaVengazaDelPollo",
+            host="174.136.28.78",
+            port="3306",
+            password="$ShotGunKin0805",
+            database="u119126_pollos2LaVengazaDelPollo"
         )
         self.cursor = self.__conection.cursor()
         self.__productManager = CrudProducto(conection=self.__conection)
@@ -27,7 +29,7 @@ class ProductosInterface(QWidget, Ui_Form):
 
         #solo para saber que imagen esta activa y que producto
         self.activeImage = ""
-        self.productoActivo = None
+        self.productoActivo: Producto
 
         #Boton para agregar producto
         self.botonAgregarProducto = QPushButton()
@@ -40,6 +42,10 @@ class ProductosInterface(QWidget, Ui_Form):
         # Linkear eventos para agregar producto
         self.checkBox_paquete_producto.clicked.connect(self.checkBox_activar_paquetes)
         self.agregar_producto.clicked.connect(self.configure_agregar_producto)
+
+        # Ventana para poder seleccionar los productos de un paquete
+        self.ventanaProductosPaquete = InterfazBusquedaProducto(self)
+        self.agregar_producto_paquete.clicked.connect(self.mostrarProductosParaPaquete)
 
     def __updateProductos(self):
         self.__conection.reconnect()
@@ -59,6 +65,7 @@ class ProductosInterface(QWidget, Ui_Form):
         if self.scrollArea_producto.isHidden():
             self.scrollArea_producto.show()
         data: Producto = widget.data
+        self.productoActivo = data
         self.lineEdit_nombre_producto.setText(data.nombre)
         self.lineEdit_precio_producto.setText(str(data.precio))
         self.textEdit_desripcion_producto.setText(data.descripcion)
@@ -148,6 +155,19 @@ class ProductosInterface(QWidget, Ui_Form):
                 #driveCode=self.__productManager.UploadImage(self.__activeImage)["id"]
             )
             return newProduct
+
+    def mostrarProductosParaPaquete(self):
+        ids = []
+        productosNoSeleccionados = []
+        for i in range(self.table_productos_paquete.rowCount()):
+            ids.append(self.table_productos_paquete.cellWidget(i, 4).text())
+
+        ids.append(self.productoActivo.id)
+        for i in range(self.verticalLayout_6.count()):
+            if self.verticalLayout_6.itemAt(i).widget().data.id not in ids:
+                productosNoSeleccionados.append(self.verticalLayout_6.itemAt(i).widget().data)
+        self.ventanaProductosPaquete.cargarProductos(productosNoSeleccionados)
+        self.ventanaProductosPaquete.show()
 
     def crearProducto(self):
         try:

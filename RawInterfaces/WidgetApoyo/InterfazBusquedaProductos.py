@@ -27,7 +27,7 @@ class Ui_Form(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.contenedor_busqueda_productos = QtWidgets.QWidget(self.Fondo_buscar_productos)
         self.contenedor_busqueda_productos.setStyleSheet("#contenedor_busqueda_productos{\n"
-"    background-color: white;\n"
+"    background-color: #E7E7E5;\n"
 "    border-radius: 10px;\n"
 "}")
         self.contenedor_busqueda_productos.setObjectName("contenedor_busqueda_productos")
@@ -38,9 +38,9 @@ class Ui_Form(object):
         self.scrollArea_busqueda_productos.setWidgetResizable(True)
         self.scrollArea_busqueda_productos.setObjectName("scrollArea_busqueda_productos")
         self.scrollAreaWidgetContents_busqueda_productos = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_busqueda_productos.setGeometry(QtCore.QRect(0, 0, 631, 336))
+        self.scrollAreaWidgetContents_busqueda_productos.setGeometry(QtCore.QRect(0, 0, 631, 341))
         self.scrollAreaWidgetContents_busqueda_productos.setStyleSheet("#scrollAreaWidgetContents_busqueda_productos{\n"
-"    background-color: white;\n"
+"    background-color: #E7E7E5;\n"
 "}")
         self.scrollAreaWidgetContents_busqueda_productos.setObjectName("scrollAreaWidgetContents_busqueda_productos")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_busqueda_productos)
@@ -103,13 +103,3 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.pushButton_agregar_productos_busqueda.setText(_translate("Form", "Agregar Productos"))
         self.pushButton.setText(_translate("Form", "Cancelar"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())

@@ -38,7 +38,7 @@
        <widget class="QWidget" name="contenedor_busqueda_productos" native="true">
         <property name="styleSheet">
          <string notr="true">#contenedor_busqueda_productos{
-	background-color: white;
+	background-color: #E7E7E5;
 	border-radius: 10px;
 }</string>
         </property>
@@ -66,12 +66,12 @@
               <x>0</x>
               <y>0</y>
               <width>631</width>
-              <height>336</height>
+              <height>341</height>
              </rect>
             </property>
             <property name="styleSheet">
              <string notr="true">#scrollAreaWidgetContents_busqueda_productos{
-	background-color: white;
+	background-color: #E7E7E5;
 }</string>
             </property>
             <layout class="QGridLayout" name="gridLayout"/>

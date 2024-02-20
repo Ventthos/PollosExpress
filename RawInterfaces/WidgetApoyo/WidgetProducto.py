@@ -14,13 +14,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(150, 201)
+        Form.resize(150, 208)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.fondo_cuadrado_busqueda = QtWidgets.QWidget(Form)
         self.fondo_cuadrado_busqueda.setStyleSheet("#fondo_cuadrado_busqueda{\n"
 "    background-color:white;\n"
+"    border-radius: 10px;\n"
 "}")
         self.fondo_cuadrado_busqueda.setObjectName("fondo_cuadrado_busqueda")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.fondo_cuadrado_busqueda)
@@ -32,6 +33,8 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.imagen_producto_widget.sizePolicy().hasHeightForWidth())
         self.imagen_producto_widget.setSizePolicy(sizePolicy)
         self.imagen_producto_widget.setMinimumSize(QtCore.QSize(125, 98))
+        self.imagen_producto_widget.setScaledContents(True)
+        self.imagen_producto_widget.setWordWrap(True)
         self.imagen_producto_widget.setObjectName("imagen_producto_widget")
         self.verticalLayout_2.addWidget(self.imagen_producto_widget, 0, QtCore.Qt.AlignHCenter)
         self.nombre_producto_widget = QtWidgets.QLabel(self.fondo_cuadrado_busqueda)
@@ -59,8 +62,14 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "#boton_agregar_producto_widget::hover{\n"
-"    background-color: #61a5e3;\n"
+"    background-color: #b0cae3;\n"
+"}\n"
+"\n"
+"#boton_agregar_producto_widget::checked{\n"
+"    background-color: #74a3cd;\n"
 "}")
+        self.boton_agregar_producto_widget.setCheckable(True)
+        self.boton_agregar_producto_widget.setChecked(False)
         self.boton_agregar_producto_widget.setObjectName("boton_agregar_producto_widget")
         self.verticalLayout_2.addWidget(self.boton_agregar_producto_widget, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.setStretch(0, 2)
@@ -79,13 +88,3 @@ class Ui_Form(object):
         self.nombre_producto_widget.setText(_translate("Form", "TextLabel"))
         self.precio_producto_widget.setText(_translate("Form", "TextLabel"))
         self.boton_agregar_producto_widget.setText(_translate("Form", "Agregar"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())
