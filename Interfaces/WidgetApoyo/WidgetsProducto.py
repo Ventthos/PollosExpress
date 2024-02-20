@@ -59,6 +59,7 @@ class InterfazBusquedaProducto(InterfazBusquedaProductos.Ui_Form, QWidget):
                 productosChecked.append((None, widget.id, 1, None, widget.nombre_producto_widget.text()))
         print(productosChecked)
         self.padre.appendRowsToTable(productosChecked)
+        self.hide()
 
 
 

@@ -150,7 +150,8 @@ class ProductosInterface(QWidget, Ui_Form):
 
         ids.append(self.productoActivo.id)
         for i in range(self.verticalLayout_6.count()):
-            if self.verticalLayout_6.itemAt(i).widget().data.id not in ids:
+            if (self.verticalLayout_6.itemAt(i).widget().data.id not in ids
+                    and not self.verticalLayout_6.itemAt(i).widget().data.esPaquete):
                 productosNoSeleccionados.append(self.verticalLayout_6.itemAt(i).widget().data)
         self.ventanaProductosPaquete.cargarProductos(productosNoSeleccionados)
         self.ventanaProductosPaquete.show()
@@ -163,8 +164,11 @@ class ProductosInterface(QWidget, Ui_Form):
             messagebox.showerror("Error", "Ocurrió un error al crear el producto, cheque los datos "
                                           "ingresados e intente de nuevo")
         else:
-            print("Producto creado")
-            pass
+            if self.productoActivo.esPaquete:
+                ids = []
+                for i in range(self.table_productos_paquete.rowCount()):
+                    ids.append(int(self.table_productos_paquete.item(i, 3).text()))
+                self.__productManager.agregarProductosPaquete(self.productoActivo.id, ids)
 
     def appendRowsToTable(self, products):
         i = self.table_productos_paquete.rowCount()
