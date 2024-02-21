@@ -1,7 +1,6 @@
 from RawInterfaces.WidgetApoyo.NoImageFrame import Ui_Form
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtGui import QPixmap
-from PyQt5 import QtCore
 
 class NoImageFrame(Ui_Form, QWidget):
     def __init__(self, texto, data=None):
@@ -26,13 +25,8 @@ class NoImageFrame(Ui_Form, QWidget):
 class ImageFrame(NoImageFrame):
     def __init__(self, texto, data=None, img=""):
         super().__init__(texto, data)
-        self.punto.setMaximumWidth(66)
-        self.punto.setMaximumHeight(55)
-        self.nombre.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        if img == "":
-            self.punto.setPixmap(QPixmap("../img/noImage.jpg"))
-        else:
-            self.punto.setPixmap(QPixmap(img))
+        self.punto.setMaximumWidth(50)
+        self.punto.setPixmap(QPixmap("../../img/noImage.jpg"))
 
 
 
