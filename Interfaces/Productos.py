@@ -47,6 +47,15 @@ class ProductosInterface(QWidget, Ui_Form):
         self.ventanaProductosPaquete = InterfazBusquedaProducto(self)
         self.agregar_producto_paquete.clicked.connect(self.mostrarProductosParaPaquete)
 
+        # Para verificar si ha cambiado disponibilidades
+        self.paqueteModificado = False
+
+        # Para eliminar empleados
+        self.eliminar_producto.clicked.connect(self.eliminarProducto)
+
+        # Para editar producto
+        self.editar_producto.clicked.connect(self.editProducto)
+
     def __updateProductos(self):
         self.__conection.reconnect()
         for file in os.listdir("../img/userImages"):
@@ -60,6 +69,7 @@ class ProductosInterface(QWidget, Ui_Form):
             self.verticalLayout_6.addWidget(nuevoElemento)
 
     def showProducto(self, widget: ImageFrame):
+        self.paqueteModificado = False
         # Aqui pone datos generales de todos los productos, independientemente de si es paquete o no
         if self.scrollArea_producto.isHidden():
             self.scrollArea_producto.show()
@@ -101,6 +111,7 @@ class ProductosInterface(QWidget, Ui_Form):
             self.agregar_producto_paquete.hide()
 
     def configure_agregar_producto(self):
+        self.paqueteModificado = False
         if self.scrollArea_producto.isHidden():
             self.scrollArea_producto.show()
         if not self.table_productos_paquete.isHidden():
@@ -182,8 +193,10 @@ class ProductosInterface(QWidget, Ui_Form):
             nombreProducto = QTableWidgetItem(producto[4])
             cantidadProducto = QLineEdit()
             cantidadProducto.setText(str(producto[2]))
+            cantidadProducto.textChanged.connect(self.setChanged)
             botonEliminar = QPushButton()
             botonEliminar.setText("Eliminar")
+            botonEliminar.clicked.connect(self.setChanged)
             idProducto = QTableWidgetItem(str(producto[1]))
 
             self.table_productos_paquete.setItem(i, 0, nombreProducto)
@@ -191,6 +204,28 @@ class ProductosInterface(QWidget, Ui_Form):
             self.table_productos_paquete.setCellWidget(i, 2, botonEliminar)
             self.table_productos_paquete.setItem(i, 3, idProducto)
             i += 1
+
+    def setChanged(self):
+        self.paqueteModificado = True
+
+    def editProducto(self):
+        if self.paqueteModificado:
+            self.__productManager.Delete(self.productoActivo.id)
+            self.crearProducto()
+        else:
+            objetoProducto = self.__crearObjetoProducto()
+            self.__productManager.Update(self.productoActivo.id, objetoProducto)
+
+        self.__updateProductos()
+
+    def eliminarProducto(self):
+        self.__productManager.Delete(self.productoActivo.id)
+        self.productoActivo= None
+        self.__updateProductos()
+        if self.verticalLayout_6.count() > 0:
+            self.showProducto(self.verticalLayout_6.itemAt(0).widget())
+        else:
+            self.configure_agregar_producto()
 
 if __name__ == "__main__":
     import sys
