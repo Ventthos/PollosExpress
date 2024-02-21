@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem, QScrollArea, QHBoxLayout, QMessageBox, QInputDialog, QFileDialog
 from PyQt5 import QtCore
+from PyQt5.QtGui import QIcon  # Importa QIcon desde PyQt5.QtGui
 import mysql.connector
 import datetime
 
@@ -21,6 +22,9 @@ class Inventario(QMainWindow):
     def initUI(self):
         self.setWindowTitle('Pollos Express | Inventario')
         self.resize(1200, 700)
+
+        # Establecer ícono de la ventana
+        self.setWindowIcon(QIcon('../img/logo.ico'))
 
         # Crear tabla y área de desplazamiento
         self.table_widget = QTableWidget()
