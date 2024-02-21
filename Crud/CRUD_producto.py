@@ -16,9 +16,9 @@ if __name__ != "__main__":
             self.precio = precio
             if imagen is not None:
                 self.imagen = imagen
-            self._driveCode = None
+            self.driveCode = None
             if driveCode is not None:
-                self._driveCode = driveCode
+                self.driveCode = driveCode
             self.activo = activo
             self.esPaquete = esPaquete
             if esPaquete:
@@ -35,12 +35,12 @@ if __name__ != "__main__":
         def __init__(self, conection):
             self._conection = conection
             self._cursor = self._conection.cursor()
-            #self.__driveConnection = DriveManager()
+            self.__driveConnection = DriveManager()
 
         def Create(self, product: Producto):
             self._conection.reconnect()
             script = f"INSERT INTO producto(nombre, descripcion, precio, imagen, esPaquete) VALUES (%s, %s, %s, %s, %s)"
-            datos_producto = (product.nombre, product.descripcion, product.precio, product._driveCode, product.esPaquete)
+            datos_producto = (product.nombre, product.descripcion, product.precio, product.driveCode, product.esPaquete)
             self._cursor.execute(script, datos_producto) #seria fetch si pidiera datos
             self._conection.commit() # commit siempre que se modifique la tabla
 
@@ -48,9 +48,9 @@ if __name__ != "__main__":
             script = (f"UPDATE producto"
                       "SET nombre = %s, descripcion = %s, precio = %s, imagen = %s "
                       "WHERE id_producto = %s")
-            datos_producto = (product.nombre, product.descripcion, product.precio, product._driveCode, id)
+            datos_producto = (product.nombre, product.descripcion, product.precio, product.driveCode, id)
 
-            producto = self.Read(id)
+            producto = self.ReadSimplified(id)
             #self.__driveConnection.deleteImage(producto._driveCode)
             self._cursor.execute(script, datos_producto)
             self._conection.commit()
@@ -104,7 +104,7 @@ if __name__ != "__main__":
                 productos = []
                 for resultado in result:
                     print(resultado[1])
-                    route = f"../userImages/product_{resultado[1]}.png"
+                    route = f"../img/userImages/product_{resultado[1]}.png"
                     producto = Producto(resultado[1], resultado[2], resultado[3], resultado[6], route, resultado[0],
                                         driveCode=resultado[4], activo=resultado[5])
 

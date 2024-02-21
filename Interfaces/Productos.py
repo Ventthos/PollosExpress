@@ -7,6 +7,7 @@ from Crud.CRUD_producto import CrudProducto, Producto
 from Interfaces.WidgetApoyo.NoImageFrame import ImageFrame
 from Interfaces.WidgetApoyo.WidgetsProducto import WidgetProduct, InterfazBusquedaProducto
 import os
+import threading
 
 from tkinter import messagebox
 
@@ -56,6 +57,12 @@ class ProductosInterface(QWidget, Ui_Form):
         # Para editar producto
         self.editar_producto.clicked.connect(self.editProducto)
 
+    def downloadImages(self, listaWigets: list[ImageFrame]):
+        for widget in listaWigets:
+            widgetData:Producto = widget.data
+            self.__productManager.downloadImages(widgetData)
+            widget.punto.setPixmap(QtGui.QPixmap(widgetData.imagen))
+
     def __updateProductos(self):
         self.__conection.reconnect()
         for file in os.listdir("../img/userImages"):
@@ -63,10 +70,14 @@ class ProductosInterface(QWidget, Ui_Form):
             os.remove(f)
 
         productos:list[Producto] = self.__productManager.ReadSimplified()
+        listaWidgetsParaImagenes = []
         for producto in productos:
             nuevoElemento = ImageFrame(producto.nombre, data=producto)
             nuevoElemento.add_event(self.showProducto)
             self.verticalLayout_6.addWidget(nuevoElemento)
+            listaWidgetsParaImagenes .append(nuevoElemento)
+        hilo = threading.Thread(self.downloadImages(listaWidgetsParaImagenes))
+        hilo.run()
 
     def showProducto(self, widget: ImageFrame):
         self.paqueteModificado = False
