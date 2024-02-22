@@ -139,7 +139,7 @@ class Ui_Form(object):
         self.scrollArea_producto.setWidgetResizable(True)
         self.scrollArea_producto.setObjectName("scrollArea_producto")
         self.scrollArea_producto_contents = QtWidgets.QWidget()
-        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, -69, 473, 644))
+        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 473, 737))
         self.scrollArea_producto_contents.setStyleSheet("#scrollArea_producto_contents{\n"
 "    background-color: white;\n"
 "}\n"
@@ -210,7 +210,7 @@ class Ui_Form(object):
         self.imagen_producto_producto.setSizePolicy(sizePolicy)
         self.imagen_producto_producto.setMinimumSize(QtCore.QSize(190, 158))
         self.imagen_producto_producto.setScaledContents(True)
-        self.imagen_producto_producto.setWordWrap(False)
+        self.imagen_producto_producto.setWordWrap(True)
         self.imagen_producto_producto.setObjectName("imagen_producto_producto")
         self.verticalLayout_7.addWidget(self.imagen_producto_producto, 0, QtCore.Qt.AlignRight)
         self.boton_cambiarimg_producto = QtWidgets.QPushButton(self.widget_imagen_producto)

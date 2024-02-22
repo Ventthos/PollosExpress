@@ -261,9 +261,9 @@ padding:8px;
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-69</y>
+              <y>0</y>
               <width>473</width>
-              <height>644</height>
+              <height>737</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -407,7 +407,7 @@ padding:8px;
                       <bool>true</bool>
                      </property>
                      <property name="wordWrap">
-                      <bool>false</bool>
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>

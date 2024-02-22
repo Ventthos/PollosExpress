@@ -69,7 +69,7 @@ class ProductosInterface(QWidget, Ui_Form):
     def __updateProductos(self):
         self.__conection.reconnect()
         for file in os.listdir("../img/userImages"):
-            f = os.path.join(".../img/userImages", file)
+            f = os.path.join("../img/userImages", file)
             os.remove(f)
 
         productos:list[Producto] = self.__productManager.ReadSimplified()
@@ -94,7 +94,12 @@ class ProductosInterface(QWidget, Ui_Form):
         self.lineEdit_nombre_producto.setText(data.nombre)
         self.lineEdit_precio_producto.setText(str(data.precio))
         self.textEdit_desripcion_producto.setText(data.descripcion)
-        self.imagen_producto_producto.setPixmap(QtGui.QPixmap("../img/noImage.jpg"))
+        ruta = ""
+        if os.path.exists(data.imagen):
+            ruta = data.imagen
+        else:
+            ruta = "../img/noImage.jpg"
+        self.imagen_producto_producto.setPixmap(QtGui.QPixmap(ruta))
 
         # Activar botones de agregar y editar
         if self.editar_producto.isHidden():
