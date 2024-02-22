@@ -9,7 +9,7 @@ from Interfaces.WidgetApoyo.WidgetsProducto import WidgetProduct, InterfazBusque
 import os
 import threading
 
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 
 class ProductosInterface(QWidget, Ui_Form):
     def __init__(self):
@@ -31,6 +31,9 @@ class ProductosInterface(QWidget, Ui_Form):
         #solo para saber que imagen esta activa y que producto
         self.activeImage = ""
         self.productoActivo: Producto
+        self.hasChangedImage = False
+        self.boton_cambiarimg_producto.clicked.connect(self.changeImagen)
+        self.creandoProducto = False
 
         #Boton para agregar producto
         self.botonAgregarProducto = QPushButton()
@@ -80,7 +83,9 @@ class ProductosInterface(QWidget, Ui_Form):
         hilo.run()
 
     def showProducto(self, widget: ImageFrame):
+        self.creandoProducto = False
         self.paqueteModificado = False
+        self.hasChangedImage = False
         # Aqui pone datos generales de todos los productos, independientemente de si es paquete o no
         if self.scrollArea_producto.isHidden():
             self.scrollArea_producto.show()
@@ -122,7 +127,9 @@ class ProductosInterface(QWidget, Ui_Form):
             self.agregar_producto_paquete.hide()
 
     def configure_agregar_producto(self):
+        self.creandoProducto = True
         self.paqueteModificado = False
+        self.hasChangedImage = False
         if self.scrollArea_producto.isHidden():
             self.scrollArea_producto.show()
         if not self.table_productos_paquete.isHidden():
@@ -156,7 +163,7 @@ class ProductosInterface(QWidget, Ui_Form):
                 self.textEdit_desripcion_producto.toPlainText(),
                 float(self.lineEdit_precio_producto.text()),
                 self.checkBox_paquete_producto.isChecked(),
-                imagen= "xd",
+                imagen= self.activeImage,
                 driveCode= "xd"
                 #imagen=self.__activeImage,
                 #driveCode=self.__productManager.UploadImage(self.__activeImage)["id"]
@@ -178,7 +185,13 @@ class ProductosInterface(QWidget, Ui_Form):
 
     def crearProducto(self):
         try:
-            self.__productManager.Create(self.__crearObjetoProducto())
+            objetoProducto = self.__crearObjetoProducto()
+            if self.creandoProducto or self.hasChangedImage:
+                drivecode = self.__productManager.UploadImage(self.activeImage)["id"]
+            else:
+                drivecode = self.productoActivo.driveCode
+            objetoProducto.driveCode = drivecode
+            self.__productManager.Create(objetoProducto)
         except Exception as e:
             print(e)
             messagebox.showerror("Error", "Ocurrió un error al crear el producto, cheque los datos "
@@ -237,6 +250,14 @@ class ProductosInterface(QWidget, Ui_Form):
             self.showProducto(self.verticalLayout_6.itemAt(0).widget())
         else:
             self.configure_agregar_producto()
+
+    def changeImagen(self):
+        ruta = filedialog.askopenfilename()
+        if ruta != "":
+            self.hasChangedImage = True
+            self.activeImage = ruta
+            self.imagen_producto_producto.setPixmap(QtGui.QPixmap(self.activeImage))
+
 
 if __name__ == "__main__":
     import sys

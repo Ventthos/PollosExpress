@@ -49,16 +49,11 @@ if __name__ != "__main__":
                       "SET nombre = %s, descripcion = %s, precio = %s, imagen = %s "
                       "WHERE id_producto = %s")
             datos_producto = (product.nombre, product.descripcion, product.precio, product.driveCode, id)
-
-            producto = self.ReadSimplified(id)
-            #self.__driveConnection.deleteImage(producto._driveCode)
             self._cursor.execute(script, datos_producto)
             self._conection.commit()
 
         def Delete(self, id):
             if isinstance(id, int):
-
-                #self.__driveConnection.deleteImage(producto._driveCode)
                 script = f"UPDATE producto SET activo = 'F' WHERE id_producto = {id}"
                 self._cursor.execute(script)
                 self._conection.commit()
