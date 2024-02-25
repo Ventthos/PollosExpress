@@ -7,6 +7,7 @@ class Producto:
         precio : float
         imagen : str
         activo : str
+        esPaquete : bool
 
 
 from dataclasses import dataclass
