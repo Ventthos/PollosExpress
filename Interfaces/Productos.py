@@ -67,6 +67,8 @@ class ProductosInterface(QWidget, Ui_Form):
             widget.punto.setPixmap(QtGui.QPixmap(widgetData.imagen))
 
     def __updateProductos(self):
+        print("Actualizando...")
+        self.clearList()
         self.__conection.reconnect()
         for file in os.listdir("../img/userImages"):
             f = os.path.join("../img/userImages", file)
@@ -78,9 +80,15 @@ class ProductosInterface(QWidget, Ui_Form):
             nuevoElemento = ImageFrame(producto.nombre, data=producto)
             nuevoElemento.add_event(self.showProducto)
             self.verticalLayout_6.addWidget(nuevoElemento)
-            listaWidgetsParaImagenes .append(nuevoElemento)
-        hilo = threading.Thread(self.downloadImages(listaWidgetsParaImagenes))
-        hilo.run()
+            listaWidgetsParaImagenes.append(nuevoElemento)
+        hilo = threading.Thread(target=self.downloadImages, args=[listaWidgetsParaImagenes])
+        hilo.start()
+
+    def clearList(self):
+        for i in range(self.verticalLayout_6.count()-1, -1, -1):
+            widget = self.verticalLayout_6.itemAt(i).widget()
+            self.verticalLayout_6.removeWidget(widget)
+            widget.deleteLater()
 
     def showProducto(self, widget: ImageFrame):
         self.creandoProducto = False
@@ -243,12 +251,19 @@ class ProductosInterface(QWidget, Ui_Form):
             self.crearProducto()
         else:
             objetoProducto = self.__crearObjetoProducto()
+            if self.hasChangedImage:
+                driveCode = self.__productManager.UploadImage(self.activeImage)["id"]
+            else:
+                driveCode = self.productoActivo.driveCode
+            objetoProducto.driveCode = driveCode
             self.__productManager.Update(self.productoActivo.id, objetoProducto)
+            self.__updateProductos()
 
-        self.__updateProductos()
 
     def eliminarProducto(self):
         self.__productManager.Delete(self.productoActivo.id)
+        hilo = threading.Thread(target=self.__productManager.DeleteImage, args=[self.productoActivo.driveCode])
+        hilo.start()
         self.productoActivo= None
         self.__updateProductos()
         if self.verticalLayout_6.count() > 0:

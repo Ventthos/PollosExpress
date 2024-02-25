@@ -45,15 +45,16 @@ if __name__ != "__main__":
             self._conection.commit() # commit siempre que se modifique la tabla
 
         def Update(self, id, product: Producto):
-            script = (f"UPDATE producto"
+            script = (f"UPDATE producto "
                       "SET nombre = %s, descripcion = %s, precio = %s, imagen = %s "
-                      "WHERE id_producto = %s")
+                      "WHERE id_producto = %s;")
             datos_producto = (product.nombre, product.descripcion, product.precio, product.driveCode, id)
             self._cursor.execute(script, datos_producto)
             self._conection.commit()
 
         def Delete(self, id):
             if isinstance(id, int):
+                print("Eliminando Producto")
                 script = f"UPDATE producto SET activo = 'F' WHERE id_producto = {id}"
                 self._cursor.execute(script)
                 self._conection.commit()
@@ -141,6 +142,9 @@ if __name__ != "__main__":
         def UploadImage(self, url):
             id = self.__driveConnection.uploadImage(url)
             return id
+
+        def DeleteImage(self, url):
+            self.__driveConnection.deleteImage(url)
 
         def countProducts(self):
             script = f"SELECT COUNT(*) from producto WHERE activo = 'V'"
