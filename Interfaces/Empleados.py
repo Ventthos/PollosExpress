@@ -4,6 +4,7 @@ import mysql.connector
 from Crud.CRUD_Usuario import CrudEmpleado, Empleado
 from Crud.CRUD_Rol import *
 from WidgetApoyo.NoImageFrame import NoImageFrame
+from WidgetApoyo.LoadingScreen import LoadingScreen
 
 class Empleados(Ui_Form, QtWidgets.QWidget):
     def __init__(self):
@@ -102,6 +103,9 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
 
     def __updateEmpleados(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QtWidgets.QApplication.processEvents()
         for widget in range(self.verticalLayout_6.count()-1,-1, -1):
             print("borrado")
             self.verticalLayout_6.itemAt(widget).widget().hide()
@@ -120,6 +124,7 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         roles = self.__updateRoles()
         self.rolComboBox.clear()
         self.rolComboBox.addItems(roles)
+        pantallaCarga = None
 
     def __show_empleado(self, widget):
         empleado: Empleado = widget.data
