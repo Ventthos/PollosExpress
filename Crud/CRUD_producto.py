@@ -70,8 +70,8 @@ if __name__ != "__main__":
                 productos = []
                 for resultado in result:
                     print(resultado)
-                    route = f"../userImages/product_{resultado[1]}.png"
-                    #self.__driveConnection.downloadImage(resultado[4], route)
+                    route = f"../img/userImages/product_{resultado[1]}.png"
+                    self.__driveConnection.downloadImage(resultado[4], route)
                     producto = Producto(resultado[1], resultado[2], resultado[3], resultado[6], route, resultado[0],
                                         driveCode=resultado[4], activo=resultado[5])
                     productos.append(producto)
