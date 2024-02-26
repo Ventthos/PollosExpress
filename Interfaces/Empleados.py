@@ -5,6 +5,7 @@ from Crud.CRUD_Usuario import CrudEmpleado, Empleado
 from Crud.CRUD_Rol import *
 from WidgetApoyo.NoImageFrame import NoImageFrame
 from WidgetApoyo.LoadingScreen import LoadingScreen
+from tkinter import messagebox
 
 class Empleados(Ui_Form, QtWidgets.QWidget):
     def __init__(self):
@@ -103,9 +104,6 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
 
     def __updateEmpleados(self):
-        pantallaCarga = LoadingScreen()
-        pantallaCarga.show()
-        QtWidgets.QApplication.processEvents()
         for widget in range(self.verticalLayout_6.count()-1,-1, -1):
             print("borrado")
             self.verticalLayout_6.itemAt(widget).widget().hide()
@@ -124,7 +122,6 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         roles = self.__updateRoles()
         self.rolComboBox.clear()
         self.rolComboBox.addItems(roles)
-        pantallaCarga = None
 
     def __show_empleado(self, widget):
         empleado: Empleado = widget.data
@@ -170,22 +167,39 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.rolComboBox.setCurrentIndex(-1)
 
     def __agregarEmpleado(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QtWidgets.QApplication.processEvents()
         empleado = self.__createEmpleadoObject()
         self.__userManager.Create(empleado)
         self.__updateEmpleados()
         self.__configure_aregar_empleado()
+        pantallaCarga = None
+        messagebox.showinfo(title="Operación completada", message="El empleado ha sido agregado con éxito")
 
     def __editar_empleado(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QtWidgets.QApplication.processEvents()
+        pantallaCarga.gif.start()
         self.__userManager.Update(self.__empleadoActivo.getId(), self.__createEmpleadoObject())
         self.__updateEmpleados()
+        pantallaCarga = None
+        messagebox.showinfo(title="Operación completada", message="El empleado ha sido editado con éxito")
 
     def __eliminar_empleado(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QtWidgets.QApplication.processEvents()
         self.__userManager.Delete(self.__empleadoActivo.getId())
         self.__updateEmpleados()
         if self.verticalLayout_6.count() > 0:
             self.__show_empleado(self.verticalLayout_6.itemAt(0).widget())
         else:
             self.__configure_aregar_empleado()
+        pantallaCarga = None
+        messagebox.showinfo(title="Operación completada", message="El empleado ha sido eliminado con éxito")
+
 
 if __name__ == "__main__":
     import sys

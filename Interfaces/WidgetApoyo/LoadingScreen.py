@@ -6,9 +6,11 @@ class LoadingScreen(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        gif = QMovie("../img/polloGif.gif")
-        self.gif_loadingScreen.setMovie(gif)
-        gif.start()
+        self.gif = QMovie("../img/polloGif.gif")
+        self.gif.start()
+
+        self.gif_loadingScreen.setMovie(self.gif)
+
 
 if __name__ == "__main__":
     import sys

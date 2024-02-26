@@ -8,6 +8,7 @@ from Interfaces.WidgetApoyo.NoImageFrame import ImageFrame
 from Interfaces.WidgetApoyo.WidgetsProducto import WidgetProduct, InterfazBusquedaProducto
 import os
 import threading
+from WidgetApoyo.LoadingScreen import LoadingScreen
 
 from tkinter import messagebox, filedialog
 
@@ -197,10 +198,16 @@ class ProductosInterface(QWidget, Ui_Form):
         self.ventanaProductosPaquete.show()
 
     def crearProducto(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QApplication.processEvents()
         try:
             objetoProducto = self.__crearObjetoProducto()
             if self.creandoProducto or self.hasChangedImage:
-                drivecode = self.__productManager.UploadImage(self.activeImage)["id"]
+                if self.activeImage == "":
+                    drivecode = self.__productManager.UploadImage("../img/noImage.jpg")["id"]
+                else:
+                    drivecode = self.__productManager.UploadImage(self.activeImage)["id"]
             else:
                 drivecode = self.productoActivo.driveCode
             objetoProducto.driveCode = drivecode
@@ -209,6 +216,7 @@ class ProductosInterface(QWidget, Ui_Form):
             print(e)
             messagebox.showerror("Error", "Ocurrió un error al crear el producto, cheque los datos "
                                           "ingresados e intente de nuevo")
+            pantallaCarga = None
         else:
             if self.checkBox_paquete_producto.isChecked():
                 ultimoProducto = self.__productManager.getLastId()
@@ -219,6 +227,8 @@ class ProductosInterface(QWidget, Ui_Form):
                 self.__productManager.agregarProductosPaquete(ultimoProducto, ids)
             self.__updateProductos()
             self.configure_agregar_producto()
+            pantallaCarga = None
+            messagebox.showinfo(title="Operación completada", message="El producto ha sido agregado con éxito")
 
 
     def appendRowsToTable(self, products):
