@@ -41,7 +41,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
 
 
 class VentaWidget(QtWidgets.QWidget):
-    def __init__(self, image_path, labelNombre_text, labelPrecio_text, button1_text, button2_text, idProducto, table: QtWidgets.QTableWidget):
+    def __init__(self, image_path, labelNombre_text : str, labelPrecio_text : str, button1_text : str, button2_text : str, idProducto : int, table: QtWidgets.QTableWidget):
         super().__init__()
         self.setObjectName("VentaWidget")  # Asignamos un nombre al widget principal
         #visual
@@ -84,6 +84,7 @@ class VentaWidget(QtWidgets.QWidget):
         self.table = table
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         buttonAgregar.clicked.connect(self.AgregarProductoAVenta)
+        buttonEliminar.clicked.connect(self.EliminarProductoDeTabla)
 
     def AgregarProductoAVenta(self):
         # Obtener el subtotal actual
@@ -108,7 +109,19 @@ class VentaWidget(QtWidgets.QWidget):
         # Agregar el total actual a la tabla
         self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
         self.lineCantidad.setText("")
-
+    def EliminarProductoDeTabla(self):
+        filaAEliminar = self.buscar_producto(self.nombreProducto)[1]
+        self.table.removeRow(filaAEliminar)
+    def buscar_producto(self, stringABuscar : str):
+        # Obtener el texto de búsqueda ingresado por el usuario
+        texto_busqueda = stringABuscar.strip().lower()
+        # Iterar sobre las filas de la tabla y buscar coincidencias
+        for fila in range(self.table.rowCount()):
+            for columna in range(self.table.columnCount()):
+                item = self.table.item(fila, columna)
+                if item is not None and texto_busqueda in item.text().strip().lower():
+                    # Si se encuentra una coincidencia, resaltar la fila
+                    return  (columna,fila)
 
 class CustomLineEditVentas(QtWidgets.QLineEdit):
     def __init__(self, parent=None):
