@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, \
-    QListWidget, QListWidgetItem, QGridLayout, QHBoxLayout, QMessageBox, QCheckBox
+    QTableWidget, QTableWidgetItem, QHBoxLayout, QMessageBox, QCheckBox
 from PyQt5.QtGui import QIcon
 import mysql.connector
 import datetime
@@ -57,9 +57,13 @@ class Admin_Inventario(QMainWindow):
         self.btn_actualizar.clicked.connect(self.actualizar_lista)
         self.layout_buscar.addWidget(self.btn_actualizar)
 
-        # Lista de productos
-        self.lista_productos = QListWidget()
-        self.lista_layout.addWidget(self.lista_productos)
+        # Data Grid para los productos
+        self.table_widget = QTableWidget()
+        self.lista_layout.addWidget(self.table_widget)
+
+        # Configuración del Data Grid
+        self.table_widget.setColumnCount(2)  # Establecer el número de columnas
+        self.table_widget.setHorizontalHeaderLabels(['ID', 'Nombre'])
 
         # Layout para los campos de entrada y botón
         self.input_layout = QVBoxLayout()
@@ -87,7 +91,7 @@ class Admin_Inventario(QMainWindow):
         self.input_layout.addWidget(self.input_cantidad)
 
         # Label y Checkbox para Estado
-        self.label_estado = QLabel('Estado (0 o 1):')
+        self.label_estado = QLabel('Activo:')
         self.input_layout.addWidget(self.label_estado)
         self.checkbox_estado = QCheckBox()
         self.input_layout.addWidget(self.checkbox_estado)
@@ -111,55 +115,57 @@ class Admin_Inventario(QMainWindow):
         self.input_layout.addWidget(self.btn_eliminar)
 
         # Cargar lista de productos al inicio
-        self.cargar_productos()
+        self.cargar_inventario()
 
-        # Conectar la señal itemClicked de la lista de productos a la función cargar_datos_producto_seleccionado
-        self.lista_productos.itemClicked.connect(self.cargar_datos_producto_seleccionado)
+        # Agregar un nuevo DataGrid para la tabla "producto"
+        self.table_widget_producto = QTableWidget()
+        self.lista_layout.addWidget(self.table_widget_producto)
+
+        # Configurar el nuevo DataGrid
+        self.table_widget_producto.setColumnCount(5)  # Establecer el número de columnas
+        self.table_widget_producto.setHorizontalHeaderLabels(['ID', 'Nombre', 'Descripción', 'Precio', 'Imagen'])
+
+        # Cargar y mostrar los datos de la tabla "producto"
+        self.cargar_productos()
 
     def cargar_productos(self):
         cursor = self.__conection.cursor()
-        query = "SELECT nombre_producto FROM inventario"
+        query = "SELECT id_producto, nombre, descripcion, precio, imagen FROM producto"
         cursor.execute(query)
         productos = cursor.fetchall()
-        
+
+        if not productos:
+            QMessageBox.information(self, 'Información', 'No hay registros en la tabla "producto".')
+            return
+
+        self.table_widget_producto.setRowCount(len(productos))
+
+        for row, producto in enumerate(productos):
+            for col, data in enumerate(producto):
+                item = QTableWidgetItem(str(data))
+                self.table_widget_producto.setItem(row, col, item)
+
+        cursor.close()
+
+    def cargar_inventario(self):
+        cursor = self.__conection.cursor()
+        query = "SELECT id_producto, nombre_producto FROM inventario"
+        cursor.execute(query)
+        productos = cursor.fetchall()
+
         if not productos:
             QMessageBox.information(self, 'Información', 'No hay registros en la base de datos.')
             return
-    
-        for producto in productos:
-            self.lista_productos.addItem(producto[0])
+
+        self.table_widget.setRowCount(len(productos))
+
+        for row, producto in enumerate(productos):
+            id_producto_item = QTableWidgetItem(str(producto[0]))
+            nombre_producto_item = QTableWidgetItem(producto[1])
+            self.table_widget.setItem(row, 0, id_producto_item)
+            self.table_widget.setItem(row, 1, nombre_producto_item)
+
         cursor.close()
-
-    def cargar_datos_producto_seleccionado(self, item):
-        # Obtener el nombre del producto seleccionado
-        nombre_producto_seleccionado = item.text()
-
-        # Realizar una consulta a la base de datos para obtener los detalles del producto
-        cursor = self.__conection.cursor()
-        query = "SELECT id_producto, nombre_producto, unidad, cantidad, estado FROM inventario WHERE nombre_producto = %s"
-        cursor.execute(query, (nombre_producto_seleccionado,))
-        producto = cursor.fetchone()
-        cursor.close()
-
-        # Verificar si se encontró el producto
-        if producto:
-            # Mostrar los datos del producto en los cuadros de texto
-            self.input_id.setText(str(producto[0]))
-            self.input_nombre.setText(producto[1])
-            self.input_unidad.setText(producto[2])
-            self.input_cantidad.setText(str(producto[3]))
-            # Establecer el estado del checkbox
-            if producto[4] == 1:
-                self.checkbox_estado.setChecked(True)
-            else:
-                self.checkbox_estado.setChecked(False)
-        else:
-            # Limpiar los cuadros de texto si no se encontró el producto
-            self.input_id.clear()
-            self.input_nombre.clear()
-            self.input_unidad.setText("--")
-            self.input_cantidad.clear()
-            self.checkbox_estado.setChecked(False)
 
     def guardar_datos(self):
         # Obtener los datos de los campos de entrada
@@ -197,7 +203,7 @@ class Admin_Inventario(QMainWindow):
 
         # Actualizar la lista de productos después de guardar
         QMessageBox.information(self, 'Información', 'El producto ha sido guardado correctamente.')
-        self.actualizar_lista()
+        #self.actualizar_lista()
 
     def eliminar_producto(self):
         # Obtener el ID del producto a eliminar
@@ -230,7 +236,7 @@ class Admin_Inventario(QMainWindow):
 
             # Actualizar la lista de productos
             QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido eliminado correctamente.')
-            self.actualizar_lista()
+            #self.actualizar_lista()
 
         else:
             QMessageBox.information(self, 'Información', 'La eliminación ha sido cancelada.')
@@ -241,28 +247,32 @@ class Admin_Inventario(QMainWindow):
 
         # Realizar la búsqueda en la base de datos
         cursor = self.__conection.cursor()
-        query = "SELECT nombre_producto FROM inventario WHERE nombre_producto LIKE %s"
+        query = "SELECT id_producto, nombre_producto FROM inventario WHERE nombre_producto LIKE %s"
         data = ("%" + texto_busqueda + "%",)
         cursor.execute(query, data)
         productos = cursor.fetchall()
 
-        # Limpiar la lista actual
-        self.lista_productos.clear()
+        # Limpiar la tabla de productos
+        self.table_widget.clearContents()
 
         # Si no se encontraron productos, mostrar una advertencia
         if not productos:
             QMessageBox.warning(self, 'Advertencia', 'El producto no se encuentra en la base de datos')
         else:
-            # Agregar los productos encontrados a la lista
-            for producto in productos:
-                self.lista_productos.addItem(producto[0])
+            # Actualizar la tabla con los productos encontrados
+            self.table_widget.setRowCount(len(productos))
+            for row, producto in enumerate(productos):
+                id_producto_item = QTableWidgetItem(str(producto[0]))  # Convertir a cadena
+                nombre_producto_item = QTableWidgetItem(producto[1])
+                self.table_widget.setItem(row, 0, id_producto_item)  # Mostrar ID en la columna 0
+                self.table_widget.setItem(row, 1, nombre_producto_item)  # Mostrar nombre en la columna 1
 
         cursor.close()
 
     def actualizar_lista(self):
-        # Limpiar la lista actual
-        self.lista_productos.clear()
-        # Recargar la lista de productos
+        # Recargar la lista de productos para la primera tabla
+        self.cargar_inventario()
+        # Recargar la lista de productos para la segunda tabla
         self.cargar_productos()
         # Mensaje de los datos actualizados
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
