@@ -122,15 +122,15 @@ class Admin_Inventario(QMainWindow):
         self.lista_layout.addWidget(self.table_widget_producto)
 
         # Configurar el nuevo DataGrid
-        self.table_widget_producto.setColumnCount(5)  # Establecer el número de columnas
-        self.table_widget_producto.setHorizontalHeaderLabels(['ID', 'Nombre', 'Descripción', 'Precio', 'Imagen'])
+        self.table_widget_producto.setColumnCount(4)  # Establecer el número de columnas
+        self.table_widget_producto.setHorizontalHeaderLabels(['ID', 'Nombre', 'Precio', 'Activo'])
 
         # Cargar y mostrar los datos de la tabla "producto"
         self.cargar_productos()
 
     def cargar_productos(self):
         cursor = self.__conection.cursor()
-        query = "SELECT id_producto, nombre, descripcion, precio, imagen FROM producto"
+        query = "SELECT id_producto, nombre, precio, activo FROM producto"
         cursor.execute(query)
         productos = cursor.fetchall()
 
@@ -144,6 +144,15 @@ class Admin_Inventario(QMainWindow):
             for col, data in enumerate(producto):
                 item = QTableWidgetItem(str(data))
                 self.table_widget_producto.setItem(row, col, item)
+
+        # Ajustar automáticamente el ancho de las columnas
+        # self.table_widget_producto.resizeColumnsToContents()
+                
+        # Configurar manualmente el ancho de las columnas
+        self.table_widget_producto.setColumnWidth(0, 130)  # ID
+        self.table_widget_producto.setColumnWidth(1, 134)  # Nombre
+        self.table_widget_producto.setColumnWidth(2, 134)  # Precio
+        self.table_widget_producto.setColumnWidth(3, 134)  # Activo
 
         cursor.close()
 
@@ -258,6 +267,7 @@ class Admin_Inventario(QMainWindow):
         # Si no se encontraron productos, mostrar una advertencia
         if not productos:
             QMessageBox.warning(self, 'Advertencia', 'El producto no se encuentra en la base de datos')
+            self.input_buscar.clear()
         else:
             # Actualizar la tabla con los productos encontrados
             self.table_widget.setRowCount(len(productos))
@@ -281,7 +291,7 @@ class Admin_Inventario(QMainWindow):
 
     def producto_existe(self, id_producto):
         cursor = self.__conection.cursor()
-        query = "SELECT id_producto FROM producto WHERE id_producto = %s"
+        query = "SELECT id_producto FROM inventario WHERE id_producto = %s"
         cursor.execute(query, (id_producto,))
         producto = cursor.fetchone()
         cursor.close()

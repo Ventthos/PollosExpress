@@ -20,7 +20,7 @@ CREATE TABLE inventario (
 #INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (34, 'Hace algo', '--', 20, TRUE);
 #INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (35, 'Nuevo producto', '--', 0, TRUE);
 #INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (36, 'Prueba', '--', 0, TRUE);
-INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (47, 'Yopo asado', '--', 0, FALSE);
-INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (50, 'Poyo', '--', 0, TRUE);
+#INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (47, 'Yopo asado', '--', 0, FALSE);
+#INSERT INTO inventario (id_producto, nombre_producto, unidad, cantidad, estado) VALUES (50, 'Poyo', '--', 0, TRUE);
 
 SELECT * FROM inventario;
