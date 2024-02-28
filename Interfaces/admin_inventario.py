@@ -41,7 +41,7 @@ class Admin_Inventario(QMainWindow):
         self.layout_buscar = QHBoxLayout()
         self.lista_layout.addLayout(self.layout_buscar)
 
-        self.label_buscar = QLabel('Buscar Producto:')
+        self.label_buscar = QLabel('Buscar en Inventario:')
         self.layout_buscar.addWidget(self.label_buscar)
 
         self.input_buscar = QLineEdit()
@@ -101,7 +101,7 @@ class Admin_Inventario(QMainWindow):
 
         # Agregar botón de editar a la izquierda del botón de guardar
         self.btn_editar = QPushButton('Editar')
-        #self.btn_editar.clicked.connect(self.activar_edicion)
+        self.btn_editar.clicked.connect(self.editar_producto)
         self.input_layout.addWidget(self.btn_editar)
 
         self.btn_guardar = QPushButton('Guardar')
@@ -299,6 +299,43 @@ class Admin_Inventario(QMainWindow):
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
         # Limpiamos la barra de búsqueda
         self.input_buscar.clear()
+
+    def editar_producto(self):
+        # Obtener los datos de los campos de entrada
+        id_producto = self.input_id.text()
+        nombre_producto = self.input_nombre.text()
+        unidad = self.input_unidad.text()
+        cantidad = self.input_cantidad.text()
+        # Obtener el estado del checkbox
+        estado = '1' if self.checkbox_estado.isChecked() else '0'
+
+        # Verificar si alguno de los campos está vacío
+        if not id_producto or not nombre_producto or not unidad or not cantidad:
+            QMessageBox.warning(self, 'Advertencia', 'Por favor, complete todos los campos para editar el producto.')
+            return
+
+        # Verificar si el producto existe en la base de datos
+        if not self.producto_existe(id_producto):
+            QMessageBox.warning(self, 'Advertencia', f'El producto con ID {id_producto} no existe en el inventario.')
+            return
+
+        # Actualizar el registro en la base de datos
+        cursor = self.__conection.cursor()
+        query = "UPDATE inventario SET nombre_producto = %s, unidad = %s, cantidad = %s, estado = %s WHERE id_producto = %s"
+        data = (nombre_producto, unidad, cantidad, estado, id_producto)
+        cursor.execute(query, data)
+        self.__conection.commit()
+        cursor.close()
+
+        # Limpiar los campos de entrada después de editar
+        self.input_id.clear()
+        self.input_nombre.clear()
+        self.input_unidad.setText("--")
+        self.input_cantidad.clear()
+        self.checkbox_estado.setChecked(False)
+
+        QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido editado correctamente.')
+
 
     def producto_existe(self, id_producto):
         cursor = self.__conection.cursor()
