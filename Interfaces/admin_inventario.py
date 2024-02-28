@@ -128,6 +128,26 @@ class Admin_Inventario(QMainWindow):
         # Cargar y mostrar los datos de la tabla "producto"
         self.cargar_productos()
 
+    def cargar_inventario(self):
+        cursor = self.__conection.cursor()
+        query = "SELECT id_producto, nombre_producto FROM inventario"
+        cursor.execute(query)
+        productos = cursor.fetchall()
+
+        if not productos:
+            QMessageBox.information(self, 'Información', 'No hay registros en la base de datos.')
+            return
+
+        self.table_widget.setRowCount(len(productos))
+
+        for row, producto in enumerate(productos):
+            id_producto_item = QTableWidgetItem(str(producto[0]))
+            nombre_producto_item = QTableWidgetItem(producto[1])
+            self.table_widget.setItem(row, 0, id_producto_item)
+            self.table_widget.setItem(row, 1, nombre_producto_item)
+
+        cursor.close()
+
     def cargar_productos(self):
         cursor = self.__conection.cursor()
         query = "SELECT id_producto, nombre, precio, activo FROM producto"
@@ -153,26 +173,6 @@ class Admin_Inventario(QMainWindow):
         self.table_widget_producto.setColumnWidth(1, 134)  # Nombre
         self.table_widget_producto.setColumnWidth(2, 134)  # Precio
         self.table_widget_producto.setColumnWidth(3, 134)  # Activo
-
-        cursor.close()
-
-    def cargar_inventario(self):
-        cursor = self.__conection.cursor()
-        query = "SELECT id_producto, nombre_producto FROM inventario"
-        cursor.execute(query)
-        productos = cursor.fetchall()
-
-        if not productos:
-            QMessageBox.information(self, 'Información', 'No hay registros en la base de datos.')
-            return
-
-        self.table_widget.setRowCount(len(productos))
-
-        for row, producto in enumerate(productos):
-            id_producto_item = QTableWidgetItem(str(producto[0]))
-            nombre_producto_item = QTableWidgetItem(producto[1])
-            self.table_widget.setItem(row, 0, id_producto_item)
-            self.table_widget.setItem(row, 1, nombre_producto_item)
 
         cursor.close()
 

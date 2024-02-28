@@ -3,6 +3,8 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon  # Importa QIcon desde PyQt5.QtGui
 import mysql.connector
 import datetime
+from datetime import datetime
+
 
 class Inventario(QMainWindow):
     def __init__(self):
@@ -199,8 +201,11 @@ class Inventario(QMainWindow):
                             row_data.append('')
                     file.write('\t'.join(row_data) + '\n')
 
-            QMessageBox.information(self, 'Exportar', 'Los datos han sido exportados correctamente.')
+                # Agregar la fecha y hora de la exportación al final del archivo
+                export_date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                file.write(f'\nFecha y hora de exportación: {export_date_time}\n')
 
+        QMessageBox.information(self, 'Exportar', 'Los datos han sido exportados correctamente.')
     def actualizar_datos(self):
         # Simplemente volvemos a cargar los datos
         self.cargar_datos()
