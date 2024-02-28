@@ -19,7 +19,11 @@ class Validador:
         self.cursor = self.conection.cursor()
     def BuscarPromocionesRelacionadas(self):
         if self.Promociones == [] and not self.keepActive:
-            script = "SELECT p.id_promocion, tdp.nombre , p.fecha_de_inicio, p.fecha_de_finalizacion, pr.nombre FROM promocion p INNER JOIN producto pr ON p.id_producto = pr.id_producto INNER JOIN tipo_de_promocion tdp ON tdp.id_tipo_promocion = p.id_tipo_promocion WHERE pr.id_producto = %s"
+            script = ("SELECT p.id_promocion, tdp.nombre , p.fecha_de_inicio, p.fecha_de_finalizacion, pr.nombre "
+                      "FROM promocion p INNER JOIN producto pr ON p.id_producto = pr.id_producto"
+                      " INNER JOIN tipo_de_promocion tdp "
+                      "ON tdp.id_tipo_promocion = p.id_tipo_promocion "
+                      "WHERE pr.id_producto = %s")
             self.cursor.execute(script, [self.idproducto])
             self.Promociones = self.cursor.fetchall()
         if self.Promociones != [] and self.Promociones[0][2] <= self.Promociones[0][3] and not self.keepActive:
