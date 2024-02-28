@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, \
-    QTableWidget, QTableWidgetItem, QHBoxLayout, QMessageBox, QCheckBox
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import mysql.connector
 import datetime
 
