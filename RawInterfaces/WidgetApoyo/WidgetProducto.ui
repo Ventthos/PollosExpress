@@ -49,6 +49,18 @@
           <height>98</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>125</width>
+          <height>98</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>1</width>
+          <height>98</height>
+         </size>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>

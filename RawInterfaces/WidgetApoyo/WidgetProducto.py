@@ -33,6 +33,8 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.imagen_producto_widget.sizePolicy().hasHeightForWidth())
         self.imagen_producto_widget.setSizePolicy(sizePolicy)
         self.imagen_producto_widget.setMinimumSize(QtCore.QSize(125, 98))
+        self.imagen_producto_widget.setMaximumSize(QtCore.QSize(125, 98))
+        self.imagen_producto_widget.setSizeIncrement(QtCore.QSize(1, 98))
         self.imagen_producto_widget.setScaledContents(True)
         self.imagen_producto_widget.setWordWrap(True)
         self.imagen_producto_widget.setObjectName("imagen_producto_widget")
@@ -88,3 +90,13 @@ class Ui_Form(object):
         self.nombre_producto_widget.setText(_translate("Form", "TextLabel"))
         self.precio_producto_widget.setText(_translate("Form", "TextLabel"))
         self.boton_agregar_producto_widget.setText(_translate("Form", "Agregar"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec_())

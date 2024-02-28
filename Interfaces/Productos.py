@@ -9,7 +9,6 @@ from Interfaces.WidgetApoyo.WidgetsProducto import WidgetProduct, InterfazBusque
 import os
 import threading
 from WidgetApoyo.LoadingScreen import LoadingScreen
-
 from tkinter import messagebox, filedialog
 
 class ProductosInterface(QWidget, Ui_Form):
@@ -252,7 +251,12 @@ class ProductosInterface(QWidget, Ui_Form):
             self.table_productos_paquete.setItem(i, 3, idProducto)
             i += 1
 
-    def setChanged(self):
+    def setChanged(self, event):
+        sender = self.sender()
+        if isinstance(sender, QPushButton):
+            point = self.table_productos_paquete.indexAt(sender.pos())
+            row = point.row()
+            self.table_productos_paquete.removeRow(row)
         self.paqueteModificado = True
 
     def editProducto(self):
