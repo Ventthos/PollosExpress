@@ -4,7 +4,7 @@ from RawInterfaces.Venta import Ui_MainWindow
 from PyQt5.QtGui import QPixmap
 import mysql.connector
 from Crud.CRUD_producto import CrudProducto, Producto
-
+import WidgetApoyo.ValidadorDeOfertas
 
 class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
@@ -85,9 +85,10 @@ class VentaWidget(QtWidgets.QWidget):
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         buttonAgregar.clicked.connect(self.AgregarProductoAVenta)
         buttonEliminar.clicked.connect(self.EliminarProductoDeTabla)
-
+        self.validador = WidgetApoyo.ValidadorDeOfertas.Validador(self.idProducto,self.table, self)
     def AgregarProductoAVenta(self):
         # Obtener el subtotal actual
+        print(self.idProducto)
         subtotal_actual = float(self.lineCantidad.text()) * float(self.precioProducto)
 
         row_count = self.table.rowCount()
@@ -109,18 +110,18 @@ class VentaWidget(QtWidgets.QWidget):
         # Agregar el total actual a la tabla
         self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
         self.lineCantidad.setText("")
+        self.validador.BuscarPromocionesRelacionadas()
     def EliminarProductoDeTabla(self):
-        filaAEliminar = self.buscar_producto(self.nombreProducto)[1]
-        self.table.removeRow(filaAEliminar)
+        filaAEliminar = self.buscar_producto(self.nombreProducto)
+        if filaAEliminar is not None:
+             self.table.removeRow(filaAEliminar[1])
+
     def buscar_producto(self, stringABuscar : str):
-        # Obtener el texto de búsqueda ingresado por el usuario
         texto_busqueda = stringABuscar.strip().lower()
-        # Iterar sobre las filas de la tabla y buscar coincidencias
         for fila in range(self.table.rowCount()):
             for columna in range(self.table.columnCount()):
                 item = self.table.item(fila, columna)
                 if item is not None and texto_busqueda in item.text().strip().lower():
-                    # Si se encuentra una coincidencia, resaltar la fila
                     return  (columna,fila)
 
 class CustomLineEditVentas(QtWidgets.QLineEdit):

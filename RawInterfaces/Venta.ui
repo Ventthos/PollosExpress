@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1076</width>
+    <width>1102</width>
     <height>621</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@ background-color: rgba(255,255,255,0.5);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>524</width>
+         <width>537</width>
          <height>550</height>
         </rect>
        </property>
@@ -50,7 +50,7 @@ background-color: rgba(255,255,255,0.5);
 background-color: rgba(255,255,255,0.5)
 }</string>
       </property>
-      <layout class="QVBoxLayout" name="LayoutVenta" stretch="0,0">
+      <layout class="QVBoxLayout" name="LayoutVenta" stretch="0,0,0">
        <property name="spacing">
         <number>20</number>
        </property>
@@ -123,6 +123,13 @@ background-color: rgba(255,255,255,0.5)
          </column>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Vender</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -133,7 +140,7 @@ background-color: rgba(255,255,255,0.5)
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1076</width>
+     <width>1102</width>
      <height>26</height>
     </rect>
    </property>
