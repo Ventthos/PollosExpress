@@ -256,9 +256,13 @@ class ProductosInterface(QWidget, Ui_Form):
         self.paqueteModificado = True
 
     def editProducto(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QApplication.processEvents()
         if self.paqueteModificado:
             self.__productManager.Delete(self.productoActivo.id)
             self.crearProducto()
+            pantallaCarga = None
         else:
             objetoProducto = self.__crearObjetoProducto()
             if self.hasChangedImage:
@@ -268,9 +272,13 @@ class ProductosInterface(QWidget, Ui_Form):
             objetoProducto.driveCode = driveCode
             self.__productManager.Update(self.productoActivo.id, objetoProducto)
             self.__updateProductos()
+            pantallaCarga = None
 
 
     def eliminarProducto(self):
+        pantallaCarga = LoadingScreen()
+        pantallaCarga.show()
+        QApplication.processEvents()
         self.__productManager.Delete(self.productoActivo.id)
         hilo = threading.Thread(target=self.__productManager.DeleteImage, args=[self.productoActivo.driveCode])
         hilo.start()
@@ -280,6 +288,7 @@ class ProductosInterface(QWidget, Ui_Form):
             self.showProducto(self.verticalLayout_6.itemAt(0).widget())
         else:
             self.configure_agregar_producto()
+        pantallaCarga = None
 
     def changeImagen(self):
         ruta = filedialog.askopenfilename()
