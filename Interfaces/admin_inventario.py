@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, \
-    QTableWidget, QTableWidgetItem, QHBoxLayout, QMessageBox, QCheckBox
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import mysql.connector
 import datetime
 
@@ -41,7 +40,7 @@ class Admin_Inventario(QMainWindow):
         self.layout_buscar = QHBoxLayout()
         self.lista_layout.addLayout(self.layout_buscar)
 
-        self.label_buscar = QLabel('Buscar Producto:')
+        self.label_buscar = QLabel('Buscar en Inventario:')
         self.layout_buscar.addWidget(self.label_buscar)
 
         self.input_buscar = QLineEdit()
@@ -101,7 +100,7 @@ class Admin_Inventario(QMainWindow):
 
         # Agregar botón de editar a la izquierda del botón de guardar
         self.btn_editar = QPushButton('Editar')
-        #self.btn_editar.clicked.connect(self.activar_edicion)
+        self.btn_editar.clicked.connect(self.editar_producto)
         self.input_layout.addWidget(self.btn_editar)
 
         self.btn_guardar = QPushButton('Guardar')
@@ -128,6 +127,26 @@ class Admin_Inventario(QMainWindow):
         # Cargar y mostrar los datos de la tabla "producto"
         self.cargar_productos()
 
+    def cargar_inventario(self):
+        cursor = self.__conection.cursor()
+        query = "SELECT id_producto, nombre_producto FROM inventario"
+        cursor.execute(query)
+        productos = cursor.fetchall()
+
+        if not productos:
+            QMessageBox.information(self, 'Información', 'No hay registros en la base de datos.')
+            return
+
+        self.table_widget.setRowCount(len(productos))
+
+        for row, producto in enumerate(productos):
+            id_producto_item = QTableWidgetItem(str(producto[0]))
+            nombre_producto_item = QTableWidgetItem(producto[1])
+            self.table_widget.setItem(row, 0, id_producto_item)
+            self.table_widget.setItem(row, 1, nombre_producto_item)
+
+        cursor.close()
+
     def cargar_productos(self):
         cursor = self.__conection.cursor()
         query = "SELECT id_producto, nombre, precio, activo FROM producto"
@@ -153,26 +172,6 @@ class Admin_Inventario(QMainWindow):
         self.table_widget_producto.setColumnWidth(1, 134)  # Nombre
         self.table_widget_producto.setColumnWidth(2, 134)  # Precio
         self.table_widget_producto.setColumnWidth(3, 134)  # Activo
-
-        cursor.close()
-
-    def cargar_inventario(self):
-        cursor = self.__conection.cursor()
-        query = "SELECT id_producto, nombre_producto FROM inventario"
-        cursor.execute(query)
-        productos = cursor.fetchall()
-
-        if not productos:
-            QMessageBox.information(self, 'Información', 'No hay registros en la base de datos.')
-            return
-
-        self.table_widget.setRowCount(len(productos))
-
-        for row, producto in enumerate(productos):
-            id_producto_item = QTableWidgetItem(str(producto[0]))
-            nombre_producto_item = QTableWidgetItem(producto[1])
-            self.table_widget.setItem(row, 0, id_producto_item)
-            self.table_widget.setItem(row, 1, nombre_producto_item)
 
         cursor.close()
 
@@ -223,10 +222,21 @@ class Admin_Inventario(QMainWindow):
             QMessageBox.warning(self, 'Advertencia', 'Por favor, ingrese el ID del producto a eliminar.')
             return
 
+        # Verificar si el ID del producto existe en la tabla de inventario
+        cursor = self.__conection.cursor()
+        query = "SELECT id_producto FROM inventario WHERE id_producto = %s"
+        cursor.execute(query, (id_producto,))
+        producto_existente = cursor.fetchone()
+        cursor.close()
+
+        if not producto_existente:
+            QMessageBox.warning(self, 'Advertencia', f'El ID del producto {id_producto} no se encuentra en el inventario.')
+            return
+
         # Confirmar si el usuario realmente desea eliminar el producto
         confirmacion = QMessageBox.question(self, 'Confirmar Eliminación', 
-                                             f'¿Está seguro de que desea eliminar el producto con ID {id_producto}?',
-                                             QMessageBox.Yes | QMessageBox.No)
+                                            f'¿Está seguro de que desea eliminar el producto con ID {id_producto}?',
+                                            QMessageBox.Yes | QMessageBox.No)
 
         if confirmacion == QMessageBox.Yes:
             # Eliminar el producto de la base de datos
@@ -288,6 +298,43 @@ class Admin_Inventario(QMainWindow):
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
         # Limpiamos la barra de búsqueda
         self.input_buscar.clear()
+
+    def editar_producto(self):
+        # Obtener los datos de los campos de entrada
+        id_producto = self.input_id.text()
+        nombre_producto = self.input_nombre.text()
+        unidad = self.input_unidad.text()
+        cantidad = self.input_cantidad.text()
+        # Obtener el estado del checkbox
+        estado = '1' if self.checkbox_estado.isChecked() else '0'
+
+        # Verificar si alguno de los campos está vacío
+        if not id_producto or not nombre_producto or not unidad or not cantidad:
+            QMessageBox.warning(self, 'Advertencia', 'Por favor, complete todos los campos para editar el producto.')
+            return
+
+        # Verificar si el producto existe en la base de datos
+        if not self.producto_existe(id_producto):
+            QMessageBox.warning(self, 'Advertencia', f'El producto con ID {id_producto} no existe en el inventario.')
+            return
+
+        # Actualizar el registro en la base de datos
+        cursor = self.__conection.cursor()
+        query = "UPDATE inventario SET nombre_producto = %s, unidad = %s, cantidad = %s, estado = %s WHERE id_producto = %s"
+        data = (nombre_producto, unidad, cantidad, estado, id_producto)
+        cursor.execute(query, data)
+        self.__conection.commit()
+        cursor.close()
+
+        # Limpiar los campos de entrada después de editar
+        self.input_id.clear()
+        self.input_nombre.clear()
+        self.input_unidad.setText("--")
+        self.input_cantidad.clear()
+        self.checkbox_estado.setChecked(False)
+
+        QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido editado correctamente.')
+
 
     def producto_existe(self, id_producto):
         cursor = self.__conection.cursor()
