@@ -223,10 +223,21 @@ class Admin_Inventario(QMainWindow):
             QMessageBox.warning(self, 'Advertencia', 'Por favor, ingrese el ID del producto a eliminar.')
             return
 
+        # Verificar si el ID del producto existe en la tabla de inventario
+        cursor = self.__conection.cursor()
+        query = "SELECT id_producto FROM inventario WHERE id_producto = %s"
+        cursor.execute(query, (id_producto,))
+        producto_existente = cursor.fetchone()
+        cursor.close()
+
+        if not producto_existente:
+            QMessageBox.warning(self, 'Advertencia', f'El ID del producto {id_producto} no se encuentra en el inventario.')
+            return
+
         # Confirmar si el usuario realmente desea eliminar el producto
         confirmacion = QMessageBox.question(self, 'Confirmar Eliminación', 
-                                             f'¿Está seguro de que desea eliminar el producto con ID {id_producto}?',
-                                             QMessageBox.Yes | QMessageBox.No)
+                                            f'¿Está seguro de que desea eliminar el producto con ID {id_producto}?',
+                                            QMessageBox.Yes | QMessageBox.No)
 
         if confirmacion == QMessageBox.Yes:
             # Eliminar el producto de la base de datos
