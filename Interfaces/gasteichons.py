@@ -69,6 +69,9 @@ class RegistroGastos(QtWidgets.QMainWindow):
         dialog = NuevoGastoDialog(self)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             titulo, descripcion, monto, fecha, id_empleado = dialog.get_datos()
+            if titulo.strip() == '' or monto.strip() == '' or id_empleado.strip() == '':
+                QtWidgets.QMessageBox.warning(self, 'Campos Vacíos', 'Por favor, complete todos los campos antes de agregar el gasto.')
+                return
             row_position = self.table_widget.rowCount()
             self.table_widget.insertRow(row_position)
             self.table_widget.setItem(row_position, 0, QtWidgets.QTableWidgetItem(titulo))
