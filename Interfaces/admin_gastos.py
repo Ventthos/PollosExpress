@@ -52,20 +52,21 @@ class Admin_Gastos(QMainWindow):
         # Botón para guardar el gasto
         self.guardar_button = QPushButton('Guardar')
         self.guardar_button.clicked.connect(self.guardar_gasto)
+        self.guardar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
 
         # Botón para editar el gasto seleccionado
         self.editar_button = QPushButton('Editar')
-        self.editar_button.setStyleSheet("background-color: #AFEEEE;")
+        self.editar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.editar_button.clicked.connect(self.editar_gasto)
         
         # Botón para eliminar el gasto seleccionado
         self.eliminar_button = QPushButton('Eliminar')
-        self.eliminar_button.setStyleSheet("background-color: #F08080;")
+        self.eliminar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.eliminar_button.clicked.connect(self.eliminar_gasto)
         
         # Botón para actualizar los datos
         self.actualizar_button = QPushButton('Actualizar')
-        self.actualizar_button.setStyleSheet("background-color: #AFEEEE;")
+        self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.actualizar_button.clicked.connect(self.actualizar_lista)
         
         # Barra de búsqueda
