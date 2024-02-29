@@ -3,6 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import mysql.connector
 import datetime
+import re
 
 class Admin_Gastos(QMainWindow):
     def __init__(self):
@@ -31,7 +32,7 @@ class Admin_Gastos(QMainWindow):
 
         self.descripcion_label = QLabel('Descripción:')
         self.descripcion_edit = QLineEdit()
-        self.monto_label = QLabel('Monto:')
+        self.monto_label = QLabel('Monto ($):')
         self.monto_edit = QLineEdit()
         
         # Crear el campo de fecha y hora
@@ -100,7 +101,7 @@ class Admin_Gastos(QMainWindow):
         # Crear el widget de la tabla
         self.table = QTableWidget()
         self.table.setColumnCount(6)
-        self.table.setHorizontalHeaderLabels(['ID', 'Título','Descripción', 'Monto', 'Fecha', 'ID Empleado'])
+        self.table.setHorizontalHeaderLabels(['ID', 'Título','Descripción', 'Monto ($)', 'Fecha', 'ID Empleado'])
 
         # Crear layout principal
         main_layout = QVBoxLayout()
@@ -150,6 +151,18 @@ class Admin_Gastos(QMainWindow):
         # Verificar si algún campo está vacío
         if not titulo or not descripcion or not monto or not id_empleado:
             QMessageBox.warning(self, 'Advertencia', 'Todos los campos son obligatorios.')
+            return
+
+        # Validación del Monto ($)
+        monto_valido = re.match(r'^\d+(\.\d+)?$', monto)
+        if not monto_valido:
+            QMessageBox.warning(self, 'Advertencia', 'El monto ingresado no es válido. Por favor, ingresa un valor numérico.')
+            return
+
+        # Validación del ID Empleado
+        id_empleado_valido = re.match(r'^\d+$', id_empleado)
+        if not id_empleado_valido:
+            QMessageBox.warning(self, 'Advertencia', 'El ID de empleado ingresado no es válido. Por favor, ingresa un valor numérico entero.')
             return
 
         # Insertar los datos en la base de datos
@@ -237,6 +250,18 @@ class Admin_Gastos(QMainWindow):
         # Verificar si algún campo está vacío
         if not titulo or not descripcion or not monto or not id_empleado:
             QMessageBox.warning(self, 'Advertencia', 'Todos los campos son obligatorios.')
+            return
+
+        # Validación del Monto ($)
+        monto_valido = re.match(r'^\d+(\.\d+)?$', monto)
+        if not monto_valido:
+            QMessageBox.warning(self, 'Advertencia', 'El monto ingresado no es válido. Por favor, ingresa un valor numérico.')
+            return
+
+        # Validación del ID Empleado
+        id_empleado_valido = re.match(r'^\d+$', id_empleado)
+        if not id_empleado_valido:
+            QMessageBox.warning(self, 'Advertencia', 'El ID de empleado ingresado no es válido. Por favor, ingresa un valor numérico entero.')
             return
 
         # Obtener el ID del gasto seleccionado
