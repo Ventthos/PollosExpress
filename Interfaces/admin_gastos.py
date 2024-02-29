@@ -61,7 +61,7 @@ class Admin_Gastos(QMainWindow):
         
         # Botón para eliminar el gasto seleccionado
         self.eliminar_button = QPushButton('Eliminar')
-        self.eliminar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
+        self.eliminar_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
         self.eliminar_button.clicked.connect(self.eliminar_gasto)
         
         # Botón para actualizar los datos
