@@ -85,32 +85,33 @@ class VentaWidget(QtWidgets.QWidget):
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         buttonAgregar.clicked.connect(self.AgregarProductoAVenta)
         buttonEliminar.clicked.connect(self.EliminarProductoDeTabla)
-        self.validador = WidgetApoyo.ValidadorDeOfertas.Validador(self.idProducto,self.table, self)
+        self.validador = WidgetApoyo.ValidadorDeOfertas.Validador(self.idProducto, self.table, self)
     def AgregarProductoAVenta(self):
         # Obtener el subtotal actual
         print(self.idProducto)
-        subtotal_actual = float(self.lineCantidad.text()) * float(self.precioProducto)
+        if self.lineCantidad.text() != "":
+            subtotal_actual = float(self.lineCantidad.text()) * float(self.precioProducto)
+            row_count = self.table.rowCount()
+            self.table.insertRow(row_count)
+            values = [self.nombreProducto, #nombre
+                      self.lineCantidad.text(), #cantidad
+                      str(self.precioProducto), #precio
+                      str(subtotal_actual)  # Convertir a texto antes de agregar al QTableWidgetItem
+                      ]
+            self.validador.BuscarPromocionesRelacionadas(values)
+            for i in range(4):
+                self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
+            # Calcular el total actual sumando el subtotal actual al total anterior
+            total_anterior = 0.0
+            if row_count > 0:  # Verificar si hay filas anteriores en la tabla
+                total_anterior = float(self.table.item(row_count - 1, 4).text())  # Obtener el total de la fila anterior
+            total_actual = total_anterior + subtotal_actual
 
-        row_count = self.table.rowCount()
-        self.table.insertRow(row_count)
-        values = [self.nombreProducto,
-                  self.lineCantidad.text(),
-                  str(self.precioProducto),
-                  str(subtotal_actual)  # Convertir a texto antes de agregar al QTableWidgetItem
-                  ]
-        for i in range(4):
-            self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
+            # Agregar el total actual a la tabla
+            self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
+            self.lineCantidad.setText("")
+            self.validador.CalcularTotal()
 
-        # Calcular el total actual sumando el subtotal actual al total anterior
-        total_anterior = 0.0
-        if row_count > 0:  # Verificar si hay filas anteriores en la tabla
-            total_anterior = float(self.table.item(row_count - 1, 4).text())  # Obtener el total de la fila anterior
-        total_actual = total_anterior + subtotal_actual
-
-        # Agregar el total actual a la tabla
-        self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
-        self.lineCantidad.setText("")
-        self.validador.BuscarPromocionesRelacionadas()
     def EliminarProductoDeTabla(self):
         filaAEliminar = self.buscar_producto(self.nombreProducto)
         if filaAEliminar is not None:
