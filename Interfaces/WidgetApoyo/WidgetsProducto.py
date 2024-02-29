@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from RawInterfaces.WidgetApoyo import InterfazBusquedaProductos, WidgetProducto
-
+import os
 
 class WidgetProduct(WidgetProducto.Ui_Form, QWidget):
     def __init__(self, img, titulo, precio, id):
@@ -42,12 +42,16 @@ class InterfazBusquedaProducto(InterfazBusquedaProductos.Ui_Form, QWidget):
         i = 0
         j = 0
         for producto in productos:
-            if i == 3:
+            if i == 4:
                 i = 0
                 j += 1
             print(i)
             print(j)
-            productoCargado = WidgetProduct("../img/noImage.jpg", producto.nombre, producto.precio, producto.id)
+            imagen = "../img/noImage.jpg"
+            if os.path.exists(producto.imagen):
+                imagen = producto.imagen
+
+            productoCargado = WidgetProduct(imagen, producto.nombre, producto.precio, producto.id)
             self.gridLayout.addWidget(productoCargado, j, i, Qt.AlignHCenter)
             i += 1
 
