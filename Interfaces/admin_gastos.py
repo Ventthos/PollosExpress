@@ -34,10 +34,16 @@ class Admin_Gastos(QMainWindow):
         self.monto_label = QLabel('Monto:')
         self.monto_edit = QLineEdit()
         
-        # Crear el campo de fecha y establecer la fecha y hora actuales
+        # Crear el campo de fecha y hora
         self.fecha_label = QLabel('Fecha:')
         self.fecha_edit = QDateTimeEdit()
         self.fecha_edit.setDateTime(QDateTime.currentDateTime())  # Establecer la fecha y hora actuales
+        self.fecha_edit.setDisplayFormat("yyyy-MM-dd HH:mm")  # Formato de visualización
+
+        # Botón para establecer la fecha y hora actuales
+        self.actual_button = QPushButton('Actual')
+        self.actual_button.setFixedWidth(120)  # Ajustar el ancho del botón
+        self.actual_button.clicked.connect(self.establecer_fecha_actual)
 
         self.id_empleado_label = QLabel('ID Empleado:')
         self.id_empleado_edit = QLineEdit()
@@ -59,7 +65,7 @@ class Admin_Gastos(QMainWindow):
         # Botón para actualizar los datos
         self.actualizar_button = QPushButton('Actualizar')
         self.actualizar_button.setStyleSheet("background-color: #AFEEEE;")
-        self.actualizar_button.clicked.connect(self.actualizar_datos)
+        self.actualizar_button.clicked.connect(self.actualizar_lista)
         
         # Barra de búsqueda
         self.busqueda_edit = QLineEdit()
@@ -71,7 +77,13 @@ class Admin_Gastos(QMainWindow):
         form_layout.addRow(self.titulo_label, self.titulo_edit)
         form_layout.addRow(self.descripcion_label, self.descripcion_edit)
         form_layout.addRow(self.monto_label, self.monto_edit)
-        form_layout.addRow(self.fecha_label, self.fecha_edit)
+        
+        # Crear un layout horizontal para la fecha y el botón "Actual"
+        fecha_layout = QHBoxLayout()
+        fecha_layout.addWidget(self.fecha_edit)
+        fecha_layout.addWidget(self.actual_button)
+
+        form_layout.addRow(self.fecha_label, fecha_layout)
         form_layout.addRow(self.id_empleado_label, self.id_empleado_edit)
         form_layout.addRow(self.guardar_button)
         form_layout.addRow(self.editar_button)
@@ -132,7 +144,7 @@ class Admin_Gastos(QMainWindow):
         titulo = self.titulo_edit.text().strip()
         descripcion = self.descripcion_edit.text().strip()
         monto = self.monto_edit.text().strip()
-        fecha = self.fecha_edit.dateTime().toString("yyyy-MM-dd hh:mm:ss")
+        fecha = self.fecha_edit.dateTime().toString("yyyy-MM-dd hh:mm")
         id_empleado = self.id_empleado_edit.text().strip()
 
         # Verificar si algún campo está vacío
@@ -268,13 +280,16 @@ class Admin_Gastos(QMainWindow):
 
             QMessageBox.information(self, 'Éxito', 'Gasto eliminado exitosamente.')
 
-    def actualizar_datos(self):
+    def actualizar_lista(self):
         # Cargamos los datos nuevamente
         self.cargar_datos()
         # Mensaje de los datos actualizados
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
         # Limpiamos la barra de búsqueda
         self.busqueda_edit.clear()
+
+    def establecer_fecha_actual(self):
+        self.fecha_edit.setDateTime(QDateTime.currentDateTime())
 
 if __name__ == '__main__':
     import sys
