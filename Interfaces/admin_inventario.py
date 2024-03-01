@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
 import mysql.connector
 import datetime
 
@@ -33,7 +34,7 @@ class Admin_Inventario(QMainWindow):
 
         # Layout para la lista de productos
         self.lista_layout = QVBoxLayout()
-        self.lista_layout.setSpacing(10)  # Establecer espacio entre elementos
+        self.lista_layout.setSpacing(10)
         self.main_layout.addLayout(self.lista_layout)
 
         # Cuadro de búsqueda y botones
@@ -47,12 +48,12 @@ class Admin_Inventario(QMainWindow):
         self.layout_buscar.addWidget(self.input_buscar)
 
         self.btn_buscar = QPushButton('Buscar')
-        self.btn_buscar.setStyleSheet("background-color: #AFEEEE;")
+        self.btn_buscar.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.btn_buscar.clicked.connect(self.buscar_producto)
         self.layout_buscar.addWidget(self.btn_buscar)
 
         self.btn_actualizar = QPushButton('Actualizar')
-        self.btn_actualizar.setStyleSheet("background-color: #AFEEEE;")
+        self.btn_actualizar.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.btn_actualizar.clicked.connect(self.actualizar_lista)
         self.layout_buscar.addWidget(self.btn_actualizar)
 
@@ -61,13 +62,12 @@ class Admin_Inventario(QMainWindow):
         self.lista_layout.addWidget(self.table_widget)
 
         # Configuración del Data Grid
-        self.table_widget.setColumnCount(2)  # Establecer el número de columnas
+        self.table_widget.setColumnCount(2)
         self.table_widget.setHorizontalHeaderLabels(['ID', 'Nombre'])
 
         # Layout para los campos de entrada y botón
         self.input_layout = QVBoxLayout()
         self.main_layout.addLayout(self.input_layout)
-
         self.label_id = QLabel('ID del Producto:')
         self.input_id = QLineEdit()
         self.input_layout.addWidget(self.label_id)
@@ -80,12 +80,13 @@ class Admin_Inventario(QMainWindow):
 
         self.label_unidad = QLabel('Unidad:')
         self.input_unidad = QLineEdit()
-        self.input_unidad.setText('--')  # Establecer el texto predeterminado
+        self.input_unidad.setText('--')
         self.input_layout.addWidget(self.label_unidad)
         self.input_layout.addWidget(self.input_unidad)
 
         self.label_cantidad = QLabel('Cantidad:')
         self.input_cantidad = QLineEdit()
+        self.input_cantidad.setText("0")
         self.input_layout.addWidget(self.label_cantidad)
         self.input_layout.addWidget(self.input_cantidad)
 
@@ -101,28 +102,36 @@ class Admin_Inventario(QMainWindow):
         # Agregar botón de editar a la izquierda del botón de guardar
         self.btn_editar = QPushButton('Editar')
         self.btn_editar.clicked.connect(self.editar_producto)
+        self.btn_editar.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.input_layout.addWidget(self.btn_editar)
 
         self.btn_guardar = QPushButton('Guardar')
         self.btn_guardar.clicked.connect(self.guardar_datos)
+        self.btn_guardar.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.input_layout.addWidget(self.btn_guardar)
 
         # Botón para eliminar producto
         self.btn_eliminar = QPushButton('Eliminar')
-        self.btn_eliminar.setStyleSheet("background-color: #c9636c;")  # Establecer color de fondo
+        self.btn_eliminar.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
         self.btn_eliminar.clicked.connect(self.eliminar_producto)
         self.input_layout.addWidget(self.btn_eliminar)
 
         # Cargar lista de productos al inicio
         self.cargar_inventario()
 
+        # Conectar la señal cellClicked a la función cargar_datos_celda_seleccionada
+        self.table_widget.cellClicked.connect(self.cargar_datos_celda_seleccionada_inventario)
+
         # Agregar un nuevo DataGrid para la tabla "producto"
         self.table_widget_producto = QTableWidget()
         self.lista_layout.addWidget(self.table_widget_producto)
 
         # Configurar el nuevo DataGrid
-        self.table_widget_producto.setColumnCount(4)  # Establecer el número de columnas
+        self.table_widget_producto.setColumnCount(4)
         self.table_widget_producto.setHorizontalHeaderLabels(['ID', 'Nombre', 'Precio', 'Activo'])
+
+        # Conectar la señal cellClicked a la función cargar_datos_celda_seleccionada
+        self.table_widget_producto.cellClicked.connect(self.cargar_datos_celda_seleccionada_producto)
 
         # Cargar y mostrar los datos de la tabla "producto"
         self.cargar_productos()
@@ -147,6 +156,13 @@ class Admin_Inventario(QMainWindow):
 
         cursor.close()
 
+        # Centrar datos en la tabla
+        for row in range(self.table_widget.rowCount()):
+            for column in range(self.table_widget.columnCount()):
+                item = self.table_widget.item(row, column)
+                if item is not None:
+                    item.setTextAlignment(Qt.AlignCenter)
+
     def cargar_productos(self):
         cursor = self.__conection.cursor()
         query = "SELECT id_producto, nombre, precio, activo FROM producto"
@@ -155,7 +171,6 @@ class Admin_Inventario(QMainWindow):
 
         if not productos:
             QMessageBox.information(self, 'Información', 'No hay registros en la tabla "producto".')
-            return
 
         self.table_widget_producto.setRowCount(len(productos))
 
@@ -164,16 +179,20 @@ class Admin_Inventario(QMainWindow):
                 item = QTableWidgetItem(str(data))
                 self.table_widget_producto.setItem(row, col, item)
 
-        # Ajustar automáticamente el ancho de las columnas
-        # self.table_widget_producto.resizeColumnsToContents()
-                
-        # Configurar manualmente el ancho de las columnas
+        # Ajustar manualmente el ancho de las columnas
         self.table_widget_producto.setColumnWidth(0, 130)  # ID
         self.table_widget_producto.setColumnWidth(1, 134)  # Nombre
         self.table_widget_producto.setColumnWidth(2, 134)  # Precio
         self.table_widget_producto.setColumnWidth(3, 134)  # Activo
 
         cursor.close()
+
+        # Centrar datos en la tabla
+        for row in range(self.table_widget_producto.rowCount()):
+            for column in range(self.table_widget_producto.columnCount()):
+                item = self.table_widget_producto.item(row, column)
+                if item is not None:
+                    item.setTextAlignment(Qt.AlignCenter)
 
     def guardar_datos(self):
         # Obtener los datos de los campos de entrada
@@ -206,12 +225,12 @@ class Admin_Inventario(QMainWindow):
         self.input_id.clear()
         self.input_nombre.clear()
         self.input_unidad.setText("--")
-        self.input_cantidad.clear()
+        self.input_cantidad.setText("0")
         self.checkbox_estado.setChecked(False)
 
         # Actualizar la lista de productos después de guardar
         QMessageBox.information(self, 'Información', 'El producto ha sido guardado correctamente.')
-        #self.actualizar_lista()
+        self.actualizar_lista()
 
     def eliminar_producto(self):
         # Obtener el ID del producto a eliminar
@@ -250,12 +269,12 @@ class Admin_Inventario(QMainWindow):
             self.input_id.clear()
             self.input_nombre.clear()
             self.input_unidad.setText("--")
-            self.input_cantidad.clear()
+            self.input_cantidad.setText("0")
             self.checkbox_estado.setChecked(False)
 
             # Actualizar la lista de productos
             QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido eliminado correctamente.')
-            #self.actualizar_lista()
+            self.actualizar_lista()
 
         else:
             QMessageBox.information(self, 'Información', 'La eliminación ha sido cancelada.')
@@ -282,10 +301,10 @@ class Admin_Inventario(QMainWindow):
             # Actualizar la tabla con los productos encontrados
             self.table_widget.setRowCount(len(productos))
             for row, producto in enumerate(productos):
-                id_producto_item = QTableWidgetItem(str(producto[0]))  # Convertir a cadena
+                id_producto_item = QTableWidgetItem(str(producto[0]))
                 nombre_producto_item = QTableWidgetItem(producto[1])
-                self.table_widget.setItem(row, 0, id_producto_item)  # Mostrar ID en la columna 0
-                self.table_widget.setItem(row, 1, nombre_producto_item)  # Mostrar nombre en la columna 1
+                self.table_widget.setItem(row, 0, id_producto_item)
+                self.table_widget.setItem(row, 1, nombre_producto_item)
 
         cursor.close()
 
@@ -330,11 +349,10 @@ class Admin_Inventario(QMainWindow):
         self.input_id.clear()
         self.input_nombre.clear()
         self.input_unidad.setText("--")
-        self.input_cantidad.clear()
+        self.input_cantidad.setText("0")
         self.checkbox_estado.setChecked(False)
 
         QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido editado correctamente.')
-
 
     def producto_existe(self, id_producto):
         cursor = self.__conection.cursor()
@@ -343,7 +361,28 @@ class Admin_Inventario(QMainWindow):
         producto = cursor.fetchone()
         cursor.close()
         return producto is not None
-    
+
+    def cargar_datos_celda_seleccionada_inventario(self, row, column):
+        # Obtener los datos de la celda seleccionada
+        id_producto = self.table_widget.item(row, 0).text()
+        nombre_producto = self.table_widget.item(row, 1).text()
+
+        # Buscar el índice de la fila seleccionada en la tabla de inventario
+        index = self.table_widget.indexFromItem(self.table_widget.item(row, 0))
+
+        # Colocar los datos en los cuadros de texto correspondientes
+        self.input_id.setText(id_producto)
+        self.input_nombre.setText(nombre_producto)
+
+    def cargar_datos_celda_seleccionada_producto(self, row, column):
+        # Obtener los datos de la celda seleccionada
+        id_producto = self.table_widget_producto.item(row, 0).text()
+        nombre_producto = self.table_widget_producto.item(row, 1).text()
+
+        # Colocar los datos en los cuadros de texto correspondientes
+        self.input_id.setText(id_producto)
+        self.input_nombre.setText(nombre_producto)
+
 if __name__ == '__main__':
     app = QApplication([])
     ventana = Admin_Inventario()
