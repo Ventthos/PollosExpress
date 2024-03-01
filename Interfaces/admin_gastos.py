@@ -38,8 +38,8 @@ class Admin_Gastos(QMainWindow):
         # Crear el campo de fecha y hora
         self.fecha_label = QLabel('Fecha:')
         self.fecha_edit = QDateTimeEdit()
-        self.fecha_edit.setDateTime(QDateTime.currentDateTime())  # Establecer la fecha y hora actuales
-        self.fecha_edit.setDisplayFormat("yyyy-MM-dd HH:mm")  # Formato de visualización
+        self.fecha_edit.setDateTime(QDateTime.currentDateTime())
+        self.fecha_edit.setDisplayFormat("yyyy-MM-dd HH:mm")
 
         # Botón para establecer la fecha y hora actuales
         self.actual_button = QPushButton('Actual')
@@ -105,10 +105,35 @@ class Admin_Gastos(QMainWindow):
         self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels(['ID', 'Título','Descripción', 'Monto ($)', 'Fecha', 'ID Empleado'])
 
+        # Crear los campos para Presupuesto, Gasto total y Total restante
+        self.presupuesto_label = QLabel('Presupuesto:')
+        self.presupuesto_edit = QLineEdit()
+        self.gasto_total_label = QLabel('Gasto total:')
+        self.gasto_total_edit = QLineEdit()
+        self.gasto_total_edit.setReadOnly(True)
+        self.total_restante_label = QLabel('Total restante:')
+        self.total_restante_edit = QLineEdit()
+
+        # Crear botón para calcular la diferencia entre presupuesto y gasto total
+        self.calcular_button = QPushButton('Calcular')
+        self.calcular_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
+        self.calcular_button.clicked.connect(self.calcular_diferencia)
+
+        # Crear layout para los campos de presupuesto
+        budget_layout = QHBoxLayout()
+        budget_layout.addWidget(self.presupuesto_label)
+        budget_layout.addWidget(self.presupuesto_edit)
+        budget_layout.addWidget(self.gasto_total_label)
+        budget_layout.addWidget(self.gasto_total_edit)
+        budget_layout.addWidget(self.total_restante_label)
+        budget_layout.addWidget(self.total_restante_edit)
+        budget_layout.addWidget(self.calcular_button)
+
         # Crear layout principal
         main_layout = QVBoxLayout()
         main_layout.addLayout(form_layout)
         main_layout.addWidget(self.table)
+        main_layout.addLayout(budget_layout)
 
         # Crear widget central y establecer el diseño
         central_widget = QWidget()
@@ -128,12 +153,18 @@ class Admin_Gastos(QMainWindow):
         # Limpiar la tabla antes de cargar los nuevos datos
         self.table.setRowCount(0)
 
+        gasto_total = 0  # Inicializar el gasto total
+
         for row_number, row_data in enumerate(datos):
             self.table.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data))
-                item.setTextAlignment(Qt.AlignCenter)  # Alineación central
+                item.setTextAlignment(Qt.AlignCenter)
                 self.table.setItem(row_number, column_number, item)
+                
+                # Sumar el monto al gasto total
+                if column_number == 3:  # La columna del monto es la cuarta (índice 3)
+                    gasto_total += float(data)
 
         # Configurar manualmente el ancho de las columnas
         self.table.setColumnWidth(0, 175)  # ID
@@ -142,6 +173,20 @@ class Admin_Gastos(QMainWindow):
         self.table.setColumnWidth(3, 190)  # Monto
         self.table.setColumnWidth(4, 200)  # Fecha
         self.table.setColumnWidth(5, 190)  # ID Empleado
+
+        # Mostrar el gasto total en el campo correspondiente
+        self.gasto_total_edit.setText(str(gasto_total))
+
+        # Obtener el valor del presupuesto del QLineEdit correspondiente
+        presupuesto_text = self.presupuesto_edit.text()
+        presupuesto = float(presupuesto_text) if presupuesto_text else 0
+
+        # Calcular el total restante
+        total_restante = presupuesto - gasto_total
+
+        # Establecer el total restante en el campo correspondiente
+        self.total_restante_edit.setText(str(total_restante))
+        self.total_restante_edit.setReadOnly(True)
         
     def guardar_gasto(self):
         # Obtener los valores de los campos
@@ -180,7 +225,7 @@ class Admin_Gastos(QMainWindow):
         self.titulo_edit.clear()
         self.descripcion_edit.clear()
         self.monto_edit.clear()
-        self.fecha_edit.setDateTime(QDateTime.currentDateTime())  # Establecer la fecha y hora actuales
+        self.fecha_edit.setDateTime(QDateTime.currentDateTime())
         self.id_empleado_edit.clear()
 
         # Recargar los datos en la tabla
@@ -205,7 +250,7 @@ class Admin_Gastos(QMainWindow):
             self.table.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data))
-                item.setTextAlignment(Qt.AlignCenter)  # Alineación central
+                item.setTextAlignment(Qt.AlignCenter)
                 self.table.setItem(row_number, column_number, item)
 
         # Configurar manualmente el ancho de las columnas
@@ -319,6 +364,28 @@ class Admin_Gastos(QMainWindow):
 
     def establecer_fecha_actual(self):
         self.fecha_edit.setDateTime(QDateTime.currentDateTime())
+
+    def calcular_diferencia(self):
+        # Obtener el valor del presupuesto
+        presupuesto_text = self.presupuesto_edit.text()
+
+        # Verificar si el formato del presupuesto es válido
+        if not re.match(r'^\d+(\.\d+)?$', presupuesto_text):
+            QMessageBox.warning(self, 'Advertencia', 'El formato es inválido. Por favor, ingresa un valor numérico válido.')
+            return
+
+        presupuesto = float(presupuesto_text)
+
+        # Obtener el valor del gasto total
+        gasto_total_text = self.gasto_total_edit.text()
+        gasto_total = float(gasto_total_text) if gasto_total_text else 0
+
+        # Calcular la diferencia
+        diferencia = presupuesto - gasto_total
+
+        # Mostrar la diferencia en el campo correspondiente
+        self.total_restante_edit.setText(str(diferencia))
+
 
 if __name__ == '__main__':
     import sys
