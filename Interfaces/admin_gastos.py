@@ -4,6 +4,9 @@ from PyQt5.QtCore import *
 import mysql.connector
 import datetime
 import re
+import os
+import sys
+from datetime import datetime
 
 class Admin_Gastos(QMainWindow):
     def __init__(self):
@@ -65,6 +68,11 @@ class Admin_Gastos(QMainWindow):
         self.eliminar_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
         self.eliminar_button.clicked.connect(self.eliminar_gasto)
         
+        # Botón para generar reporte
+        self.generar_reporte_button = QPushButton('Generar Reporte')
+        self.generar_reporte_button.setStyleSheet("background-color: #6495ED; color: white; font-weight: bold;")
+        self.generar_reporte_button.clicked.connect(self.generar_reporte)
+        
         # Botón para actualizar los datos
         self.actualizar_button = QPushButton('Actualizar')
         self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
@@ -91,6 +99,7 @@ class Admin_Gastos(QMainWindow):
         form_layout.addRow(self.guardar_button)
         form_layout.addRow(self.editar_button)
         form_layout.addRow(self.eliminar_button)
+        form_layout.addRow(self.generar_reporte_button)
         
         # Crear un diseño horizontal para la barra de búsqueda y el botón de actualización
         search_layout = QHBoxLayout()
@@ -106,12 +115,12 @@ class Admin_Gastos(QMainWindow):
         self.table.setHorizontalHeaderLabels(['ID', 'Título','Descripción', 'Monto ($)', 'Fecha', 'ID Empleado'])
 
         # Crear los campos para Presupuesto, Gasto total y Total restante
-        self.presupuesto_label = QLabel('Presupuesto:')
+        self.presupuesto_label = QLabel('Presupuesto ($):')
         self.presupuesto_edit = QLineEdit()
-        self.gasto_total_label = QLabel('Gasto total:')
+        self.gasto_total_label = QLabel('Gasto total ($):')
         self.gasto_total_edit = QLineEdit()
         self.gasto_total_edit.setReadOnly(True)
-        self.total_restante_label = QLabel('Total restante:')
+        self.total_restante_label = QLabel('Total restante ($):')
         self.total_restante_edit = QLineEdit()
 
         # Crear botón para calcular la diferencia entre presupuesto y gasto total
@@ -386,10 +395,49 @@ class Admin_Gastos(QMainWindow):
         # Mostrar la diferencia en el campo correspondiente
         self.total_restante_edit.setText(str(diferencia))
 
+    def generar_reporte(self):
+        # Solicitar el ID del administrador
+        id_administrador, ok = QInputDialog.getText(self, 'ID de Administrador', 'Ingrese su ID de Administrador:')
+        
+        # Verificar si se presionó "Aceptar" en el cuadro de diálogo
+        if ok:
+            # Crear la carpeta para los reportes si no existe
+            carpeta_reportes = "Reporte de gastos"
+            if not os.path.exists(carpeta_reportes):
+                os.makedirs(carpeta_reportes)
+
+            # Obtener la fecha actual
+            fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+            # Obtener los datos de la tabla
+            reporte_data = []
+            for row in range(self.table.rowCount()):
+                row_data = [self.table.item(row, col).text() for col in range(self.table.columnCount())]
+                reporte_data.append(row_data)
+
+            # Crear el contenido del reporte
+            reporte_content = f"{'=' * 30}\nReporte de gastos ({fecha_actual})\n{'=' * 30}\n\n"
+            for row in reporte_data:
+                reporte_content += f"{'-' * 30}\n"
+                reporte_content += f"ID: {row[0]}\nTítulo: {row[1]}\nDescripción: {row[2]}\nMonto ($): {row[3]}\nFecha: {row[4]}\nID Empleado: {row[5]}\n"
+            reporte_content += f"{'-' * 30}\n\n"
+            reporte_content += f"Presupuesto ($): {self.presupuesto_edit.text()}\n"
+            reporte_content += f"Gasto total ($): {self.gasto_total_edit.text()}\n"
+            reporte_content += f"Total restante ($): {self.total_restante_edit.text()}\n"
+            reporte_content += f"{'-' * 30}\n\n"
+            reporte_content += f"Reporte generado en: {fecha_actual} por el administrador {id_administrador}."
+
+            # Guardar el reporte en un archivo de texto
+            nombre_archivo = f"{carpeta_reportes}/Reporte_de_gastos_{fecha_actual.replace(':', '')}.txt"
+            try:
+                with open(nombre_archivo, "w") as file:
+                    file.write(reporte_content)
+                QMessageBox.information(self, 'Reporte Generado', f'El reporte de gastos ha sido generado exitosamente como "{nombre_archivo}"')
+            except Exception as e:
+                QMessageBox.warning(self, 'Error', f'Error al generar el reporte: {str(e)}')
 
 if __name__ == '__main__':
-    import sys
     app = QApplication(sys.argv)
-    ventana = Admin_Gastos()
-    ventana.show()
+    admin_gastos = Admin_Gastos()
+    admin_gastos.show()
     sys.exit(app.exec_())
