@@ -4,7 +4,6 @@ from PyQt5.QtGui import *
 import mysql.connector
 import datetime
 
-
 class Inventario(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -41,7 +40,7 @@ class Inventario(QMainWindow):
 
         # Crear botón de búsqueda
         self.buscar_button = QPushButton('Buscar')
-        self.buscar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")  # Establecer color de fondo, texto y negrita
+        self.buscar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
 
         # Conectar señal y slot
         self.buscar_button.clicked.connect(self.buscar_id)
@@ -54,7 +53,7 @@ class Inventario(QMainWindow):
 
         # Crear botón de actualización
         self.actualizar_button = QPushButton('Actualizar')
-        self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")  # Establecer color de fondo, texto y negrita
+        self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
 
         # Conectar señal y slot
         self.actualizar_button.clicked.connect(self.actualizar_datos)
@@ -77,16 +76,10 @@ class Inventario(QMainWindow):
 
         # Cargar datos
         self.cargar_datos()
-        # Inicialmente los botones están habilitados
-        self.botones_habilitados = True
-
-        # Definir contraseñas para bloquear/desbloquear
-        self.contraseña_bloqueo = "1234"
-        self.contraseña_desbloqueo = "5678"
 
     def cargar_datos(self):
         cursor = self.__conection.cursor()
-        #sql = "SELECT inventario.id_producto, inventario.nombre_producto, inventario.unidad, inventario.cantidad, inventario.estado FROM inventario INNER JOIN producto on producto.id_producto = inventario.id_producto"
+        # sql = "SELECT inventario.id_producto, inventario.nombre_producto, inventario.unidad, inventario.cantidad, inventario.estado FROM inventario INNER JOIN producto on producto.id_producto = inventario.id_producto"
         sql = "SELECT inventario.id_producto, inventario.nombre_producto, inventario.unidad, inventario.cantidad, inventario.estado FROM inventario INNER JOIN producto on producto.id_producto = inventario.id_producto"
         cursor.execute(sql)
         rows = cursor.fetchall()
@@ -102,14 +95,9 @@ class Inventario(QMainWindow):
             self.table_widget.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data))
-                # Alinear el texto al centro
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.table_widget.setItem(row_number, column_number, item)
 
-        # Ajustar el ancho de las columnas para que se ajusten al contenido
-        self.table_widget.resizeColumnsToContents()
-
-        # Establecer ancho mínimo para cada columna
         self.table_widget.setColumnWidth(0, 225)  # ID Producto
         self.table_widget.setColumnWidth(1, 260)  # Nombre Producto
         self.table_widget.setColumnWidth(2, 225)  # Unidad
@@ -131,11 +119,10 @@ class Inventario(QMainWindow):
             self.id_producto_edit.clear()
             return
 
-        # Ahora, id_producto es un número entero válido
         if id_producto:
             # Itera sobre las filas y compara el ID en la primera columna
             for row in range(self.table_widget.rowCount()):
-                item = self.table_widget.item(row, 0)  # Suponiendo que el ID esté en la primera columna
+                item = self.table_widget.item(row, 0)
                 if item.text() == str(id_producto):
                     self.table_widget.selectRow(row)
                     self.table_widget.verticalScrollBar().setValue(row)
@@ -145,9 +132,7 @@ class Inventario(QMainWindow):
         self.id_producto_edit.clear()
 
     def actualizar_datos(self):
-        # Simplemente volvemos a cargar los datos
         self.cargar_datos()
-        # Mostramos el mensaje de datos actualizados
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
 
 if __name__ == '__main__':
