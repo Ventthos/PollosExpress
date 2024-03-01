@@ -99,14 +99,12 @@ class Inventario(QMainWindow):
 
         # Cargar datos
         self.cargar_datos()
-
         # Inicialmente los botones están habilitados
         self.botones_habilitados = True
 
         # Definir contraseñas para bloquear/desbloquear
         self.contraseña_bloqueo = "1234"
         self.contraseña_desbloqueo = "5678"
-
     def cargar_datos(self):
         cursor = self.__conection.cursor()
         #sql = "SELECT inventario.id_producto, inventario.nombre_producto, inventario.unidad, inventario.cantidad, inventario.estado FROM inventario INNER JOIN producto on producto.id_producto = inventario.id_producto"

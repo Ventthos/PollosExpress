@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1076, 621)
+        MainWindow.resize(1102, 621)
         self.WidgetVentaTotal = QtWidgets.QWidget(MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
         self.scrollAreaProducto.setWidgetResizable(True)
         self.scrollAreaProducto.setObjectName("scrollAreaProducto")
         self.scrollAreaContentsProductos = QtWidgets.QWidget()
-        self.scrollAreaContentsProductos.setGeometry(QtCore.QRect(0, 0, 524, 550))
+        self.scrollAreaContentsProductos.setGeometry(QtCore.QRect(0, 0, 537, 550))
         self.scrollAreaContentsProductos.setObjectName("scrollAreaContentsProductos")
         self.scrollAreaProducto.setWidget(self.scrollAreaContentsProductos)
         self.horizontalLayout_2.addWidget(self.scrollAreaProducto)
@@ -69,10 +69,13 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.TablaVenta.setHorizontalHeaderItem(4, item)
         self.LayoutVenta.addWidget(self.TablaVenta)
+        self.pushButton = QtWidgets.QPushButton(self.WidgetVentaTabla)
+        self.pushButton.setObjectName("pushButton")
+        self.LayoutVenta.addWidget(self.pushButton)
         self.horizontalLayout_2.addWidget(self.WidgetVentaTabla)
         MainWindow.setCentralWidget(self.WidgetVentaTotal)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1076, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1102, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -96,6 +99,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Subtotal"))
         item = self.TablaVenta.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Total"))
+        self.pushButton.setText(_translate("MainWindow", "Vender"))
 
 
 if __name__ == "__main__":

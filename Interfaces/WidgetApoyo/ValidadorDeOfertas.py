@@ -64,6 +64,7 @@ class Validador:
                     print(f"Puedo aplicar {cantidadAAplicar} y sobran {sobrante}")
                     arrDatosCopia[1] = str(int(arrDatosCopia[1]) - cantidadAAplicar)
                     break
+        arrDatosCopia[3] = str(int(arrDatosCopia[1]) * float(arrDatosCopia[2]))
         print(f"Mi arr quedo asi: {arrDatosCopia}")
 
 
@@ -76,10 +77,6 @@ class Validador:
                   "0.0"]
         for i in range(4):
             self.table.setItem(self.row_count, i, QtWidgets.QTableWidgetItem(values[i]))
-
-
-
-
 
     def encontrarFila(self):
         for result in self.Promociones:

@@ -124,7 +124,8 @@ class VentaWidget(QtWidgets.QWidget):
                 item = self.table.item(fila, columna)
                 if item is not None and texto_busqueda in item.text().strip().lower():
                     return  (columna,fila)
-
+    def calcularCantidad(self):
+        pass
 class CustomLineEditVentas(QtWidgets.QLineEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
