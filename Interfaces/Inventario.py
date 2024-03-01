@@ -41,7 +41,7 @@ class Inventario(QMainWindow):
 
         # Crear botón de búsqueda
         self.buscar_button = QPushButton('Buscar')
-        self.buscar_button.setStyleSheet("background-color: #AFEEEE;")  # Establecer color de fondo
+        self.buscar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")  # Establecer color de fondo, texto y negrita
 
         # Conectar señal y slot
         self.buscar_button.clicked.connect(self.buscar_id)
@@ -60,7 +60,7 @@ class Inventario(QMainWindow):
 
         # Crear botón de actualización
         self.actualizar_button = QPushButton('Actualizar')
-        self.actualizar_button.setStyleSheet("background-color: #AFEEEE;")  # Establecer color de fondo
+        self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")  # Establecer color de fondo, texto y negrita
 
         # Conectar señal y slot
         self.actualizar_button.clicked.connect(self.actualizar_datos)
