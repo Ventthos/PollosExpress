@@ -115,16 +115,31 @@ class Inventario(QMainWindow):
         self.table_widget.setColumnWidth(4, 220)  # Estado
 
     def buscar_id(self):
-        id_producto = self.id_producto_edit.text()
+        id_producto_texto = self.id_producto_edit.text()
+
+        # Verificar si el campo de búsqueda está vacío
+        if not id_producto_texto:
+            QMessageBox.warning(self, 'Advertencia', 'Por favor, ingresa un ID antes de realizar la búsqueda.')
+            return
+
+        try:
+            id_producto = int(id_producto_texto)
+        except ValueError:
+            QMessageBox.warning(self, 'Advertencia', 'El formato del ID no es válido. Por favor, ingresa un número entero.')
+            self.id_producto_edit.clear()
+            return
+
+        # Ahora, id_producto es un número entero válido
         if id_producto:
             # Itera sobre las filas y compara el ID en la primera columna
             for row in range(self.table_widget.rowCount()):
                 item = self.table_widget.item(row, 0)  # Suponiendo que el ID esté en la primera columna
-                if item.text() == id_producto:
+                if item.text() == str(id_producto):
                     self.table_widget.selectRow(row)
                     self.table_widget.verticalScrollBar().setValue(row)
                     return
             QMessageBox.warning(self, 'Advertencia', 'El ID no se encuentra en la base de datos.')
+
         self.id_producto_edit.clear()
 
     def actualizar_datos(self):

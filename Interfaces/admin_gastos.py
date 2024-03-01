@@ -43,7 +43,8 @@ class Admin_Gastos(QMainWindow):
 
         # Botón para establecer la fecha y hora actuales
         self.actual_button = QPushButton('Actual')
-        self.actual_button.setFixedWidth(120)  # Ajustar el ancho del botón
+        self.actual_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
+        self.actual_button.setFixedWidth(120)
         self.actual_button.clicked.connect(self.establecer_fecha_actual)
 
         self.id_empleado_label = QLabel('ID Empleado:')
@@ -131,6 +132,7 @@ class Admin_Gastos(QMainWindow):
             self.table.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data))
+                item.setTextAlignment(Qt.AlignCenter)  # Alineación central
                 self.table.setItem(row_number, column_number, item)
 
         # Configurar manualmente el ancho de las columnas
@@ -203,6 +205,7 @@ class Admin_Gastos(QMainWindow):
             self.table.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data))
+                item.setTextAlignment(Qt.AlignCenter)  # Alineación central
                 self.table.setItem(row_number, column_number, item)
 
         # Configurar manualmente el ancho de las columnas

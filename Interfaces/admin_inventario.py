@@ -1,14 +1,15 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
 import mysql.connector
 import datetime
 
 class Admin_Inventario(QMainWindow):
     def __init__(self):
-            super().__init__()
+        super().__init__()
 
-            # Conexión a la base de datos
-            self.__conection = mysql.connector.connect(
+        # Conexión a la base de datos
+        self.__conection = mysql.connector.connect(
             user="u119126_pollos2LaVengazaDelPollo",
             host="174.136.28.78",
             port="3306",
@@ -16,7 +17,7 @@ class Admin_Inventario(QMainWindow):
             database="u119126_pollos2LaVengazaDelPollo"
         )
 
-            self.initUI()
+        self.initUI()
 
     def initUI(self):
         self.setWindowTitle('Pollos Express | Inventario (Administrador)')
@@ -146,7 +147,14 @@ class Admin_Inventario(QMainWindow):
             self.table_widget.setItem(row, 0, id_producto_item)
             self.table_widget.setItem(row, 1, nombre_producto_item)
 
-            cursor.close()
+        cursor.close()
+
+        # Centrar datos en la tabla
+        for row in range(self.table_widget.rowCount()):
+            for column in range(self.table_widget.columnCount()):
+                item = self.table_widget.item(row, column)
+                if item is not None:
+                    item.setTextAlignment(Qt.AlignCenter)
 
     def cargar_productos(self):
         cursor = self.__conection.cursor()
@@ -156,7 +164,7 @@ class Admin_Inventario(QMainWindow):
 
         if not productos:
             QMessageBox.information(self, 'Información', 'No hay registros en la tabla "producto".')
-        
+
         self.table_widget_producto.setRowCount(len(productos))
 
         for row, producto in enumerate(productos):
@@ -164,16 +172,20 @@ class Admin_Inventario(QMainWindow):
                 item = QTableWidgetItem(str(data))
                 self.table_widget_producto.setItem(row, col, item)
 
-        # Ajustar automáticamente el ancho de las columnas
-        # self.table_widget_producto.resizeColumnsToContents()
-
-        # Configurar manualmente el ancho de las columnas
+        # Ajustar manualmente el ancho de las columnas
         self.table_widget_producto.setColumnWidth(0, 130)  # ID
         self.table_widget_producto.setColumnWidth(1, 134)  # Nombre
         self.table_widget_producto.setColumnWidth(2, 134)  # Precio
         self.table_widget_producto.setColumnWidth(3, 134)  # Activo
 
         cursor.close()
+
+        # Centrar datos en la tabla
+        for row in range(self.table_widget_producto.rowCount()):
+            for column in range(self.table_widget_producto.columnCount()):
+                item = self.table_widget_producto.item(row, column)
+                if item is not None:
+                    item.setTextAlignment(Qt.AlignCenter)
 
     def guardar_datos(self):
         # Obtener los datos de los campos de entrada
@@ -211,7 +223,7 @@ class Admin_Inventario(QMainWindow):
 
         # Actualizar la lista de productos después de guardar
         QMessageBox.information(self, 'Información', 'El producto ha sido guardado correctamente.')
-        #self.actualizar_lista()
+        self.actualizar_lista()
 
     def eliminar_producto(self):
         # Obtener el ID del producto a eliminar
@@ -255,7 +267,7 @@ class Admin_Inventario(QMainWindow):
 
             # Actualizar la lista de productos
             QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido eliminado correctamente.')
-            #self.actualizar_lista()
+            self.actualizar_lista()
 
         else:
             QMessageBox.information(self, 'Información', 'La eliminación ha sido cancelada.')
@@ -334,7 +346,6 @@ class Admin_Inventario(QMainWindow):
         self.checkbox_estado.setChecked(False)
 
         QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido editado correctamente.')
-
 
     def producto_existe(self, id_producto):
         cursor = self.__conection.cursor()
