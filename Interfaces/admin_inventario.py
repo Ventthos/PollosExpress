@@ -86,6 +86,7 @@ class Admin_Inventario(QMainWindow):
 
         self.label_cantidad = QLabel('Cantidad:')
         self.input_cantidad = QLineEdit()
+        self.input_cantidad.setText("0")
         self.input_layout.addWidget(self.label_cantidad)
         self.input_layout.addWidget(self.input_cantidad)
 
@@ -118,6 +119,9 @@ class Admin_Inventario(QMainWindow):
         # Cargar lista de productos al inicio
         self.cargar_inventario()
 
+        # Conectar la señal cellClicked a la función cargar_datos_celda_seleccionada
+        self.table_widget.cellClicked.connect(self.cargar_datos_celda_seleccionada_inventario)
+
         # Agregar un nuevo DataGrid para la tabla "producto"
         self.table_widget_producto = QTableWidget()
         self.lista_layout.addWidget(self.table_widget_producto)
@@ -125,6 +129,9 @@ class Admin_Inventario(QMainWindow):
         # Configurar el nuevo DataGrid
         self.table_widget_producto.setColumnCount(4)
         self.table_widget_producto.setHorizontalHeaderLabels(['ID', 'Nombre', 'Precio', 'Activo'])
+
+        # Conectar la señal cellClicked a la función cargar_datos_celda_seleccionada
+        self.table_widget_producto.cellClicked.connect(self.cargar_datos_celda_seleccionada_producto)
 
         # Cargar y mostrar los datos de la tabla "producto"
         self.cargar_productos()
@@ -218,7 +225,7 @@ class Admin_Inventario(QMainWindow):
         self.input_id.clear()
         self.input_nombre.clear()
         self.input_unidad.setText("--")
-        self.input_cantidad.clear()
+        self.input_cantidad.setText("0")
         self.checkbox_estado.setChecked(False)
 
         # Actualizar la lista de productos después de guardar
@@ -262,7 +269,7 @@ class Admin_Inventario(QMainWindow):
             self.input_id.clear()
             self.input_nombre.clear()
             self.input_unidad.setText("--")
-            self.input_cantidad.clear()
+            self.input_cantidad.setText("0")
             self.checkbox_estado.setChecked(False)
 
             # Actualizar la lista de productos
@@ -342,7 +349,7 @@ class Admin_Inventario(QMainWindow):
         self.input_id.clear()
         self.input_nombre.clear()
         self.input_unidad.setText("--")
-        self.input_cantidad.clear()
+        self.input_cantidad.setText("0")
         self.checkbox_estado.setChecked(False)
 
         QMessageBox.information(self, 'Información', f'El producto con ID {id_producto} ha sido editado correctamente.')
@@ -354,6 +361,27 @@ class Admin_Inventario(QMainWindow):
         producto = cursor.fetchone()
         cursor.close()
         return producto is not None
+
+    def cargar_datos_celda_seleccionada_inventario(self, row, column):
+        # Obtener los datos de la celda seleccionada
+        id_producto = self.table_widget.item(row, 0).text()
+        nombre_producto = self.table_widget.item(row, 1).text()
+
+        # Buscar el índice de la fila seleccionada en la tabla de inventario
+        index = self.table_widget.indexFromItem(self.table_widget.item(row, 0))
+
+        # Colocar los datos en los cuadros de texto correspondientes
+        self.input_id.setText(id_producto)
+        self.input_nombre.setText(nombre_producto)
+
+    def cargar_datos_celda_seleccionada_producto(self, row, column):
+        # Obtener los datos de la celda seleccionada
+        id_producto = self.table_widget_producto.item(row, 0).text()
+        nombre_producto = self.table_widget_producto.item(row, 1).text()
+
+        # Colocar los datos en los cuadros de texto correspondientes
+        self.input_id.setText(id_producto)
+        self.input_nombre.setText(nombre_producto)
 
 if __name__ == '__main__':
     app = QApplication([])

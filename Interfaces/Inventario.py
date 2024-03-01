@@ -52,12 +52,6 @@ class Inventario(QMainWindow):
         # Crear label para el texto "Buscar ID"
         buscar_label = QLabel("Buscar ID:")
 
-        # Crear layout horizontal para el cuadro de texto, el label y el botón de búsqueda
-        search_layout = QHBoxLayout()
-        search_layout.addWidget(buscar_label)
-        search_layout.addWidget(self.id_producto_edit)
-        search_layout.addWidget(self.buscar_button)
-
         # Crear botón de actualización
         self.actualizar_button = QPushButton('Actualizar')
         self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")  # Establecer color de fondo, texto y negrita
@@ -67,13 +61,15 @@ class Inventario(QMainWindow):
 
         # Crear layout para los botones
         button_layout = QHBoxLayout()
+        button_layout.addWidget(buscar_label)
+        button_layout.addWidget(self.id_producto_edit)
+        button_layout.addWidget(self.buscar_button)
         button_layout.addWidget(self.actualizar_button)
 
         # Crear layout principal
         main_layout = QVBoxLayout()
-        main_layout.addLayout(search_layout)
-        main_layout.addWidget(scroll_area)
         main_layout.addLayout(button_layout)
+        main_layout.addWidget(scroll_area)
 
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
@@ -147,7 +143,6 @@ class Inventario(QMainWindow):
         self.cargar_datos()
         # Mostramos el mensaje de datos actualizados
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
-
 
 if __name__ == '__main__':
     app = QApplication([])
