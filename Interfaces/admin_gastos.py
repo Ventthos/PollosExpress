@@ -67,6 +67,11 @@ class Admin_Gastos(QMainWindow):
         self.eliminar_button = QPushButton('Eliminar')
         self.eliminar_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
         self.eliminar_button.clicked.connect(self.eliminar_gasto)
+
+        # Botón para realizar un truncate a la base de datos
+        self.restablecer_button = QPushButton('Restablecer')
+        self.restablecer_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
+        self.restablecer_button.clicked.connect(self.solicitar_contrasena)
         
         # Botón para generar reporte
         self.generar_reporte_button = QPushButton('Generar Reporte')
@@ -96,11 +101,22 @@ class Admin_Gastos(QMainWindow):
 
         form_layout.addRow(self.fecha_label, fecha_layout)
         form_layout.addRow(self.id_empleado_label, self.id_empleado_edit)
-        form_layout.addRow(self.guardar_button)
-        form_layout.addRow(self.editar_button)
-        form_layout.addRow(self.eliminar_button)
-        form_layout.addRow(self.generar_reporte_button)
         
+        # Crear un layout horizontal para los botones de guardar, editar y eliminar
+        buttons_layout = QHBoxLayout()
+        buttons_layout.addWidget(self.guardar_button)
+        buttons_layout.addWidget(self.editar_button)
+        buttons_layout.addWidget(self.eliminar_button)
+
+        form_layout.addRow(buttons_layout)  # Agregar el layout horizontal de los botones
+        
+        # Agregar los botones "Generar Reporte" y "Restablecer" en la misma fila
+        report_reset_buttons_layout = QHBoxLayout()
+        report_reset_buttons_layout.addWidget(self.generar_reporte_button)
+        report_reset_buttons_layout.addWidget(self.restablecer_button)
+
+        form_layout.addRow(report_reset_buttons_layout)  # Agregar el layout horizontal de los botones
+
         # Crear un diseño horizontal para la barra de búsqueda y el botón de actualización
         search_layout = QHBoxLayout()
         search_layout.addWidget(self.busqueda_edit)
@@ -362,6 +378,33 @@ class Admin_Gastos(QMainWindow):
             self.cargar_datos()
 
             QMessageBox.information(self, 'Éxito', 'Gasto eliminado exitosamente.')
+
+    def solicitar_contrasena(self):
+        contrasena, ok = QInputDialog.getText(self, 'Confirmar Acción', 'Por favor, ingresa la contraseña para continuar:')
+        if ok:
+            # Verificar si la contraseña es correcta
+            if contrasena == '0123456789':  # Reemplaza 'tu_contrasena_aqui' por tu contraseña real
+                # Si la contraseña es correcta, procede a restablecer la tabla
+                self.restablecer_tabla()
+            else:
+                QMessageBox.warning(self, 'Contraseña Incorrecta', 'La contraseña ingresada es incorrecta. Por favor, intenta de nuevo.')
+
+    # Define el método para restablecer la tabla en la base de datos
+    def restablecer_tabla(self):
+        # Confirmar la acción de restablecer la tabla
+        respuesta = QMessageBox.question(self, 'Restablecer Tabla', '¿Estás seguro de restablecer la tabla? Esta acción eliminará todos los datos.', QMessageBox.Yes | QMessageBox.No)
+        if respuesta == QMessageBox.Yes:
+            # Ejecutar la consulta TRUNCATE para restablecer la tabla
+            cursor = self.__connection.cursor()
+            query = "TRUNCATE TABLE gasto"
+            cursor.execute(query)
+            self.__connection.commit()
+            cursor.close()
+
+            # Recargar los datos en la tabla
+            self.cargar_datos()
+
+            QMessageBox.information(self, 'Éxito', 'La tabla ha sido restablecida exitosamente.')
 
     def actualizar_lista(self):
         # Cargamos los datos nuevamente
