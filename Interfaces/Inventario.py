@@ -22,8 +22,6 @@ class Inventario(QMainWindow):
     def initUI(self):
         self.setWindowTitle('Pollos Express | Inventario')
         self.resize(1200, 700)
-
-        # Establecer ícono de la ventana
         self.setWindowIcon(QIcon('../img/logo.ico'))
 
         # Crear tabla y área de desplazamiento
@@ -78,8 +76,7 @@ class Inventario(QMainWindow):
         self.cargar_datos()
 
     def cargar_datos(self):
-        cursor = self.__conection.cursor()
-        # sql = "SELECT inventario.id_producto, inventario.nombre_producto, inventario.unidad, inventario.cantidad, inventario.estado FROM inventario INNER JOIN producto on producto.id_producto = inventario.id_producto"
+        cursor = self.__conection.cursor()        
         sql = "SELECT inventario.id_producto, inventario.nombre_producto, inventario.unidad, inventario.cantidad, inventario.estado FROM inventario INNER JOIN producto on producto.id_producto = inventario.id_producto"
         cursor.execute(sql)
         rows = cursor.fetchall()

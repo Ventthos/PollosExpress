@@ -383,7 +383,7 @@ class Admin_Gastos(QMainWindow):
         contrasena, ok = QInputDialog.getText(self, 'Confirmar Acción', 'Por favor, ingresa la contraseña para continuar:')
         if ok:
             # Verificar si la contraseña es correcta
-            if contrasena == '0123456789':  # Reemplaza 'tu_contrasena_aqui' por tu contraseña real
+            if contrasena == 'zarpado_0123456789':
                 # Si la contraseña es correcta, procede a restablecer la tabla
                 self.restablecer_tabla()
             else:
@@ -463,7 +463,7 @@ class Admin_Gastos(QMainWindow):
             for row in reporte_data:
                 reporte_content += f"{'-' * 30}\n"
                 reporte_content += f"ID: {row[0]}\nTítulo: {row[1]}\nDescripción: {row[2]}\nMonto ($): {row[3]}\nFecha: {row[4]}\nID Empleado: {row[5]}\n"
-            reporte_content += f"{'-' * 30}\n\n"
+            reporte_content += f"{'-' * 30}\n"
             reporte_content += f"Presupuesto ($): {self.presupuesto_edit.text()}\n"
             reporte_content += f"Gasto total ($): {self.gasto_total_edit.text()}\n"
             reporte_content += f"Total restante ($): {self.total_restante_edit.text()}\n"
