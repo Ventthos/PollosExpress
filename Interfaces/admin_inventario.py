@@ -306,6 +306,13 @@ class Admin_Inventario(QMainWindow):
                 self.table_widget.setItem(row, 0, id_producto_item)
                 self.table_widget.setItem(row, 1, nombre_producto_item)
 
+        # Centrar datos en la tabla
+        for row in range(self.table_widget.rowCount()):
+            for column in range(self.table_widget.columnCount()):
+                item = self.table_widget.item(row, column)
+                if item is not None:
+                    item.setTextAlignment(Qt.AlignCenter)
+
         cursor.close()
 
     def actualizar_lista(self):

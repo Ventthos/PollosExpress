@@ -410,7 +410,7 @@ class Admin_Gastos(QMainWindow):
         # Cargamos los datos nuevamente
         self.cargar_datos()
         # Mensaje de los datos actualizados
-        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
+        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
         # Limpiamos la barra de búsqueda
         self.busqueda_edit.clear()
 
@@ -481,6 +481,6 @@ class Admin_Gastos(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    admin_gastos = Admin_Gastos()
-    admin_gastos.show()
+    ventana = Admin_Gastos()
+    ventana.show()
     sys.exit(app.exec_())
