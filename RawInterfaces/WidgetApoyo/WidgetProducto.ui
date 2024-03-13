@@ -58,7 +58,7 @@
         <property name="sizeIncrement">
          <size>
           <width>1</width>
-          <height>98</height>
+          <height>1</height>
          </size>
         </property>
         <property name="text">
