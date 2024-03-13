@@ -1,0 +1,21 @@
+==============================
+Reporte de gastos (yyyy:mm:dd)
+==============================
+
+------------------------------
+ID: (id)
+Título: (titulo)
+Descripción: (descripción)
+Monto ($): (monto)
+Fecha: (yyyy:mm:dd)
+ID Empleado: (id empleado)
+-----------------------------------
+Presupuesto ($): (presupuesto)
+Gasto total($): (gasto total)
+Total restante($): (total restante)
+-----------------------------------
+
+Reporte generado en: yyyy:mm:dd :hh:mm por el administrador (id admin).
+
+NO BORRAR PORFA XD
+ATTE. Gonzalo :sunglass_emoji:
