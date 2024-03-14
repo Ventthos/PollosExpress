@@ -283,8 +283,9 @@ class ProductosInterface(QWidget, Ui_Form):
         pantallaCarga = LoadingScreen()
         pantallaCarga.show()
         QApplication.processEvents()
+        codigoDrive = self.productoActivo.driveCode
         self.__productManager.Delete(self.productoActivo.id)
-        hilo = threading.Thread(target=self.__productManager.DeleteImage, args=[self.productoActivo.driveCode])
+        hilo = threading.Thread(target=self.__productManager.DeleteImage, args=[codigoDrive])
         hilo.start()
         self.productoActivo= None
         self.__updateProductos()
