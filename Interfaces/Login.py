@@ -47,9 +47,4 @@ class Login(Ui_MainWindow, QtWidgets.QMainWindow):
         messagebox.showerror("Error", "Debe rellenar todos los campos")
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    ui = Login()
-    ui.show()
-    sys.exit(app.exec_())
+kk
