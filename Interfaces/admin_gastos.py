@@ -74,7 +74,7 @@ class Admin_Gastos(QMainWindow):
         self.restablecer_button.clicked.connect(self.solicitar_contrasena)
         
         # Botón para generar reporte
-        self.generar_reporte_button = QPushButton('Generar Reporte')
+        self.generar_reporte_button = QPushButton('Generar Reporte de Gastos')
         self.generar_reporte_button.setStyleSheet("background-color: #6495ED; color: white; font-weight: bold;")
         self.generar_reporte_button.clicked.connect(self.generar_reporte)
         
@@ -108,14 +108,14 @@ class Admin_Gastos(QMainWindow):
         buttons_layout.addWidget(self.editar_button)
         buttons_layout.addWidget(self.eliminar_button)
 
-        form_layout.addRow(buttons_layout)  # Agregar el layout horizontal de los botones
+        form_layout.addRow(buttons_layout)
         
         # Agregar los botones "Generar Reporte" y "Restablecer" en la misma fila
         report_reset_buttons_layout = QHBoxLayout()
         report_reset_buttons_layout.addWidget(self.generar_reporte_button)
         report_reset_buttons_layout.addWidget(self.restablecer_button)
 
-        form_layout.addRow(report_reset_buttons_layout)  # Agregar el layout horizontal de los botones
+        form_layout.addRow(report_reset_buttons_layout)
 
         # Crear un diseño horizontal para la barra de búsqueda y el botón de actualización
         search_layout = QHBoxLayout()
@@ -188,7 +188,7 @@ class Admin_Gastos(QMainWindow):
                 self.table.setItem(row_number, column_number, item)
                 
                 # Sumar el monto al gasto total
-                if column_number == 3:  # La columna del monto es la cuarta (índice 3)
+                if column_number == 3:
                     gasto_total += float(data)
 
         # Configurar manualmente el ancho de las columnas
@@ -302,6 +302,7 @@ class Admin_Gastos(QMainWindow):
         self.titulo_edit.setText(titulo)
         self.descripcion_edit.setText(descripcion)
         self.monto_edit.setText(monto)
+
         # Convertir la fecha al formato correcto para el QDateTimeEdit
         fecha_datetime = QDateTime.fromString(fecha, "yyyy-MM-dd hh:mm:ss")
         self.fecha_edit.setDateTime(fecha_datetime)
@@ -407,18 +408,14 @@ class Admin_Gastos(QMainWindow):
             QMessageBox.information(self, 'Éxito', 'La tabla ha sido restablecida exitosamente.')
 
     def actualizar_lista(self):
-        # Cargamos los datos nuevamente
         self.cargar_datos()
-        # Mensaje de los datos actualizados
         QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
-        # Limpiamos la barra de búsqueda
         self.busqueda_edit.clear()
 
     def establecer_fecha_actual(self):
         self.fecha_edit.setDateTime(QDateTime.currentDateTime())
 
     def calcular_diferencia(self):
-        # Obtener el valor del presupuesto
         presupuesto_text = self.presupuesto_edit.text()
 
         # Verificar si el formato del presupuesto es válido
@@ -468,7 +465,7 @@ class Admin_Gastos(QMainWindow):
             reporte_content += f"Gasto total ($): {self.gasto_total_edit.text()}\n"
             reporte_content += f"Total restante ($): {self.total_restante_edit.text()}\n"
             reporte_content += f"{'-' * 30}\n\n"
-            reporte_content += f"Reporte generado en: {fecha_actual} por el administrador {id_administrador}."
+            reporte_content += f"Reporte generado en: {fecha_actual} por el administrador con el ID {id_administrador}."
 
             # Guardar el reporte en un archivo de texto
             nombre_archivo = f"{carpeta_reportes}/Reporte_de_gastos_{fecha_actual.replace(':', '')}.txt"
