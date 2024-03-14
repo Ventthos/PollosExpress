@@ -130,11 +130,12 @@ INSERT INTO pago(nombre) VALUES("Efectivo");
 
 DROP TABLE IF EXISTS inventario;
 
-CREATE TABLE inventario(
-	id_producto INT NOT NULL AUTO_INCREMENT,
-    entrada INT,
-    salida INT,
-    en_existencias INT,
-    reponer BOOL,
-    PRIMARY KEY(id_producto)
+CREATE TABLE inventario (
+    id_producto INT NOT NULL,
+    nombre_producto NVARCHAR(100) NOT NULL,
+    unidad VARCHAR(3) NOT NULL,
+    cantidad INT NOT NULL,
+    estado BOOLEAN NOT NULL,
+    PRIMARY KEY(id_producto),
+    FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
 );
