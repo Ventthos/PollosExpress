@@ -224,6 +224,7 @@ class ProductosInterface(QWidget, Ui_Form):
                     ids.append((int(self.table_productos_paquete.item(i, 3).text()),
                                int(self.table_productos_paquete.cellWidget(i, 1).text())))
                 self.__productManager.agregarProductosPaquete(ultimoProducto, ids)
+            self.createProductoInInventory()
             self.__updateProductos()
             self.configure_agregar_producto()
             pantallaCarga = None
@@ -301,6 +302,18 @@ class ProductosInterface(QWidget, Ui_Form):
             self.hasChangedImage = True
             self.activeImage = ruta
             self.imagen_producto_producto.setPixmap(QtGui.QPixmap(self.activeImage))
+
+    def createProductoInInventory(self):
+        self.__conection.reconnect()
+        self.__conection.commit()
+        query1 = "SELECT id_producto, nombre FROM producto WHERE id_producto = (SELECT MAX(id_producto) FROM producto);"
+        self.cursor.execute(query1)
+        producto = self.cursor.fetchone()
+        self.__conection.reconnect()
+        query = f"INSERT INTO inventario VALUES(%s, %s, %s, %s, %s)"
+        datos = (producto[0], producto[1], "--", 0, 0)
+        self.cursor.execute(query, datos)
+        self.__conection.commit()
 
 
 if __name__ == "__main__":
