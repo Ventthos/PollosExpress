@@ -101,11 +101,12 @@ class VentaWidget(QtWidgets.QWidget):
             self.validador.BuscarPromocionesRelacionadas(values)
             for i in range(4):
                 self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
+
             # Calcular el total actual sumando el subtotal actual al total anterior
             total_anterior = 0.0
             if row_count > 0:  # Verificar si hay filas anteriores en la tabla
                 total_anterior = float(self.table.item(row_count - 1, 4).text())  # Obtener el total de la fila anterior
-            total_actual = total_anterior + subtotal_actual
+            total_actual = total_anterior + float(values[3])
 
             # Agregar el total actual a la tabla
             self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))

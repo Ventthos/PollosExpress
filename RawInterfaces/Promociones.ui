@@ -165,10 +165,14 @@ color: white;
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>238</width>
-            <height>622</height>
+            <width>308</width>
+            <height>612</height>
            </rect>
           </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout"/>
          </widget>
         </widget>
        </item>
@@ -185,7 +189,7 @@ color: white;
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>400</width>
+        <width>300</width>
         <height>200</height>
        </size>
       </property>
@@ -209,7 +213,134 @@ color: white;
        <property name="horizontalSpacing">
         <number>6</number>
        </property>
-       <item row="3" column="0">
+       <item row="6" column="0">
+        <spacer name="EspacioPromocionV">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Maximum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0">
+        <layout class="QGridLayout" name="GridBotonesAgregarQuitar">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="EditarPromocionButton">
+           <property name="text">
+            <string>Editar Promocion</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="BorrarPromocionBoton">
+           <property name="text">
+            <string>Borrar Promocion</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <widget class="QTextEdit" name="textodescripcion">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>10</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="cursor" stdset="0">
+          <cursorShape>IBeamCursor</cursorShape>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="topMargin">
+          <number>50</number>
+         </property>
+         <property name="bottomMargin">
+          <number>50</number>
+         </property>
+         <item row="2" column="1">
+          <widget class="QRadioButton" name="SabadoButton">
+           <property name="text">
+            <string>Sábado</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="LunesButton">
+           <property name="text">
+            <string>Lunes</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QRadioButton" name="MartesButton">
+           <property name="text">
+            <string>Martes</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QRadioButton" name="MiercolesButton">
+           <property name="text">
+            <string>Miercoles</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QRadioButton" name="DomingoButton">
+           <property name="text">
+            <string>Domingo</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QRadioButton" name="ViernesButton">
+           <property name="text">
+            <string>Viernes</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QRadioButton" name="JuevesButton">
+           <property name="text">
+            <string>Jueves</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="0">
         <layout class="QGridLayout" name="gridPromocionesDatos">
          <item row="0" column="0">
           <layout class="QGridLayout" name="GridDatos">
@@ -219,50 +350,7 @@ color: white;
            <property name="topMargin">
             <number>100</number>
            </property>
-           <item row="3" column="1">
-            <widget class="QDateEdit" name="FechaFinalBox">
-             <property name="displayFormat">
-              <string>yyyy/MM/dd</string>
-             </property>
-             <property name="calendarPopup">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QDateEdit" name="FechaInicioBox">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::UpDownArrows</enum>
-             </property>
-             <property name="displayFormat">
-              <string>yyyy/MM/dd</string>
-             </property>
-             <property name="calendarPopup">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="TipoPromocionBox"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">#label{
-color: white;
-}</string>
-             </property>
-             <property name="text">
-              <string>Producto relacionado:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
             <widget class="QLabel" name="LabelTipoPromocion">
              <property name="font">
               <font>
@@ -279,30 +367,20 @@ color: white;
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="LabelFechaFinal">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
+           <item row="2" column="0">
+            <widget class="QComboBox" name="PromocionBox"/>
+           </item>
+           <item row="4" column="1">
+            <widget class="QDateEdit" name="FechaFinalBox">
+             <property name="displayFormat">
+              <string>yyyy/MM/dd</string>
              </property>
-             <property name="styleSheet">
-              <string notr="true">#LabelFechaFinal{
-color: white;
-}</string>
-             </property>
-             <property name="text">
-              <string>Fecha final</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+             <property name="calendarPopup">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QComboBox" name="PromocionBox"/>
-           </item>
-           <item row="2" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="labelFechaInicio">
              <property name="font">
               <font>
@@ -322,6 +400,59 @@ color: white;
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="LabelFechaFinal">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#LabelFechaFinal{
+color: white;
+}</string>
+             </property>
+             <property name="text">
+              <string>Fecha final</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QDateEdit" name="FechaInicioBox">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::UpDownArrows</enum>
+             </property>
+             <property name="displayFormat">
+              <string>yyyy/MM/dd</string>
+             </property>
+             <property name="calendarPopup">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="TipoPromocionBox"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#label{
+color: white;
+}</string>
+             </property>
+             <property name="text">
+              <string>Producto relacionado:</string>
              </property>
             </widget>
            </item>
@@ -352,53 +483,6 @@ color: white;
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <layout class="QGridLayout" name="GridBotonesAgregarQuitar">
-         <item row="0" column="0">
-          <widget class="QPushButton" name="EditarPromocionButton">
-           <property name="text">
-            <string>Editar Promocion</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="BorrarPromocionBoton">
-           <property name="text">
-            <string>Borrar Promocion</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="4" column="0">
-        <spacer name="EspacioPromocionV">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Maximum</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="0">
-        <widget class="QTextEdit" name="textodescripcion">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>10</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="cursor" stdset="0">
-          <cursorShape>IBeamCursor</cursorShape>
          </property>
         </widget>
        </item>

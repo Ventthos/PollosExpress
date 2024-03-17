@@ -76,8 +76,7 @@ class Validador:
                   "0.0",
                   "0.0"]
         for i in range(4):
-            self.table.setItem(self.row_count, i, QtWidgets.QTableWidgetItem(values[i]))
-
+            self.table.setItem(self.row_count, i, QtWidgets.QTableWidgetItem(values[i])).
     def encontrarFila(self):
         for result in self.Promociones:
             texto_busqueda = result[4].strip().lower()
