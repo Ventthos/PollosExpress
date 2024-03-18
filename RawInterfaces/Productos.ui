@@ -141,7 +141,7 @@
 	background-color: #FFFFFF;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
-	color: white;
+	color: black;
 	padding: 4px;
 }</string>
               </property>
@@ -172,8 +172,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>306</width>
-              <height>452</height>
+              <width>310</width>
+              <height>468</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -262,8 +262,8 @@ padding:8px;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>473</width>
-              <height>737</height>
+              <width>477</width>
+              <height>676</height>
              </rect>
             </property>
             <property name="styleSheet">

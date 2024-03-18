@@ -21,12 +21,17 @@ class ProductosInterface(QWidget, Ui_Form):
             password="$ShotGunKin0805",
             database="u119126_pollos2LaVengazaDelPollo"
         )
+
+        # Lista Productos
+        self.productos = []
+
         self.cursor = self.__conection.cursor()
         self.__productManager = CrudProducto(conection=self.__conection)
         self.setupUi(self)
         self.verticalLayout_6.setAlignment(QtCore.Qt.AlignTop)
         self.scrollArea_producto.hide()
         self.__updateProductos()
+
 
         #solo para saber que imagen esta activa y que producto
         self.activeImage = ""
@@ -60,6 +65,10 @@ class ProductosInterface(QWidget, Ui_Form):
         # Para editar producto
         self.editar_producto.clicked.connect(self.editProducto)
 
+        # Linkear para buscar
+        self.barraBusqueda_Productos.textChanged.connect(self.buscarProducto)
+
+
     def downloadImages(self, listaWigets: list[ImageFrame]):
         for widget in listaWigets:
             widgetData:Producto = widget.data
@@ -73,10 +82,11 @@ class ProductosInterface(QWidget, Ui_Form):
         for file in os.listdir("../img/userImages"):
             f = os.path.join("../img/userImages", file)
             os.remove(f)
-
+        self.productos.clear()
         productos:list[Producto] = self.__productManager.ReadSimplified()
         listaWidgetsParaImagenes = []
         for producto in productos:
+            self.productos.append(producto)
             nuevoElemento = ImageFrame(producto.nombre, data=producto)
             nuevoElemento.add_event(self.showProducto)
             self.verticalLayout_6.addWidget(nuevoElemento)
@@ -315,6 +325,22 @@ class ProductosInterface(QWidget, Ui_Form):
         self.cursor.execute(query, datos)
         self.__conection.commit()
 
+    def buscarProducto(self):
+        for widget in range(self.verticalLayout_6.count()-1,-1, -1):
+            self.verticalLayout_6.itemAt(widget).widget().hide()
+            self.verticalLayout_6.removeWidget(self.verticalLayout_6.itemAt(widget).widget())
+
+        if self.barraBusqueda_Productos.text() != "":
+            for producto in self.productos:
+                if self.barraBusqueda_Productos.text().lower() in producto.nombre.lower():
+                    newElement = ImageFrame(f"{producto.nombre}", producto, producto.imagen)
+                    newElement.add_event(self.showProducto)
+                    self.verticalLayout_6.addWidget(newElement)
+        else:
+            for producto in self.productos:
+                newElement = ImageFrame(f"{producto.nombre}", producto, producto.imagen)
+                newElement.add_event(self.showProducto)
+                self.verticalLayout_6.addWidget(newElement)
 
 if __name__ == "__main__":
     import sys

@@ -87,7 +87,7 @@ class Ui_Form(object):
 "    background-color: #FFFFFF;\n"
 "    border-top-right-radius: 10px;\n"
 "    border-bottom-right-radius: 10px;\n"
-"    color: white;\n"
+"    color: black;\n"
 "    padding: 4px;\n"
 "}")
         self.barraBusqueda_Productos.setObjectName("barraBusqueda_Productos")
@@ -100,7 +100,7 @@ class Ui_Form(object):
         self.scrollArea_productos.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea_productos.setObjectName("scrollArea_productos")
         self.scrollAreaWidgetContents_productos = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 306, 452))
+        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 310, 468))
         self.scrollAreaWidgetContents_productos.setObjectName("scrollAreaWidgetContents_productos")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_productos)
         self.verticalLayout_6.setContentsMargins(6, -1, 6, -1)
@@ -139,7 +139,7 @@ class Ui_Form(object):
         self.scrollArea_producto.setWidgetResizable(True)
         self.scrollArea_producto.setObjectName("scrollArea_producto")
         self.scrollArea_producto_contents = QtWidgets.QWidget()
-        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 473, 737))
+        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 477, 676))
         self.scrollArea_producto_contents.setStyleSheet("#scrollArea_producto_contents{\n"
 "    background-color: white;\n"
 "}\n"

@@ -21,7 +21,13 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.background = QtWidgets.QWidget(Form)
         self.background.setStyleSheet("#background{\n"
-"    background-color:#133259;\n"
+"    background-color: #133259;\n"
+"}\n"
+"\n"
+"#background QPushButton{\n"
+"    border-radius: 6px;\n"
+"padding: 6px;\n"
+"\n"
 "}")
         self.background.setObjectName("background")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background)
@@ -31,9 +37,8 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.listado = QtWidgets.QWidget(self.background)
         self.listado.setStyleSheet("#listado{\n"
-"    background-color: rgba(255, 255, 255, 210);\n"
+"    background-color: white;\n"
 "    border-radius: 14px;\n"
-"    \n"
 "}\n"
 "\n"
 "#listado QPushButton {\n"
@@ -97,7 +102,7 @@ class Ui_Form(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 275, 460))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 275, 462))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -130,6 +135,7 @@ class Ui_Form(object):
         self.datos_widget.setStyleSheet("#datos_widget{\n"
 "    background-color: white;\n"
 "    border-radius: 14px;\n"
+"\n"
 "}\n"
 "\n"
 "#datos_widget QPushButton{\n"
@@ -147,7 +153,7 @@ class Ui_Form(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.groupBox = QtWidgets.QGroupBox(self.datos_widget)
         self.groupBox.setStyleSheet("#groupBox QLineEdit {\n"
-"    background-color: #013a70;\n"
+"    background-color: #185791;\n"
 "    padding: 4px;\n"
 "    color: white;\n"
 "    border: 1px solid red ;\n"
@@ -186,7 +192,7 @@ class Ui_Form(object):
         self.verticalLayout_4.addWidget(self.groupBox)
         self.frame_2 = QtWidgets.QFrame(self.datos_widget)
         self.frame_2.setStyleSheet("#frame_2 QLineEdit {\n"
-"    background-color: #013a70;\n"
+"    background-color: #185791;\n"
 "    padding: 4px;\n"
 "    color: white;\n"
 "    border-bottom: 1px solid red;\n"
@@ -197,7 +203,7 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "#frame_2 QLabel{\n"
-"    background-color: #013a70;\n"
+"    background-color: #185791;\n"
 "    padding: 4px;\n"
 "    border-bottom-left-radius: 6px;\n"
 "    border-top-left-radius: 6px;\n"
@@ -261,7 +267,7 @@ class Ui_Form(object):
         self.verticalLayout_4.addLayout(self.formLayout_4)
         self.groupBox_2 = QtWidgets.QGroupBox(self.datos_widget)
         self.groupBox_2.setStyleSheet("#groupBox_2 QLineEdit {\n"
-"    background-color: #013a70;\n"
+"    background-color: #185791;\n"
 "    padding: 4px;\n"
 "    color: white;\n"
 "    border: 1px solid red;\n"
@@ -292,6 +298,7 @@ class Ui_Form(object):
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_3 = QtWidgets.QPushButton(self.datos_widget)
+        self.pushButton_3.setStyleSheet("")
         self.pushButton_3.setObjectName("pushButton_3")
         self.horizontalLayout_3.addWidget(self.pushButton_3)
         self.pushButton_2 = QtWidgets.QPushButton(self.datos_widget)
