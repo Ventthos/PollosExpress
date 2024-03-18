@@ -25,38 +25,6 @@ class Admin_Ventas(QMainWindow):
         self.resize(1200, 700)
         self.setWindowIcon(QIcon('../img/logo.ico'))
 
-        # Crear widgets para la primera tabla (venta)
-        self.fecha_label = QLabel('Fecha:')
-        self.fecha_edit = QDateTimeEdit()
-        self.fecha_edit.setDateTime(QDateTime.currentDateTime())
-        self.fecha_edit.setDisplayFormat("yyyy-MM-dd HH:mm")
-
-        self.id_producto_label = QLabel('ID Producto:')
-        self.id_producto_edit = QLineEdit()
-
-        self.cantidad_label = QLabel('Cantidad:')
-        self.cantidad_edit = QLineEdit()
-
-        self.precio_unitario_label = QLabel('Precio Unitario ($):')
-        self.precio_unitario_edit = QLineEdit()
-
-        self.calcular_total_button = QPushButton('Calcular Total')
-        self.calcular_total_button.clicked.connect(self.calcular_total)
-        self.calcular_total_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
-
-        self.total_venta_label = QLabel('Total Venta ($):')
-        self.total_venta_edit = QLineEdit()
-        self.total_venta_edit.setReadOnly(True)
-
-        # Diseño del formulario para la primera tabla (venta)
-        form_layout = QFormLayout()
-        form_layout.addRow(self.fecha_label, self.fecha_edit)
-        form_layout.addRow(self.id_producto_label, self.id_producto_edit)
-        form_layout.addRow(self.cantidad_label, self.cantidad_edit)
-        form_layout.addRow(self.precio_unitario_label, self.precio_unitario_edit)
-        form_layout.addRow(self.calcular_total_button)
-        form_layout.addRow(self.total_venta_label, self.total_venta_edit)
-
         # Crear widget de tabla para la primera tabla (venta)
         self.table_venta = QTableWidget()
         self.table_venta.setColumnCount(6)
@@ -68,47 +36,31 @@ class Admin_Ventas(QMainWindow):
         self.table_venta_producto.setColumnCount(4)
         self.table_venta_producto.setHorizontalHeaderLabels(['ID Venta Producto', 'Cantidad', 'ID Venta', 'ID Producto'])
 
-        # Crear layout principal
-        main_layout = QVBoxLayout()
-        main_layout.addLayout(form_layout)
-        main_layout.addWidget(self.table_venta)
-        main_layout.addWidget(self.table_venta_producto)
-
         # Crear botón para actualizar los datos
         self.actualizar_button = QPushButton('Actualizar Datos')
         self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.actualizar_button.clicked.connect(self.actualizar_lista)
 
-        # Agregar el botón de actualizar al final del layout principal
-        main_layout.addWidget(self.actualizar_button)
-
-        # Agregar botón para eliminar ventas
+        # Crear botón para eliminar ventas
         self.eliminar_venta_button = QPushButton('Eliminar Venta')
         self.eliminar_venta_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
         self.eliminar_venta_button.clicked.connect(self.eliminar_venta)
-        main_layout.addWidget(self.eliminar_venta_button)
+
+        # Crear layout para los botones de actualizar y eliminar
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(self.actualizar_button)
+        button_layout.addWidget(self.eliminar_venta_button)
+
+        # Crear layout principal
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.table_venta)
+        main_layout.addWidget(self.table_venta_producto)
+        main_layout.addLayout(button_layout)  # Agregar el layout de botones al layout principal
 
         # Crear widget central y establecer el diseño
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
-
-    def calcular_total(self):
-        cantidad = self.cantidad_edit.text()
-        precio_unitario = self.precio_unitario_edit.text()
-
-        if not cantidad or not precio_unitario:
-            QMessageBox.warning(self, 'Advertencia', 'Por favor, ingresa la cantidad y el precio unitario.')
-            return
-
-        if not cantidad.isdigit() or not precio_unitario.replace('.', '', 1).isdigit():
-            QMessageBox.warning(self, 'Advertencia', 'La cantidad y el precio unitario deben ser números enteros o decimales.')
-            return
-
-        cantidad = int(cantidad)
-        precio_unitario = float(precio_unitario)
-        total_venta = cantidad * precio_unitario
-        self.total_venta_edit.setText(str(total_venta))
 
     def cargar_ventas(self):
         cursor = self.__connection.cursor()
@@ -141,7 +93,7 @@ class Admin_Ventas(QMainWindow):
 
     def actualizar_lista(self):
         self.cargar_ventas()
-        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
+        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
 
     def seleccionar_venta(self, row, column):
         self.selected_venta_id = self.table_venta.item(row, 0).text()
@@ -152,9 +104,17 @@ class Admin_Ventas(QMainWindow):
             return
 
         cursor = self.__connection.cursor()
+
+        # Eliminar registros de venta_producto asociados a la venta seleccionada
+        delete_venta_producto_query = "DELETE FROM venta_producto WHERE id_venta = %s"
+        cursor.execute(delete_venta_producto_query, (self.selected_venta_id,))
+        self.__connection.commit()
+
+        # Ahora puedes eliminar la venta seleccionada
         delete_query = "DELETE FROM venta WHERE id_venta = %s"
         cursor.execute(delete_query, (self.selected_venta_id,))
         self.__connection.commit()
+
         cursor.close()
 
         self.cargar_ventas()
