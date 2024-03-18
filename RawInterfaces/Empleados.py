@@ -20,10 +20,10 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.background = QtWidgets.QWidget(Form)
-        self.background.setStyleSheet("#background-Empleado{\n"
-"    border-image: url(../img/Empleado.png);\n"
+        self.background.setStyleSheet("#background{\n"
+"    background-color:#133259;\n"
 "}")
-        self.background.setObjectName("background-Empleado")
+        self.background.setObjectName("background")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background)
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout.setContentsMargins(20, 20, 20, 20)
@@ -34,6 +34,17 @@ class Ui_Form(object):
 "    background-color: rgba(255, 255, 255, 210);\n"
 "    border-radius: 14px;\n"
 "    \n"
+"}\n"
+"\n"
+"#listado QPushButton {\n"
+"    background-color: #e73a4b;\n"
+"    color: white;\n"
+"    font-weight: bold;\n"
+"padding:8px;\n"
+"}\n"
+"\n"
+"#listado QPushButton:hover {\n"
+"    background-color: #EC5B69;\n"
 "}")
         self.listado.setObjectName("listado")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.listado)
@@ -86,7 +97,7 @@ class Ui_Form(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 271, 453))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 275, 460))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -94,20 +105,16 @@ class Ui_Form(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.addWidget(self.scrollArea)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.agregar_empleado = QtWidgets.QPushButton(self.listado)
-        self.agregar_empleado.setStyleSheet("\n"
-"#agregar_empleado {\n"
-"    background-color: #e73a4b;\n"
-"    color: white;\n"
-"    font-weight: bold;\n"
-"padding:8px;\n"
-"}\n"
-"\n"
-"#agregar_empleado:hover {\n"
-"    background-color: #EC5B69;\n"
-"}")
+        self.agregar_empleado.setStyleSheet("")
         self.agregar_empleado.setObjectName("agregar_empleado")
-        self.verticalLayout_2.addWidget(self.agregar_empleado)
+        self.horizontalLayout_4.addWidget(self.agregar_empleado, 0, QtCore.Qt.AlignLeft)
+        self.BotonRefrescar = QtWidgets.QPushButton(self.listado)
+        self.BotonRefrescar.setObjectName("BotonRefrescar")
+        self.horizontalLayout_4.addWidget(self.BotonRefrescar, 0, QtCore.Qt.AlignRight)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         self.horizontalLayout.addWidget(self.listado)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
@@ -306,6 +313,7 @@ class Ui_Form(object):
         self.iconoBuscar.setText(_translate("Form", "aaaaa"))
         self.barraBusqueda.setPlaceholderText(_translate("Form", "Buscar Empleado"))
         self.agregar_empleado.setText(_translate("Form", "Agregar empleado"))
+        self.BotonRefrescar.setText(_translate("Form", "Actualizar"))
         self.groupBox.setTitle(_translate("Form", "Nombre"))
         self.nombre_label.setText(_translate("Form", "Nombre(s):"))
         self.apellido_p_label.setText(_translate("Form", "Apellido paterno:"))

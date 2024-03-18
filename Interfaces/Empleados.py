@@ -32,6 +32,7 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         self.__roles = []
         self.__empleadoActivo = None
+        self.empleados = []
 
         # Coso para poder agregar empleados
         self.agregarBoton = QtWidgets.QPushButton()
@@ -47,8 +48,15 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         self.agregar_empleado.clicked.connect(self.__configure_aregar_empleado)
 
-
+        # Cargar todos los elementos
         self.__updateEmpleados()
+
+        # Habilitar la funcion de elementos
+        self.barraBusqueda.textChanged.connect(self.buscarEmpleado)
+
+        # Habilitar actualización de datos manuales
+        self.BotonRefrescar.clicked.connect(self.actualizarConWarnig)
+
 
     def __createEmpleadoObject(self) -> Empleado:
         if self.lineEdit_3.text() == "":
@@ -111,6 +119,7 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         empleados = self.__userManager.Read()
         for empleado in empleados:
+            self.empleados.append(empleado)
             if empleado.activo == 'V':
                 newElement = NoImageFrame(f"{empleado.getNombre()} {empleado.getApellido_paterno()} "
                                           f"{empleado.getApellido_materno()}", empleado)
@@ -200,6 +209,28 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         pantallaCarga = None
         messagebox.showinfo(title="Operación completada", message="El empleado ha sido eliminado con éxito")
 
+    def buscarEmpleado(self):
+        for widget in range(self.verticalLayout_6.count()-1,-1, -1):
+            self.verticalLayout_6.itemAt(widget).widget().hide()
+            self.verticalLayout_6.removeWidget(self.verticalLayout_6.itemAt(widget).widget())
+
+        if self.barraBusqueda.text() != "":
+            for empleado in self.empleados:
+                if self.barraBusqueda.text().lower() in empleado.getNombre().lower():
+                    newElement = NoImageFrame(f"{empleado.getNombre()} {empleado.getApellido_paterno()} "
+                                              f"{empleado.getApellido_materno()}", empleado)
+                    newElement.add_event(self.__show_empleado)
+                    self.verticalLayout_6.addWidget(newElement)
+        else:
+            for empleado in self.empleados:
+                newElement = NoImageFrame(f"{empleado.getNombre()} {empleado.getApellido_paterno()} "
+                                          f"{empleado.getApellido_materno()}", empleado)
+                newElement.add_event(self.__show_empleado)
+                self.verticalLayout_6.addWidget(newElement)
+
+    def actualizarConWarnig(self):
+        self.__updateEmpleados()
+        messagebox.showinfo("Actualizado", "Los datos del programa han sido actualizados")
 
 if __name__ == "__main__":
     import sys
