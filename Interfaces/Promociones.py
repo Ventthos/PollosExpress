@@ -12,6 +12,7 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         super().__init__()
         Ui_MainWindow.setupUi(self, self)
         #Diseño bonito
+        """""
         self.GridPromociones1.setStyleSheet("#GridPromociones1 { "
                                             "border-radius: 10px;"
                                             "background-color: rgba(255,255,255,0.5);"
@@ -23,6 +24,8 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.FondoPromociones.setStyleSheet("#FondoPromocionesyr {"
                                          "border-image: url(../img/promociones.jpg);"
                                          "}")
+        
+        """""
         self.connection = mysql.connector.connect(
             user="u119126_pollos2LaVengazaDelPollo",
             host="174.136.28.78",

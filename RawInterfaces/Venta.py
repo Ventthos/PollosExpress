@@ -14,49 +14,82 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1102, 621)
+        MainWindow.resize(1096, 621)
         self.WidgetVentaTotal = QtWidgets.QWidget(MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.WidgetVentaTotal.sizePolicy().hasHeightForWidth())
         self.WidgetVentaTotal.setSizePolicy(sizePolicy)
+        self.WidgetVentaTotal.setStyleSheet("#WidgetVentaTotal{\n"
+"    background-color: #010c54;\n"
+"}")
         self.WidgetVentaTotal.setObjectName("WidgetVentaTotal")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.WidgetVentaTotal)
+        self.horizontalLayout_2.setContentsMargins(-1, 15, 15, 15)
+        self.horizontalLayout_2.setSpacing(16)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.scrollAreaProducto = QtWidgets.QScrollArea(self.WidgetVentaTotal)
         self.scrollAreaProducto.setStyleSheet("#scrollAreaProducto {\n"
-"background-color: rgba(255,255,255,0.5);\n"
+"background-color: #e7e7e5;\n"
 "}")
+        self.scrollAreaProducto.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.scrollAreaProducto.setWidgetResizable(True)
         self.scrollAreaProducto.setObjectName("scrollAreaProducto")
         self.scrollAreaContentsProductos = QtWidgets.QWidget()
-        self.scrollAreaContentsProductos.setGeometry(QtCore.QRect(0, 0, 537, 550))
+        self.scrollAreaContentsProductos.setGeometry(QtCore.QRect(0, 0, 525, 589))
+        self.scrollAreaContentsProductos.setStyleSheet("")
         self.scrollAreaContentsProductos.setObjectName("scrollAreaContentsProductos")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaContentsProductos)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.scrollAreaProducto.setWidget(self.scrollAreaContentsProductos)
         self.horizontalLayout_2.addWidget(self.scrollAreaProducto)
         self.WidgetVentaTabla = QtWidgets.QWidget(self.WidgetVentaTotal)
         self.WidgetVentaTabla.setStyleSheet("#WidgetVentaTabla {\n"
-"background-color: rgba(255,255,255,0.5)\n"
+"    background-color: #185791;\n"
+"    border-radius: 12px;\n"
 "}")
         self.WidgetVentaTabla.setObjectName("WidgetVentaTabla")
         self.LayoutVenta = QtWidgets.QVBoxLayout(self.WidgetVentaTabla)
         self.LayoutVenta.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.LayoutVenta.setContentsMargins(10, 10, 10, 10)
+        self.LayoutVenta.setContentsMargins(20, 20, 20, 20)
         self.LayoutVenta.setSpacing(20)
         self.LayoutVenta.setObjectName("LayoutVenta")
-        self.Venta = QtWidgets.QLabel(self.WidgetVentaTabla)
+        self.WidgetInteriorVentaTabla = QtWidgets.QWidget(self.WidgetVentaTabla)
+        self.WidgetInteriorVentaTabla.setStyleSheet("#WidgetInteriorVentaTabla{\n"
+"    border: 3px solid white;\n"
+"}")
+        self.WidgetInteriorVentaTabla.setObjectName("WidgetInteriorVentaTabla")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.WidgetInteriorVentaTabla)
+        self.verticalLayout_2.setContentsMargins(7, 7, 7, 7)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.Venta = QtWidgets.QLabel(self.WidgetInteriorVentaTabla)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Venta.setFont(font)
+        self.Venta.setStyleSheet("#Venta{\n"
+"    color: white;\n"
+"    font-weight: bold;\n"
+"}")
         self.Venta.setScaledContents(False)
         self.Venta.setAlignment(QtCore.Qt.AlignCenter)
         self.Venta.setObjectName("Venta")
-        self.LayoutVenta.addWidget(self.Venta)
-        self.TablaVenta = QtWidgets.QTableWidget(self.WidgetVentaTabla)
+        self.verticalLayout_2.addWidget(self.Venta)
+        self.TablaVenta = QtWidgets.QTableWidget(self.WidgetInteriorVentaTabla)
+        self.TablaVenta.setStyleSheet("QHeaderView::section {\n"
+"    background-color: #f1473a;\n"
+"    color: white;\n"
+"    font-weight: bold;\n"
+"    border: 1px solid white;\n"
+"}")
         self.TablaVenta.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.TablaVenta.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.TablaVenta.setLineWidth(1)
         self.TablaVenta.setMidLineWidth(1)
+        self.TablaVenta.setColumnCount(4)
         self.TablaVenta.setObjectName("TablaVenta")
-        self.TablaVenta.setColumnCount(5)
         self.TablaVenta.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.TablaVenta.setHorizontalHeaderItem(0, item)
@@ -66,21 +99,56 @@ class Ui_MainWindow(object):
         self.TablaVenta.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.TablaVenta.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaVenta.setHorizontalHeaderItem(4, item)
-        self.LayoutVenta.addWidget(self.TablaVenta)
-        self.pushButton = QtWidgets.QPushButton(self.WidgetVentaTabla)
+        self.verticalLayout_2.addWidget(self.TablaVenta)
+        self.widgetTotal = QtWidgets.QWidget(self.WidgetInteriorVentaTabla)
+        self.widgetTotal.setStyleSheet("#widgetTotal QLabel{\n"
+"    color: white;\n"
+"    font-weight: bold;\n"
+"}")
+        self.widgetTotal.setObjectName("widgetTotal")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widgetTotal)
+        self.horizontalLayout.setContentsMargins(0, 11, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.labelPrecioTotal = QtWidgets.QLabel(self.widgetTotal)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.labelPrecioTotal.setFont(font)
+        self.labelPrecioTotal.setObjectName("labelPrecioTotal")
+        self.horizontalLayout.addWidget(self.labelPrecioTotal)
+        self.LabelPrecioTotalDecimal = QtWidgets.QLabel(self.widgetTotal)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.LabelPrecioTotalDecimal.setFont(font)
+        self.LabelPrecioTotalDecimal.setObjectName("LabelPrecioTotalDecimal")
+        self.horizontalLayout.addWidget(self.LabelPrecioTotalDecimal, 0, QtCore.Qt.AlignRight)
+        self.verticalLayout_2.addWidget(self.widgetTotal)
+        self.pushButton = QtWidgets.QPushButton(self.WidgetInteriorVentaTabla)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton.setFont(font)
+        self.pushButton.setStyleSheet("#pushButton{\n"
+"    color: white;\n"
+"    background-color: #f1473a;\n"
+"    border: none;\n"
+"    padding: 6px 24px;\n"
+"    border-radius: 8px;    \n"
+"    font-weight: bold;\n"
+"}\n"
+"\n"
+"#pushButton:Hover{\n"
+"    background-color: #C73A30;\n"
+"}")
         self.pushButton.setObjectName("pushButton")
-        self.LayoutVenta.addWidget(self.pushButton)
+        self.verticalLayout_2.addWidget(self.pushButton, 0, QtCore.Qt.AlignRight)
+        self.LayoutVenta.addWidget(self.WidgetInteriorVentaTabla)
         self.horizontalLayout_2.addWidget(self.WidgetVentaTabla)
         MainWindow.setCentralWidget(self.WidgetVentaTotal)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1102, 26))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -97,9 +165,9 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Precio"))
         item = self.TablaVenta.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Subtotal"))
-        item = self.TablaVenta.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Total"))
-        self.pushButton.setText(_translate("MainWindow", "Vender"))
+        self.labelPrecioTotal.setText(_translate("MainWindow", "Total"))
+        self.LabelPrecioTotalDecimal.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton.setText(_translate("MainWindow", "Pagar"))
 
 
 if __name__ == "__main__":
