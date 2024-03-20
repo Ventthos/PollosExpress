@@ -212,34 +212,6 @@
                  </layout>
                 </widget>
                </item>
-               <item alignment="Qt::AlignRight">
-                <widget class="QPushButton" name="pushButton">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#pushButton{
-	color: white;
-	background-color: #f1473a;
-	border: none;
-	padding: 6px 24px;
-	border-radius: 8px;	
-	font-weight: bold;
-}
-
-#pushButton:Hover{
-	background-color: #C73A30;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Pagar</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </item>

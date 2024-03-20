@@ -112,26 +112,6 @@ class Ui_Form(object):
         self.LabelPrecioTotalDecimal.setObjectName("LabelPrecioTotalDecimal")
         self.horizontalLayout_2.addWidget(self.LabelPrecioTotalDecimal, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addWidget(self.widgetTotal)
-        self.pushButton = QtWidgets.QPushButton(self.WidgetInteriorVentaTabla)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("#pushButton{\n"
-"    color: white;\n"
-"    background-color: #f1473a;\n"
-"    border: none;\n"
-"    padding: 6px 24px;\n"
-"    border-radius: 8px;    \n"
-"    font-weight: bold;\n"
-"}\n"
-"\n"
-"#pushButton:Hover{\n"
-"    background-color: #C73A30;\n"
-"}")
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout_2.addWidget(self.pushButton, 0, QtCore.Qt.AlignRight)
         self.LayoutVenta.addWidget(self.WidgetInteriorVentaTabla)
         self.verticalLayout_7.addWidget(self.WidgetVentaTabla)
         self.horizontalLayout.addWidget(self.widgetParaTabla)
@@ -256,7 +236,6 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Subtotal"))
         self.labelPrecioTotal.setText(_translate("Form", "Total"))
         self.LabelPrecioTotalDecimal.setText(_translate("Form", "$0"))
-        self.pushButton.setText(_translate("Form", "Pagar"))
         self.labelEfectivo.setText(_translate("Form", "Efectivo"))
         self.labelTotal.setText(_translate("Form", "Total:"))
         self.labelPagado.setText(_translate("Form", "Pagado:"))

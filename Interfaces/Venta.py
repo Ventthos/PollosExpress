@@ -30,7 +30,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
 
     def launchVenta(self):
         self.ventanaPago.show()
-        self.ventanaPago.setTable(self.TablaVenta)
+        self.ventanaPago.setTable(self.TablaVenta, self.LabelPrecioTotalDecimal.text())
 
     def LlenarDeProductos(self):
         resultados = self.productManager.ReadSimplified()
