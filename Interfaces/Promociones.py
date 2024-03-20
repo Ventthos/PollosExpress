@@ -39,7 +39,13 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.BorrarPromocionBoton.clicked.connect(lambda : self.borrarPromocion())
         self.EditarPromocionButton.clicked.connect((lambda : self.editarPromocion()))
         self.resetValues()
-
+        self.arregloBotonesDias = [self.DomingoButton,
+                                   self.LunesButton,
+                                   self.MartesButton,
+                                   self.MiercolesButton,
+                                   self.JuevesButton,
+                                   self.ViernesButton,
+                                   self.SabadoButton]
     def resetValues(self):
         self.textodescripcion.setText("")
         self.FechaInicioBox.setDate(QtCore.QDate.currentDate())
