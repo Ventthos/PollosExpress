@@ -166,7 +166,7 @@ class Ui_MainWindow(object):
         item = self.TablaVenta.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Subtotal"))
         self.labelPrecioTotal.setText(_translate("MainWindow", "Total"))
-        self.LabelPrecioTotalDecimal.setText(_translate("MainWindow", "TextLabel"))
+        self.LabelPrecioTotalDecimal.setText(_translate("MainWindow", "$0"))
         self.pushButton.setText(_translate("MainWindow", "Pagar"))
 
 
