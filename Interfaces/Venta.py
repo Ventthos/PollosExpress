@@ -9,7 +9,7 @@ import WidgetApoyo.ValidadorDeOfertas
 class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        Ui_MainWindow.setupUi(self, self)
+        super().setupUi(self)
         self.conection = mysql.connector.connect(
             user="u119126_pollos2LaVengazaDelPollo",
             host="174.136.28.78",
@@ -36,12 +36,14 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
                                       'Agregar',
                                       'Eliminar',
                                       f"{resultados[i].id}",
-                                      table=self.TablaVenta)
+                                      table=self.TablaVenta,
+                                      labelTotal=self.LabelPrecioTotalDecimal)
             row_layout.addWidget(ventawidget)
 
 
 class VentaWidget(QtWidgets.QWidget):
-    def __init__(self, image_path, labelNombre_text : str, labelPrecio_text : str, button1_text : str, button2_text : str, idProducto : int, table: QtWidgets.QTableWidget):
+    def __init__(self, image_path, labelNombre_text : str, labelPrecio_text : str, button1_text : str,
+                 button2_text : str, idProducto : int, table: QtWidgets.QTableWidget, labelTotal: QtWidgets.QLabel):
         super().__init__()
         self.setObjectName("VentaWidget")  # Asignamos un nombre al widget principal
         #visual
@@ -82,10 +84,13 @@ class VentaWidget(QtWidgets.QWidget):
         self.nombreProducto = labelNombre_text
         self.precioProducto = float(labelPrecio_text[1:])
         self.table = table
+        self.labelTotal = labelTotal
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         buttonAgregar.clicked.connect(self.AgregarProductoAVenta)
         buttonEliminar.clicked.connect(self.EliminarProductoDeTabla)
         self.validador = WidgetApoyo.ValidadorDeOfertas.Validador(self.idProducto, self.table, self)
+
+
     def AgregarProductoAVenta(self):
         # Obtener el subtotal actual
         print(self.idProducto)
@@ -103,6 +108,9 @@ class VentaWidget(QtWidgets.QWidget):
                 self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
 
             # Calcular el total actual sumando el subtotal actual al total anterior
+            self.sacarTotal()
+
+            """""
             total_anterior = 0.0
             if row_count > 0:  # Verificar si hay filas anteriores en la tabla
                 total_anterior = float(self.table.item(row_count - 1, 4).text())  # Obtener el total de la fila anterior
@@ -112,11 +120,20 @@ class VentaWidget(QtWidgets.QWidget):
             self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
             self.lineCantidad.setText("")
             self.validador.CalcularTotal()
+            """""
+
+    def sacarTotal(self):
+        total = 0
+        if self.table.rowCount() > 0:
+            for fila in range(self.table.rowCount()):
+                total += float(self.table.item(fila, 3).text())
+        self.labelTotal.setText(f"${total}")
 
     def EliminarProductoDeTabla(self):
         filaAEliminar = self.buscar_producto(self.nombreProducto)
         if filaAEliminar is not None:
-             self.table.removeRow(filaAEliminar[1])
+            self.table.removeRow(filaAEliminar[1])
+            self.sacarTotal()
 
     def buscar_producto(self, stringABuscar : str):
         texto_busqueda = stringABuscar.strip().lower()
@@ -127,6 +144,7 @@ class VentaWidget(QtWidgets.QWidget):
                     return  (columna,fila)
     def calcularCantidad(self):
         pass
+
 class CustomLineEditVentas(QtWidgets.QLineEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
