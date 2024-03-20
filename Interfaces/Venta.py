@@ -5,6 +5,7 @@ from PyQt5.QtGui import QPixmap
 import mysql.connector
 from Crud.CRUD_producto import CrudProducto, Producto
 import WidgetApoyo.ValidadorDeOfertas
+from Interfaces.PagarInterface import PagarInterface
 
 class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
@@ -22,6 +23,15 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.mainWidget = QtWidgets.QWidget()
         self.scrollAreaProducto.setWidget(self.mainWidget)
         self.LlenarDeProductos()
+
+        # Ventana del pago
+        self.ventanaPago = PagarInterface()
+        self.pushButton.clicked.connect(self.launchVenta)
+
+    def launchVenta(self):
+        self.ventanaPago.show()
+        self.ventanaPago.setTable(self.TablaVenta)
+
     def LlenarDeProductos(self):
         resultados = self.productManager.ReadSimplified()
         print(resultados)
@@ -55,7 +65,6 @@ class VentaWidget(QtWidgets.QWidget):
         image_label = QtWidgets.QLabel()
         image_label.setPixmap(pixmap)
         layout.addWidget(image_label, alignment=QtCore.Qt.AlignCenter)
-
         # Label Nombre
         labelNombre = QtWidgets.QLabel(labelNombre_text)
         labelNombre.setAlignment(QtCore.Qt.AlignCenter)
