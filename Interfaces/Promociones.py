@@ -1,4 +1,5 @@
 import datetime
+import sqlite3
 
 from PyQt5 import QtWidgets, QtGui, QtCore
 from RawInterfaces.Promociones import Ui_MainWindow
@@ -33,6 +34,13 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
             password="$ShotGunKin0805",
             database="u119126_pollos2LaVengazaDelPollo"
         )
+        self.arregloBotonesDias: list(QtWidgets.QPushButton) = [self.DomingoButton,
+                                                                self.LunesButton,
+                                                                self.MartesButton,
+                                                                self.MiercolesButton,
+                                                                self.JuevesButton,
+                                                                self.ViernesButton,
+                                                                self.SabadoButton]
         self.verticalLayout.setAlignment(QtCore.Qt.AlignTop)
         self.cursor = self.connection.cursor()
         #Llenar las comboboxes
@@ -41,20 +49,17 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.BotonAgregarPromocion.clicked.connect(lambda: self.subirPromocion())
         self.BorrarPromocionBoton.clicked.connect(lambda : self.borrarPromocion())
         self.EditarPromocionButton.clicked.connect((lambda : self.editarPromocion()))
+
         self.resetValues()
-        self.arregloBotonesDias = [self.DomingoButton,
-                                   self.LunesButton,
-                                   self.MartesButton,
-                                   self.MiercolesButton,
-                                   self.JuevesButton,
-                                   self.ViernesButton,
-                                   self.SabadoButton]
     def resetValues(self):
         self.textodescripcion.setText("")
         self.FechaInicioBox.setDate(QtCore.QDate.currentDate())
         self.FechaFinalBox.setDate((QtCore.QDate.currentDate()))
         self.PromocionBox.setCurrentIndex(-1)
         self.TipoPromocionBox.setCurrentIndex(-1)
+        for boton in self.arregloBotonesDias:
+            if boton.isChecked():
+                boton.setChecked(False)
     def subirPromocion(self):
         script = "INSERT INTO promocion(id_producto, descripcion, fecha_de_inicio, fecha_de_finalizacion, id_tipo_promocion) VALUES (%s,%s,%s,%s,%s)"
         datatorecorrer = self.ObtenerDatos()
@@ -78,6 +83,19 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.connection.commit()
         self.LLenarPromos()
         self.resetValues()
+        script = "SELECT MAX(id_promocion) FROM promocion WHERE activo = 'V'"
+        self.cursor.execute(script)
+        maximumId = self.cursor.fetchall()[0]
+        self.agregarDiasPromocion(maximumId)
+
+    def agregarDiasPromocion(self, id:int):
+        for button in self.arregloBotonesDias:
+            if button.isChecked():
+                script = "INSERT INTO promocion_dia(id_promocion, dias) VALUES (%s,%s)"
+                print(f"voy a agregar dia " + button.text())
+                self.cursor.execute(script, [id, button.text()])
+        self.connection.commit()
+
     def editarPromocion(self):
         script = "UPDATE promocion SET id_producto = %s, descripcion = %s, fecha_de_inicio = %s, fecha_de_finalizacion = %s, id_tipo_promocion = %s WHERE id_promocion = %s"
         datatorecorrer = self.ObtenerDatos()
@@ -119,7 +137,8 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         nombrePromo = self.cursor.fetchone()
         print(f"el nombre de la promo es {nombrePromo} y el de el producto es {nombreProd}")
         return (nombreProd,nombrePromo)
-
+    def GetDiasButtons(self):
+        return self.arregloBotonesDias
     def ObtenerDatos(self):
         self.connection.reconnect()
         scriptObtener = "SELECT * FROM producto WHERE activo = 'V'"
@@ -152,10 +171,10 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         print(results)
         for i in range(len(results)):
             #añadir los widgets que vamos a tener
-            widget = WidgetPromocion(results[i][2], results[i][1], results[i][0], results[i][3], results[i][4], results[i][5], container=self.scroll_widget, parent=self)
+            widget = WidgetPromocion(results[i][2], results[i][1], results[i][0], results[i][3], results[i][4], results[i][5], container=self.scroll_widget, parent=self, conection=self.connection)
             self.scroll_layout.addWidget(widget)
         self.scrollAreaPromociones.setWidget(self.scroll_widget)
-    def LLenarBoxCuandoClick(self, desc, idprod, idpromo, fechaini, fechafin, idtipo):
+    def LLenarBoxCuandoClick(self, desc, idprod, idpromo, fechaini, fechafin, idtipo,dias):
         self.activePromo = idpromo
         self.textodescripcion.setText(desc)
         nombreProd,nombrePromo = self.BuscarNombrePromoYProd(idprod,idtipo)
@@ -166,13 +185,26 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.FechaInicioBox.setDate(qdate)
         qdate = QtCore.QDate(fechafin.year, fechafin.month, fechafin.day)
         self.FechaFinalBox.setDate(qdate)
+        self.PintarDias(dias)
+
+    def PintarDias(self, dias):
+        print(dias)
+        for boton in self.arregloBotonesDias:
+           if boton.text() in dias:
+                boton.setChecked(True)
+           else:
+               boton.setChecked(False)
+
+
+
 
 
     def HelloWorld(self, str):
         print(str)
 class WidgetPromocion(QtWidgets.QWidget):
-    def __init__(self, desc: str, idprod: int, idpromo: int, fechaini: datetime.datetime, fechafin:datetime.datetime, idtipo: int, container:QtWidgets.QWidget, parent=None):
+    def __init__(self, desc: str, idprod: int, idpromo: int, fechaini: datetime.datetime, fechafin:datetime.datetime, idtipo: int, container:QtWidgets.QWidget, parent=None, arregloBotonesDias = None, conection = None):
         super().__init__(parent)
+        self.conection = conection
         #parametros
         self.desc = desc
         self.idprod = idprod
@@ -197,6 +229,11 @@ class WidgetPromocion(QtWidgets.QWidget):
                            "padding: 0 10px 0 10px; "
                            "margin: 0 0 0 0; "
                            "border-radius: 5px;")
+        self.cursor = self.conection.cursor()
+        script = "SELECT dias FROM promocion_dia WHERE id_promocion = %s"
+        self.cursor.execute(script, [idpromo])
+        self.dias = self.cursor.fetchall()
+        print(f"dias de {self.desc} : {self.dias}")
     def Clicked(self):
         for item in self.container.findChildren(WidgetPromocion):
             item.setStyleSheet("background-color: #011936; "
@@ -211,7 +248,8 @@ class WidgetPromocion(QtWidgets.QWidget):
                            "margin: 0 0 0 0; "
                            "border-radius: 5px;")
         print(f"Hiciste click en {self.idprod,self.idpromo,self.label.text(), self.fechaini,self.fechafin, self.idtipo}")
-        Promociones.LLenarBoxCuandoClick(ui, self.desc, self.idprod, self.idpromo, self.fechaini, self.fechafin, self.idtipo)
+        Promociones.LLenarBoxCuandoClick(ui, self.desc, self.idprod, self.idpromo, self.fechaini, self.fechafin, self.idtipo, self.dias)
+
 
 class ClickableLabel(QtWidgets.QLabel):
     clicked = QtCore.pyqtSignal()
