@@ -25,7 +25,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.LlenarDeProductos()
 
         # Ventana del pago
-        self.ventanaPago = PagarInterface(self.conection, 1)
+        self.ventanaPago = PagarInterface(self.conection, 1, self)
         self.pushButton.clicked.connect(self.launchVenta)
 
     def launchVenta(self):
