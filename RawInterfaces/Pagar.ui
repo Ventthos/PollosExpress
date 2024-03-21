@@ -39,19 +39,190 @@
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,2">
       <item>
        <widget class="QWidget" name="widgetParaTabla" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QWidget" name="WidgetVentaTabla" native="true">
+           <property name="styleSheet">
+            <string notr="true">#WidgetVentaTabla {
+	background-color: #185791;
+	border-radius: 12px;
+}</string>
+           </property>
+           <layout class="QVBoxLayout" name="LayoutVenta" stretch="0">
+            <property name="spacing">
+             <number>20</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <property name="leftMargin">
+             <number>20</number>
+            </property>
+            <property name="topMargin">
+             <number>20</number>
+            </property>
+            <property name="rightMargin">
+             <number>20</number>
+            </property>
+            <property name="bottomMargin">
+             <number>20</number>
+            </property>
+            <item>
+             <widget class="QWidget" name="WidgetInteriorVentaTabla" native="true">
+              <property name="styleSheet">
+               <string notr="true">#WidgetInteriorVentaTabla{
+	border: 3px solid white;
+}</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <property name="leftMargin">
+                <number>7</number>
+               </property>
+               <property name="topMargin">
+                <number>7</number>
+               </property>
+               <property name="rightMargin">
+                <number>7</number>
+               </property>
+               <property name="bottomMargin">
+                <number>7</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="Venta">
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">#Venta{
+	color: white;
+	font-weight: bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Venta</string>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTableWidget" name="TablaVenta">
+                 <property name="styleSheet">
+                  <string notr="true">QHeaderView::section {
+	background-color: #f1473a;
+	color: white;
+	font-weight: bold;
+	border: 1px solid white;
+}</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Sunken</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="midLineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="columnCount">
+                  <number>5</number>
+                 </property>
+                 <column>
+                  <property name="text">
+                   <string>Producto</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Cantidad</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Precio</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Subtotal</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Id_producto</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="widgetTotal" native="true">
+                 <property name="styleSheet">
+                  <string notr="true">#widgetTotal QLabel{
+	color: white;
+	font-weight: bold;
+}</string>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>11</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="labelPrecioTotal">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Total</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignRight">
+                   <widget class="QLabel" name="LabelPrecioTotalDecimal">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>$0</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

@@ -166,7 +166,7 @@ background-color: #e7e7e5;
              <number>1</number>
             </property>
             <property name="columnCount">
-             <number>4</number>
+             <number>5</number>
             </property>
             <column>
              <property name="text">
@@ -186,6 +186,11 @@ background-color: #e7e7e5;
             <column>
              <property name="text">
               <string>Subtotal</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Id_producto</string>
              </property>
             </column>
            </widget>
