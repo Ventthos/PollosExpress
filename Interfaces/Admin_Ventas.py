@@ -1,8 +1,9 @@
+import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import mysql.connector
-import datetime
+from datetime import datetime
 
 class Admin_Ventas(QMainWindow):
     def __init__(self):
@@ -29,53 +30,73 @@ class Admin_Ventas(QMainWindow):
         self.table_venta = QTableWidget()
         self.table_venta.setColumnCount(6)
         self.table_venta.setHorizontalHeaderLabels(['ID Venta', 'Fecha', 'Total Compra ($)', 'ID Pago', 'ID Empleado', 'ID Cliente'])
-        self.table_venta.cellClicked.connect(self.seleccionar_venta)
+        self.table_venta.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.table_venta.setSelectionMode(QAbstractItemView.SingleSelection)
 
         # Crear widget de tabla para la segunda tabla (venta_producto)
         self.table_venta_producto = QTableWidget()
         self.table_venta_producto.setColumnCount(4)
         self.table_venta_producto.setHorizontalHeaderLabels(['ID Venta Producto', 'Cantidad', 'ID Venta', 'ID Producto'])
 
-        # Crear botón para actualizar los datos
+        # Ajustar ancho de columnas de la tabla venta
+        self.table_venta.setColumnWidth(0, 135)  # ID Venta
+        self.table_venta.setColumnWidth(1, 200)  # Fecha
+        self.table_venta.setColumnWidth(2, 200)  # Total Compra
+        self.table_venta.setColumnWidth(3, 200)  # ID Pago
+        self.table_venta.setColumnWidth(4, 200)  # ID Empleado
+        self.table_venta.setColumnWidth(5, 200)  # ID Cliente
+
+        # Ajustar ancho de columnas de la tabla venta_producto
+        self.table_venta_producto.setColumnWidth(0, 255)  # ID Venta Producto
+        self.table_venta_producto.setColumnWidth(1, 300)  # Cantidad
+        self.table_venta_producto.setColumnWidth(2, 300)  # ID Venta
+        self.table_venta_producto.setColumnWidth(3, 300)  # ID Producto
+
+        # Crear botón para actualizar datos
         self.actualizar_button = QPushButton('Actualizar Datos')
         self.actualizar_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
-        self.actualizar_button.clicked.connect(self.actualizar_lista)
+        self.actualizar_button.clicked.connect(self.actualizar_datos)
 
         # Crear botón para eliminar ventas
-        self.eliminar_venta_button = QPushButton('Eliminar Venta')
-        self.eliminar_venta_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
-        self.eliminar_venta_button.clicked.connect(self.eliminar_venta)
+        self.eliminar_button = QPushButton('Eliminar Venta')
+        self.eliminar_button.setStyleSheet("background-color: #c9636c; color: white; font-weight: bold;")
+        self.eliminar_button.clicked.connect(self.eliminar_venta)
 
-        # Crear layout para los botones de actualizar y eliminar
-        button_layout = QHBoxLayout()
-        button_layout.addWidget(self.actualizar_button)
-        button_layout.addWidget(self.eliminar_venta_button)
+        # Crear botón para generar reporte
+        self.reporte_button = QPushButton('Generar Reporte')
+        self.reporte_button.setStyleSheet("background-color: #6495ED; color: white; font-weight: bold;")
+        self.reporte_button.clicked.connect(self.generar_reporte)
+
+        # Crear layout para los botones
+        botones_layout = QHBoxLayout()
+        botones_layout.addWidget(self.actualizar_button)
+        botones_layout.addWidget(self.eliminar_button)
+        botones_layout.addWidget(self.reporte_button)
 
         # Crear layout principal
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.table_venta)
         main_layout.addWidget(self.table_venta_producto)
-        main_layout.addLayout(button_layout)  # Agregar el layout de botones al layout principal
+        main_layout.addLayout(botones_layout)
 
         # Crear widget central y establecer el diseño
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
+        # Conectar la señal itemSelectionChanged de la tabla venta a cargar_productos_venta
+        self.table_venta.itemSelectionChanged.connect(self.cargar_productos_venta)
+
     def cargar_ventas(self):
         cursor = self.__connection.cursor()
         query_venta = "SELECT id_venta, fecha_De_Venta, total_De_Compra, id_pago, id_empleado, id_cliente FROM venta ORDER BY id_venta ASC"
-        query_venta_producto = "SELECT id_venta_producto, cantidad, id_venta, id_producto FROM venta_producto ORDER BY id_venta_producto ASC"
 
         cursor.execute(query_venta)
         ventas = cursor.fetchall()
-        cursor.execute(query_venta_producto)
-        ventas_producto = cursor.fetchall()
 
         cursor.close()
 
         self.table_venta.setRowCount(0)
-        self.table_venta_producto.setRowCount(0)
 
         for row_number, venta in enumerate(ventas):
             self.table_venta.insertRow(row_number)
@@ -84,41 +105,92 @@ class Admin_Ventas(QMainWindow):
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_venta.setItem(row_number, column_number, item)
 
-        for row_number, venta_producto in enumerate(ventas_producto):
-            self.table_venta_producto.insertRow(row_number)
-            for column_number, data in enumerate(venta_producto):
-                item = QTableWidgetItem(str(data))
-                item.setTextAlignment(Qt.AlignCenter)
-                self.table_venta_producto.setItem(row_number, column_number, item)
+    def cargar_productos_venta(self):
+        selected_row = self.table_venta.currentRow()
+        if selected_row != -1:
+            id_venta = self.table_venta.item(selected_row, 0).text()
+            cursor = self.__connection.cursor()
+            query_productos_venta = "SELECT id_venta_producto, cantidad, id_venta, id_producto FROM venta_producto WHERE id_venta = %s"
+            cursor.execute(query_productos_venta, (id_venta,))
+            productos_venta = cursor.fetchall()
+            cursor.close()
 
-    def actualizar_lista(self):
-        self.cargar_ventas()
-        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
+            self.table_venta_producto.setRowCount(0)
 
-    def seleccionar_venta(self, row, column):
-        self.selected_venta_id = self.table_venta.item(row, 0).text()
+            for row_number, producto_venta in enumerate(productos_venta):
+                self.table_venta_producto.insertRow(row_number)
+                for column_number, data in enumerate(producto_venta):
+                    item = QTableWidgetItem(str(data))
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.table_venta_producto.setItem(row_number, column_number, item)
+        else:
+            # Limpiar la tabla venta_producto si no se selecciona ninguna venta
+            self.table_venta_producto.setRowCount(0)
+
+    def generar_reporte(self):
+        # Solicitar el ID del administrador
+        id_administrador, ok = QInputDialog.getText(self, 'ID de Administrador', 'Ingrese su ID de Administrador:')
+        
+        # Verificar si se presionó "Aceptar" en el cuadro de diálogo
+        if ok:
+            # Crear la carpeta para los reportes si no existe
+            carpeta_reportes = "Reporte de ventas"
+            if not os.path.exists(carpeta_reportes):
+                os.makedirs(carpeta_reportes)
+
+            # Obtener la fecha actual
+            fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+            # Obtener los datos de la tabla venta
+            reporte_venta = []
+            for row in range(self.table_venta.rowCount()):
+                row_data = [self.table_venta.item(row, col).text() for col in range(self.table_venta.columnCount())]
+                reporte_venta.append(row_data)
+
+            # Crear el contenido del reporte
+            reporte_content = f"{'=' * 30}\nReporte de ventas ({fecha_actual})\n{'=' * 30}\n\n"
+            reporte_content += "Tabla Venta:\n"
+            for row in reporte_venta:
+                reporte_content += f"{'-' * 30}\n"
+                reporte_content += f"ID Venta: {row[0]}\nFecha: {row[1]}\nTotal Compra ($): {row[2]}\nID Pago: {row[3]}\nID Empleado: {row[4]}\nID Cliente: {row[5]}\n"
+            reporte_content += f"{'-' * 30}\n"
+            reporte_content += f"Reporte generado en: {fecha_actual} por el administrador con el ID {id_administrador}."
+
+            # Guardar el reporte en un archivo de texto
+            nombre_archivo = f"{carpeta_reportes}/Reporte_de_ventas_{fecha_actual.replace(':', '')}.txt"
+            try:
+                with open(nombre_archivo, "w") as file:
+                    file.write(reporte_content)
+                QMessageBox.information(self, 'Reporte Generado', f'El reporte de ventas ha sido generado exitosamente como "{nombre_archivo}"')
+            except Exception as e:
+                QMessageBox.warning(self, 'Error', f'Error al generar el reporte: {str(e)}')
 
     def eliminar_venta(self):
-        if not hasattr(self, 'selected_venta_id'):
-            QMessageBox.warning(self, 'Advertencia', 'Por favor, selecciona una venta para eliminar.')
-            return
+        selected_row = self.table_venta.currentRow()
+        if selected_row != -1:
+            id_venta = self.table_venta.item(selected_row, 0).text()
+            confirmation = QMessageBox.question(self, 'Eliminar Venta', f'¿Estás seguro de eliminar la venta con ID {id_venta}? Esta acción no se puede deshacer.',
+                                                 QMessageBox.Yes | QMessageBox.No)
+            if confirmation == QMessageBox.Yes:
+                try:
+                    cursor = self.__connection.cursor()
+                    delete_query = "DELETE FROM venta WHERE id_venta = %s"
+                    cursor.execute(delete_query, (id_venta,))
+                    self.__connection.commit()
+                    QMessageBox.information(self, 'Venta Eliminada', f'Se ha eliminado la venta con ID {id_venta}.')
+                    self.cargar_ventas()  # Recargar la tabla después de eliminar
+                    self.cargar_productos_venta()  # Limpiar la tabla de productos
+                except Exception as e:
+                    QMessageBox.warning(self, 'Error', f'Error al eliminar la venta: {str(e)}')
+                finally:
+                    cursor.close()
+        else:
+            QMessageBox.warning(self, 'Error', 'Por favor, seleccione una venta para eliminar.')
 
-        cursor = self.__connection.cursor()
-
-        # Eliminar registros de venta_producto asociados a la venta seleccionada
-        delete_venta_producto_query = "DELETE FROM venta_producto WHERE id_venta = %s"
-        cursor.execute(delete_venta_producto_query, (self.selected_venta_id,))
-        self.__connection.commit()
-
-        # Ahora puedes eliminar la venta seleccionada
-        delete_query = "DELETE FROM venta WHERE id_venta = %s"
-        cursor.execute(delete_query, (self.selected_venta_id,))
-        self.__connection.commit()
-
-        cursor.close()
-
+    def actualizar_datos(self):
         self.cargar_ventas()
-        QMessageBox.information(self, 'Información', 'La venta ha sido eliminada correctamente.')
+        self.cargar_productos_venta()
+        QMessageBox.information(self, 'Información', 'Los datos han sido actualizados. \nFecha: {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S ")))
 
 if __name__ == '__main__':
     import sys
