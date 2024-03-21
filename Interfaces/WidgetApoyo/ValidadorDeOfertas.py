@@ -74,8 +74,9 @@ class Validador:
         values = [arrDatos[0] + " 2X1",
                   str(cantidadAAplicar),
                   "0.0",
-                  "0.0"]
-        for i in range(4):
+                  "0.0",
+                  arrDatos[4]]
+        for i in range(5):
             self.table.setItem(self.row_count, i, QtWidgets.QTableWidgetItem(values[i]))
     def encontrarFila(self):
         for result in self.Promociones:

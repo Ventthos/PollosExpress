@@ -25,7 +25,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.LlenarDeProductos()
 
         # Ventana del pago
-        self.ventanaPago = PagarInterface()
+        self.ventanaPago = PagarInterface(self.conection, 1)
         self.pushButton.clicked.connect(self.launchVenta)
 
     def launchVenta(self):
@@ -110,10 +110,11 @@ class VentaWidget(QtWidgets.QWidget):
             values = [self.nombreProducto, #nombre
                       self.lineCantidad.text(), #cantidad
                       str(self.precioProducto), #precio
-                      str(subtotal_actual)  # Convertir a texto antes de agregar al QTableWidgetItem
+                      str(subtotal_actual),  # Convertir a texto antes de agregar al QTableWidgetItem
+                      str(self.idProducto)
                       ]
             self.validador.BuscarPromocionesRelacionadas(values)
-            for i in range(4):
+            for i in range(5):
                 self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
 
             # Calcular el total actual sumando el subtotal actual al total anterior
