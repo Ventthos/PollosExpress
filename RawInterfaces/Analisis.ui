@@ -289,7 +289,19 @@
                      </widget>
                     </item>
                     <item>
-                     <widget class="QWidget" name="widget_6" native="true">
+                     <widget class="QWidget" name="contenedorPagina" native="true">
+                      <property name="styleSheet">
+                       <string notr="true">#contenedorSemanas QPushButton{
+	background-color: #d9d9d9;
+	border: none;
+	padding: 8px;
+	border-radius: 12px;
+}
+
+#contenedorSemanas QPushButton:Hover{
+	background-color: #c3c3c3;
+}</string>
+                      </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_3">
                        <item>
                         <widget class="QPushButton" name="pushButton_4">
