@@ -82,19 +82,20 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.cursor.execute(script, values)
         self.connection.commit()
         self.LLenarPromos()
-        self.resetValues()
         script = "SELECT MAX(id_promocion) FROM promocion WHERE activo = 'V'"
         self.cursor.execute(script)
-        maximumId = self.cursor.fetchall()[0]
+        maximumId = self.cursor.fetchone()[0]
         self.agregarDiasPromocion(maximumId)
+        self.resetValues()
 
     def agregarDiasPromocion(self, id:int):
         for button in self.arregloBotonesDias:
+            print(button.isChecked())
             if button.isChecked():
                 script = "INSERT INTO promocion_dia(id_promocion, dias) VALUES (%s,%s)"
                 print(f"voy a agregar dia " + button.text())
                 self.cursor.execute(script, [id, button.text()])
-        self.connection.commit()
+                self.connection.commit()
 
     def editarPromocion(self):
         script = "UPDATE promocion SET id_producto = %s, descripcion = %s, fecha_de_inicio = %s, fecha_de_finalizacion = %s, id_tipo_promocion = %s WHERE id_promocion = %s"
@@ -118,6 +119,9 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         self.HelloWorld(f"los valores que voy a editar son {values}")
         self.cursor.execute(script, values)
         self.connection.commit()
+        script = "DELETE FROM promocion_dia WHERE id_promocion = %s"
+        self.cursor.execute(script, [self.activePromo])
+        self.agregarDiasPromocion(self.activePromo)
         self.LLenarPromos()
         self.resetValues()
 
@@ -125,6 +129,8 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         script = "UPDATE promocion SET activo = 'F' WHERE id_promocion = %s"
         self.cursor.execute(script, [self.activePromo])
         self.connection.commit()
+        script = "DELETE FROM promocion_dia WHERE id_promocion = %s"
+        self.cursor.execute(script, [self.activePromo])
         self.LLenarPromos()
         self.resetValues()
     def BuscarNombrePromoYProd(self, idProd, idPromo):
@@ -174,6 +180,7 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
             widget = WidgetPromocion(results[i][2], results[i][1], results[i][0], results[i][3], results[i][4], results[i][5], container=self.scroll_widget, parent=self, conection=self.connection)
             self.scroll_layout.addWidget(widget)
         self.scrollAreaPromociones.setWidget(self.scroll_widget)
+        # Este es un comentario secreto, Pepe es gay.
     def LLenarBoxCuandoClick(self, desc, idprod, idpromo, fechaini, fechafin, idtipo,dias):
         self.activePromo = idpromo
         self.textodescripcion.setText(desc)
@@ -189,8 +196,11 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
 
     def PintarDias(self, dias):
         print(dias)
+        ahorasidias = []
+        for dia in dias:
+            ahorasidias.append(dia[0])
         for boton in self.arregloBotonesDias:
-           if boton.text() in dias:
+           if boton.text() in ahorasidias:
                 boton.setChecked(True)
            else:
                boton.setChecked(False)
@@ -233,7 +243,7 @@ class WidgetPromocion(QtWidgets.QWidget):
         script = "SELECT dias FROM promocion_dia WHERE id_promocion = %s"
         self.cursor.execute(script, [idpromo])
         self.dias = self.cursor.fetchall()
-        print(f"dias de {self.desc} : {self.dias}")
+        print(f"{idpromo} dias de {self.desc} : {self.dias}")
     def Clicked(self):
         for item in self.container.findChildren(WidgetPromocion):
             item.setStyleSheet("background-color: #011936; "

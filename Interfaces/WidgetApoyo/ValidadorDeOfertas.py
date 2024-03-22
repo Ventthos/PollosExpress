@@ -18,16 +18,39 @@ class Validador:
         )
         self.cursor = self.conection.cursor()
     def BuscarPromocionesRelacionadas(self, arrDatos):
+        today = datetime.date.today()
+        dias = []
         if self.Promociones == [] and not self.keepActive:
-            script = ("SELECT p.id_promocion, tdp.nombre , p.fecha_de_inicio, p.fecha_de_finalizacion, pr.nombre "
-                      "FROM promocion p INNER JOIN producto pr ON p.id_producto = pr.id_producto"
-                      " INNER JOIN tipo_de_promocion tdp "
+            script = ("SELECT p.id_promocion, tdp.nombre , p.fecha_de_inicio, p.fecha_de_finalizacion, pr.nombre, dp.dias, p.descripcion "
+                      "FROM promocion p "
+                      "INNER JOIN producto pr "
+                      "ON p.id_producto = pr.id_producto "
+                      "INNER JOIN tipo_de_promocion tdp "
                       "ON tdp.id_tipo_promocion = p.id_tipo_promocion "
-                      "WHERE pr.id_producto = %s")
+                      "INNER JOIN promocion_dia dp "
+                      "ON dp.id_promocion = p.id_promocion "
+                      "WHERE pr.id_producto = %s and p.activo = 'V'")
             self.cursor.execute(script, [self.idproducto])
             self.Promociones = self.cursor.fetchall()
-        if self.Promociones != [] and self.Promociones[0][2] <= self.Promociones[0][3] and not self.keepActive:
-            respuesta = QtWidgets.QMessageBox.question(self.parent, "Promocion!", "Hay una promocion con este producto, desea aplicarla?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+
+            for dia in self.Promociones:
+                if dia[5] == 'Lunes':
+                    dias.append(0)
+                if dia[5] == 'Martes':
+                    dias.append(1)
+                if dia[5] == 'Miercoles':
+                    dias.append(2)
+                if dia[5] == 'Jueves':
+                    dias.append(3)
+                if dia[5] == 'Viernes':
+                    dias.append(4)
+                if dia[5] == 'Sábado':
+                    dias.append(5)
+                if dia[5] == 'Domingo':
+                    dias.append(6)
+        print("Los dias de tu promocion de aplicar son ", dias)
+        if self.Promociones != [] and self.Promociones[0][2] <= self.Promociones[0][3] and not self.keepActive and today.weekday() in dias:
+            respuesta = QtWidgets.QMessageBox.question(self.parent, "Promocion!", f"Hay una promocion para este producto, desea aplicarla?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
         else:
             respuesta = QtWidgets.QMessageBox.No
 
