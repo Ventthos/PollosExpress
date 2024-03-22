@@ -123,14 +123,14 @@
                  <number>5</number>
                 </property>
                 <item>
-                 <widget class="QPushButton" name="pushButton">
+                 <widget class="QPushButton" name="buttonRewind">
                   <property name="text">
                    <string>AA</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label">
+                 <widget class="QLabel" name="labelTiempo">
                   <property name="font">
                    <font>
                     <pointsize>10</pointsize>
@@ -142,14 +142,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_2">
+                 <widget class="QPushButton" name="buttonFord">
                   <property name="text">
                    <string>AA</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_3">
+                 <widget class="QPushButton" name="buttonBuscar">
                   <property name="text">
                    <string>AA</string>
                   </property>
@@ -201,6 +201,9 @@
                   <property name="styleSheet">
                    <string notr="true"/>
                   </property>
+                  <property name="currentIndex">
+                   <number>0</number>
+                  </property>
                   <widget class="QWidget" name="pageValoresTiempo">
                    <property name="styleSheet">
                     <string notr="true">#pageValoresTiempo{
@@ -211,15 +214,38 @@
                     <item alignment="Qt::AlignTop">
                      <widget class="QWidget" name="labelLineEdit_1" native="true">
                       <layout class="QVBoxLayout" name="verticalLayout_8">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
                        <item>
-                        <widget class="QLabel" name="labelGananciasTot">
+                        <widget class="QLabel" name="labelVentasTot">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
-                          <string>TextLabel</string>
+                          <string>Ventas Totales</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="lineEditGananciasTot"/>
+                        <widget class="QLineEdit" name="lineEditVentasTot">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -227,15 +253,38 @@
                     <item alignment="Qt::AlignTop">
                      <widget class="QWidget" name="labelLineEdit_2" native="true">
                       <layout class="QVBoxLayout" name="verticalLayout_7">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
                        <item>
                         <widget class="QLabel" name="labelGastosTot">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
-                          <string>TextLabel</string>
+                          <string>Gastos Totales</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="lineEditGastosTot"/>
+                        <widget class="QLineEdit" name="lineEditGastosTot">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -243,15 +292,38 @@
                     <item alignment="Qt::AlignTop">
                      <widget class="QWidget" name="labelLineEdit_5" native="true">
                       <layout class="QVBoxLayout" name="verticalLayout_12">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
                        <item>
-                        <widget class="QLabel" name="labelGananciaTotal">
+                        <widget class="QLabel" name="labelRendimientoTotal">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
-                          <string>TextLabel</string>
+                          <string>Ganancias totales</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="lineEdit_5"/>
+                        <widget class="QLineEdit" name="GananciasTotales">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -259,15 +331,38 @@
                     <item alignment="Qt::AlignTop">
                      <widget class="QWidget" name="labelLineEdit_3" native="true">
                       <layout class="QVBoxLayout" name="verticalLayout_9">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
                        <item>
                         <widget class="QLabel" name="text">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
-                          <string>TextLabel</string>
+                          <string>Promedio de ventas por día</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="lineEditPromedioGananciaDia"/>
+                        <widget class="QLineEdit" name="lineEditPromedioGananciaDia">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -275,15 +370,38 @@
                     <item alignment="Qt::AlignTop">
                      <widget class="QWidget" name="labelLineEdit_4" native="true">
                       <layout class="QVBoxLayout" name="verticalLayout_10">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
                        <item>
                         <widget class="QLabel" name="labelPromedioGastoDia">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
-                          <string>TextLabel</string>
+                          <string>Promedio de gastos por día</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="lineEdit_4"/>
+                        <widget class="QLineEdit" name="PromGastos">
+                         <property name="font">
+                          <font>
+                           <pointsize>11</pointsize>
+                          </font>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -291,33 +409,53 @@
                     <item>
                      <widget class="QWidget" name="contenedorPagina" native="true">
                       <property name="styleSheet">
-                       <string notr="true">#contenedorSemanas QPushButton{
-	background-color: #d9d9d9;
+                       <string notr="true">#contenedorPagina QPushButton{
+	background-color: white;
 	border: none;
-	padding: 8px;
+	padding: 8px 12px;
 	border-radius: 12px;
 }
 
-#contenedorSemanas QPushButton:Hover{
-	background-color: #c3c3c3;
+#contenedorPagina QPushButton:Hover{
+	background-color: #e6e6e6;
 }</string>
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_3">
-                       <item>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item alignment="Qt::AlignRight">
                         <widget class="QPushButton" name="pushButton_4">
                          <property name="text">
                           <string>&lt;</string>
                          </property>
                         </widget>
                        </item>
-                       <item>
+                       <item alignment="Qt::AlignHCenter">
                         <widget class="QLabel" name="label_7">
+                         <property name="font">
+                          <font>
+                           <pointsize>9</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>1/2</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
-                       <item>
+                       <item alignment="Qt::AlignLeft">
                         <widget class="QPushButton" name="pushButton_5">
                          <property name="text">
                           <string>&gt;</string>
