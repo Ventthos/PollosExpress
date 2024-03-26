@@ -1,10 +1,12 @@
+import decimal
+
 from RawInterfaces.Analisis import Ui_MainWindow
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import mysql.connector
 import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
+from dateutil.relativedelta import relativedelta
 
 class Analisis(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -27,6 +29,9 @@ class Analisis(QMainWindow, Ui_MainWindow):
         # tambien el de avanzar semanas
         self.buttonFord.clicked.connect(self.next)
 
+        # Poner las opciones el combo box
+        self.comboBoxModos.addItems(["Semanal", "Mensual"])
+
         # Activar la gráfica
         self.figura = plt.Figure()
         self.canvas = FigureCanvas(self.figura)
@@ -43,6 +48,8 @@ class Analisis(QMainWindow, Ui_MainWindow):
 
         # Inicializar el programa
         self.setFecha()
+
+        self.calcularGastosPorMes("2024-03-26")
 
     def changeGraphicToGastos(self):
         if self.labelPaginaDatos_Graf.text()[0] == "1":
@@ -69,16 +76,26 @@ class Analisis(QMainWindow, Ui_MainWindow):
 
     def calcularVentas(self, fecha):
         self.conection.commit()
-        script = (f"SELECT SUM(total_De_Compra) FROM venta WHERE WEEK(fecha_De_Venta, 1) = week(\"{fecha}\", 1)"
-                  f" AND YEAR(fecha_De_Venta) = YEAR(\"{fecha}\");")
+        script = ""
+        if self.comboBoxModos.currentText() == "Semanal":
+            script = (f"SELECT SUM(total_De_Compra) FROM venta WHERE WEEK(fecha_De_Venta, 1) = week(\"{fecha}\", 1)"
+                      f" AND YEAR(fecha_De_Venta) = YEAR(\"{fecha}\");")
+        elif self.comboBoxModos.currentText() == "Mensual":
+            script = (f"SELECT SUM(total_De_Compra) FROM venta WHERE MONTH(fecha_De_Venta) = MONTH(\"{fecha}\")"
+                      f" AND YEAR(fecha_De_Venta) = YEAR(\"{fecha}\");")
         self.cursor.execute(script)
         total = self.cursor.fetchone()[0]
         return total
 
     def calcularGastos(self, fecha):
         self.conection.commit()
-        script = (f"SELECT SUM(monto) FROM gasto WHERE WEEK(fecha, 1) = week(\"{fecha}\", 1)"
-                  f" AND YEAR(fecha) = YEAR(\"{fecha}\");")
+        script = ""
+        if self.comboBoxModos.currentText() == "Semanal":
+            script = (f"SELECT SUM(monto) FROM gasto WHERE WEEK(fecha, 1) = week(\"{fecha}\", 1)"
+                      f" AND YEAR(fecha) = YEAR(\"{fecha}\");")
+        elif self.comboBoxModos.currentText() == "Mensual":
+            script = (f"SELECT SUM(monto) FROM gasto WHERE MONTH(fecha) = MONTH(\"{fecha}\")"
+                      f" AND YEAR(fecha) = YEAR(\"{fecha}\");")
         self.cursor.execute(script)
         total = self.cursor.fetchone()[0]
         return total
@@ -137,6 +154,43 @@ class Analisis(QMainWindow, Ui_MainWindow):
         print(sumasSimplidified)
         return sumasSimplidified
 
+    def calcularGastosPorMes(self, fecha):
+        self.conection.commit()
+        script = (f"SELECT MONTH(fecha), SUM(monto) FROM gasto WHERE MONTH(fecha) = MONTH(\"{fecha}\") "
+                  f"AND YEAR(fecha) = YEAR(\"{fecha}\") GROUP BY MONTH(fecha);")
+        self.cursor.execute(script)
+        sumas = self.cursor.fetchall()
+
+        sumasSimplidified = []
+        for i in range(1, 13, 1):
+            encontrado = False
+            for elemento in sumas:
+                if elemento[0] == i:
+                    encontrado = True
+                    sumasSimplidified.append(elemento[1])
+            if not encontrado:
+                sumasSimplidified.append(0)
+        return sumasSimplidified
+
+    def calcularVentasPorMes(self, fecha):
+        self.conection.commit()
+        script = (
+            f"SELECT MONTH(fecha_De_Venta), SUM(total_De_Compra) FROM venta WHERE  "
+            f"YEAR(fecha_De_Venta) = YEAR(\"{fecha}\") GROUP BY MONTH(fecha_De_Venta);")
+        self.cursor.execute(script)
+        sumas = self.cursor.fetchall()
+
+        sumasSimplidified = []
+        for i in range(1, 13, 1):
+            encontrado = False
+            for elemento in sumas:
+                if elemento[0] == i:
+                    encontrado = True
+                    sumasSimplidified.append(elemento[1])
+            if not encontrado:
+                sumasSimplidified.append(0)
+        return sumasSimplidified
+
     def rewind(self):
         self.ticks -= 1
         self.setFecha()
@@ -146,30 +200,43 @@ class Analisis(QMainWindow, Ui_MainWindow):
         self.setFecha()
 
     def setFecha(self):
-        monday, sunday = self.calcularSemana()
-        #toDo Cambiar esto a una función más organizada
+        # Moday es el lunes de la semana si esta en modo semanal y el dia actual hace X meses
+        # si esta en mensual por un pequeño error xd
+        if self.comboBoxModos.currentText() == "Semanal":
+            monday, sunday = self.calcularSemana()
+        else:
+            monday = self.calcularMes()
+
         ventas = self.calcularVentas(monday)
         if ventas is not None:
             self.lineEditVentasTot.setText(f"${ventas}")
         else:
             ventas = 0
             self.lineEditVentasTot.setText("$0.0")
-
         gastos = self.calcularGastos(monday)
-        # toDo de preferencia poner esto a que lo regrese y ya en otra funcion ponerlo
         if gastos is not None:
             self.lineEditGastosTot.setText(f"${gastos}")
         else:
             gastos = 0
             self.lineEditGastosTot.setText("$0.0")
+        self.GananciasTotales.setText(f"${decimal.Decimal(ventas)-gastos}")
 
-        self.GananciasTotales.setText(f"${ventas-gastos}")
+        if self.comboBoxModos.currentText() == "Semanal":
+            self.operacionesSemanales(monday)
+            monday = monday.strftime("%d/%m/%Y")
+            sunday = sunday.strftime("%d/%m/%Y")
+            self.labelTiempo.setText(f"Semana {monday} - {sunday}")
+        elif self.comboBoxModos.currentText() == "Mensual":
+            self.operacionesMensuales(monday)
+            mes = monday.strftime("%B")
+            self.labelTiempo.setText(f"Mes: {mes}")
 
+    def operacionesSemanales(self, monday):
         # Calcula venta
         sumas = self.calcularSumasDia(monday)
         sumaTotal = 0
         for suma in sumas:
-            sumaTotal+=suma
+            sumaTotal += suma
 
         sumaTotal = round(sumaTotal / 7, 2)
         self.lineEditPromedioGananciaDia.setText(f"${sumaTotal}")
@@ -191,20 +258,46 @@ class Analisis(QMainWindow, Ui_MainWindow):
         self.PromGastos.setText(f"${sumaTotal}")
 
         self.gastosGrapic = [sumas, ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-                              "Gastos", "Dia", "Total"]
+                             "Gastos", "Dia", "Total"]
 
 
+    def operacionesMensuales(self, dia:datetime.datetime):
+        # Calcula ventas del mes
+        sumas = self.calcularVentasPorMes(dia)
 
-        #############
-        monday = monday.strftime("%d/%m/%Y")
-        sunday = sunday.strftime("%d/%m/%Y")
-        self.labelTiempo.setText(f"Semana {monday} - {sunday}")
+        # Esto obtiene la cantidad de días que tiene un mes
+        siguiente_mes = dia + relativedelta(months=1)
+        dias_en_mes = (siguiente_mes - dia).days
+
+        sumaTotal = round(sumas[dia.month-1] / dias_en_mes, 2)
+        self.lineEditPromedioGananciaDia.setText(f"${sumaTotal}")
+
+        self.ventasGraphic = [sumas, ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
+                              "Ventas", "Mes", "Total"]
+
+        self.setGrafic(sumas, ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
+                              "Ventas", "Mes", "Total")
+        self.labelPaginaDatos_Graf.setText("1/2")
+
+        # Calcula gastos del mes
+        sumas = self.calcularGastosPorMes(dia)
+        sumaTotal = round(sumas[dia.month-1] / dias_en_mes, 2)
+        self.PromGastos.setText(f"${sumaTotal}")
+        self.gastosGrapic = [sumas,
+                              ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
+                              "Ventas", "Mes", "Total"]
+
 
     def calcularSemana(self):
         today = datetime.date.today()
         monday = today + datetime.timedelta(days=-today.weekday(), weeks=self.ticks)
         sunday = today + datetime.timedelta(days=6 - today.weekday(), weeks=self.ticks)
         return monday, sunday
+
+    def calcularMes(self):
+        today = datetime.date.today()
+        mesActual = today + relativedelta(months=self.ticks)
+        return mesActual
 
 if __name__ == "__main__":
     import sys

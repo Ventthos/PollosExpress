@@ -135,7 +135,7 @@ class RegistroGastos(QtWidgets.QMainWindow):
 
     def cargarEmpleados(self):
         cursor = self.__conection.cursor()
-        cursor.execute("SELECT id_empleado, nombre FROM empleado")
+        cursor.execute("SELECT id_empleado, nombre FROM empleado WHERE activo = 'V'")
         empleados = cursor.fetchall()
         
         # Creamos un diccionario para mapear nombre -> id_empleado
