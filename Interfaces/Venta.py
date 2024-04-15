@@ -8,7 +8,7 @@ import WidgetApoyo.ValidadorDeOfertas
 from Interfaces.PagarInterface import PagarInterface
 
 class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, descargar=False):
         super().__init__()
         super().setupUi(self)
         self.conection = mysql.connector.connect(
@@ -23,7 +23,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.mainWidget = QtWidgets.QWidget()
         self.scrollAreaProducto.setWidget(self.mainWidget)
         self.LlenarDeProductos()
-
+        self.descargarImagenes : bool = descargar
         # Ventana del pago
         self.ventanaPago = PagarInterface(self.conection, 1, self)
         self.pushButton.clicked.connect(self.launchVenta)
@@ -34,6 +34,8 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
 
     def LlenarDeProductos(self):
         resultados = self.productManager.ReadSimplified()
+        if self.descargarImagenes:
+            self.productManager.downloadImages(resultados)
         print(resultados)
         scroll_layout = QtWidgets.QVBoxLayout(self.mainWidget)
         for i in range(len(resultados)):
