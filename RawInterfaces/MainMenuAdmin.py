@@ -206,8 +206,8 @@ class Ui_MainWindowMenuAdmin(object):
         self.Vender.setCheckable(False)
         self.Vender.setObjectName("Vender")
         self.verticalLayout_3.addWidget(self.Vender)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem)
+        self.spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(self.spacerItem)
         self.horizontalLayout.addWidget(self.BarraHerramientas)
         self.BarraDeHerramientoMini = QtWidgets.QWidget(self.centralwidgetMenuAdmin)
         self.BarraDeHerramientoMini.setStyleSheet("#BarraDeHerramientoMini{\n"
