@@ -22,8 +22,9 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.productManager = CrudProducto(self.conection)
         self.mainWidget = QtWidgets.QWidget()
         self.scrollAreaProducto.setWidget(self.mainWidget)
+        self.descargarImagenes: bool = descargar
         self.LlenarDeProductos()
-        self.descargarImagenes : bool = descargar
+
         # Ventana del pago
         self.ventanaPago = PagarInterface(self.conection, 1, self)
         self.pushButton.clicked.connect(self.launchVenta)

@@ -60,7 +60,7 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
             self.stackedWidget.insertWidget(5, Admin_Gastos())
             self.stackedWidget.insertWidget(6, Admin_Gastos()) # Cambiar este a la interfaz de estadísticas luego
             self.stackedWidget.insertWidget(7, Admin_Inventario())
-            self.stackedWidget.insertWidget(8, Venta())
+            self.stackedWidget.insertWidget(8, Venta(False))
 
             # Conectar los eventos del menu a abrir las ventanas
             # ToDo falta por poner ventas y estadisticas
@@ -104,7 +104,7 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
             from Interfaces.Inventario import Inventario
 
             # Conectar interfaces a el menu principal
-            self.stackedWidget.insertWidget(1, Venta())
+            self.stackedWidget.insertWidget(1, Venta(True))
             self.stackedWidget.insertWidget(2, RegistroGastos())
             self.stackedWidget.insertWidget(3, Inventario())
 

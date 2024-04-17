@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets, QtGui
 from Crud.CRUD_Usuario import CrudEmpleado
 import mysql.connector
 from tkinter import messagebox
+from MainMenu import MainMenu
 
 
 class Login(Ui_MainWindow, QtWidgets.QMainWindow):
@@ -32,9 +33,14 @@ class Login(Ui_MainWindow, QtWidgets.QMainWindow):
                 if result:
                     messagebox.showinfo("Mensaje de inicio de sesión", f"Sesión iniciada con éxito, bienvenido {user}")
                     if is_administrator == 1:
-                        print("Entrando en modo administrador...")
+                        menu = MainMenu(True)
                         messagebox.showinfo("Mensaje de inicio de sesión", "Entrando en modo administrador")
 
+                    else:
+                        menu = MainMenu(False)
+                        messagebox.showinfo("Mensaje de inicio de sesión", "Entrando en modo cajero")
+                    menu.show()
+                    self.hide()
                     return
                 else:
                     messagebox.showerror("Error de inicio de sesión", "Usuario o contraseña incorrecto(s)")
@@ -46,5 +52,9 @@ class Login(Ui_MainWindow, QtWidgets.QMainWindow):
 
         messagebox.showerror("Error", "Debe rellenar todos los campos")
 
-
-kk
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    ui = Login()
+    ui.show()
+    sys.exit(app.exec_())
