@@ -18,6 +18,9 @@ class PagarInterface(QWidget, Ui_Form):
         self.parentWidget = parent
 
     def setTable(self, table:QTableWidget, total:str):
+        self.lineEditPagado.setText("")
+        self.lineEditCambio.setText("")
+        self.lineEditCambio.setEnabled(False)
         self.TablaVenta.setRowCount(table.rowCount())
         for elemento in range(table.rowCount()):
             for column in range(table.columnCount()):
@@ -71,6 +74,7 @@ class PagarInterface(QWidget, Ui_Form):
         self.lineEditPagado.setText("")
         self.lineEditCambio.setText("")
         self.parentWidget.TablaVenta.setRowCount(0)
+        self.parentWidget.LabelPrecioTotalDecimal.setText("$0")
         self.hide()
 
 if __name__ == "__main__":

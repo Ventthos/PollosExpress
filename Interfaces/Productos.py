@@ -5,7 +5,7 @@ from RawInterfaces.Productos import Ui_Form
 import mysql.connector
 from Crud.CRUD_producto import CrudProducto, Producto
 from Interfaces.WidgetApoyo.NoImageFrame import ImageFrame
-from Interfaces.WidgetApoyo.WidgetsProducto import WidgetProduct, InterfazBusquedaProducto
+from Interfaces.WidgetApoyo.WidgetsProducto import InterfazBusquedaProducto
 import os
 import threading
 from WidgetApoyo.LoadingScreen import LoadingScreen
@@ -32,6 +32,8 @@ class ProductosInterface(QWidget, Ui_Form):
         self.scrollArea_producto.hide()
         self.__updateProductos()
 
+        # Poner el ícono de buscar en la barra
+        self.iconoBuscar_producto.setPixmap(QtGui.QPixmap("../img/lupaNegra.png"))
 
         #solo para saber que imagen esta activa y que producto
         self.activeImage = ""
@@ -67,6 +69,9 @@ class ProductosInterface(QWidget, Ui_Form):
 
         # Linkear para buscar
         self.barraBusqueda_Productos.textChanged.connect(self.buscarProducto)
+
+        #Validar que el producto no pueda tener un precio menor a 0
+        self.lineEdit_precio_producto.textChanged.connect(self.validate_positive_number)
 
 
     def downloadImages(self, listaWigets: list[ImageFrame]):
@@ -118,6 +123,7 @@ class ProductosInterface(QWidget, Ui_Form):
         else:
             ruta = "../img/noImage.jpg"
         self.imagen_producto_producto.setPixmap(QtGui.QPixmap(ruta))
+        self.lineEdit_precio_producto.setValidator(QtGui.QIntValidator(0, 100000))
 
         # Activar botones de agregar y editar
         if self.editar_producto.isHidden():
@@ -341,6 +347,12 @@ class ProductosInterface(QWidget, Ui_Form):
                 newElement = ImageFrame(f"{producto.nombre}", producto, producto.imagen)
                 newElement.add_event(self.showProducto)
                 self.verticalLayout_6.addWidget(newElement)
+
+    def validate_positive_number(self, text):
+        if text and (not text.isdigit() or int(text) <= 0):
+            cursor = self.lineEdit_precio_producto.cursorPosition()
+            self.lineEdit_precio_producto.setText(text[:-1])  # Elimina el último carácter
+            self.lineEdit_precio_producto.setCursorPosition(cursor - 1)  # Mantiene el cursor en su posición
 
 if __name__ == "__main__":
     import sys

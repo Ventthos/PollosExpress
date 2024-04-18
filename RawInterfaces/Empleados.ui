@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>857</width>
-    <height>611</height>
+    <height>617</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_5">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -63,6 +63,12 @@ padding: 6px;
       </property>
       <item>
        <widget class="QWidget" name="listado" native="true">
+        <property name="maximumSize">
+         <size>
+          <width>427</width>
+          <height>729</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">#listado{
 	background-color: white;
@@ -176,8 +182,8 @@ padding:8px;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>275</width>
-              <height>462</height>
+              <width>271</width>
+              <height>452</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -240,6 +246,12 @@ padding:8px;
           <widget class="QWidget" name="datos_widget" native="true">
            <property name="enabled">
             <bool>true</bool>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>619</width>
+             <height>707</height>
+            </size>
            </property>
            <property name="styleSheet">
             <string notr="true">#datos_widget{

@@ -110,7 +110,7 @@
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">#iconoBuscar{
+               <string notr="true">#iconoBuscar_producto{
 	background-color: #FFFFFF;
 	border-top-left-radius: 10px;
 	border-bottom-left-radius: 10px;
@@ -122,6 +122,9 @@
               </property>
               <property name="scaledContents">
                <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -172,8 +175,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>310</width>
-              <height>468</height>
+              <width>306</width>
+              <height>452</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -262,8 +265,8 @@ padding:8px;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>477</width>
-              <height>676</height>
+              <width>473</width>
+              <height>737</height>
              </rect>
             </property>
             <property name="styleSheet">

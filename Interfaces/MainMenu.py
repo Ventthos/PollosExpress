@@ -7,7 +7,7 @@ from Interfaces.Venta import Venta
 
 
 class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
-    def __init__(self, admin):
+    def __init__(self, admin, idUser, userName):
         super().__init__()
         super().setupUi(self)
 
@@ -23,6 +23,8 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
         self.BotonMiniMenu_2.clicked.connect(self.activarMiniMenu)
         self.HomeButton.setIcon(QIcon("../img/HomeMenu.png"))
 
+        # Poner el nombre del Empleado Para que se sienta feliz
+        self.LabelEmpleado.setText(f"Bienvenido {userName}")
 
         # Hacer que la imagen del menu grande sea el logo de PollosExpress
         self.MenuGrandeImagen.setPixmap(QPixmap("../img/logo.png"))
@@ -51,6 +53,7 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
             from Interfaces.admin_gastos import Admin_Gastos
             from Interfaces.Admin_Ventas import Admin_Ventas
             from Interfaces.admin_inventario import Admin_Inventario
+            from Interfaces.Analisis import Analisis
 
             # Conectar interfaces a el menu principal
             self.stackedWidget.insertWidget(1, ProductosInterface())
@@ -58,7 +61,7 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
             self.stackedWidget.insertWidget(3, Promociones())
             self.stackedWidget.insertWidget(4, Admin_Ventas())
             self.stackedWidget.insertWidget(5, Admin_Gastos())
-            self.stackedWidget.insertWidget(6, Admin_Gastos()) # Cambiar este a la interfaz de estadísticas luego
+            self.stackedWidget.insertWidget(6, Analisis())
             self.stackedWidget.insertWidget(7, Admin_Inventario())
             self.stackedWidget.insertWidget(8, Venta(False))
 
@@ -68,7 +71,9 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
             self.AdministrarProductos.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
             self.AdministrarEmpleados.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
             self.AdministrarPromociones.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
+            self.AdministrarVentas.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
             self.AdministrarGastos.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(5))
+            self.Estadisticas.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(6))
             self.InventarioButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(7))
             self.Vender.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(8))
 
@@ -125,6 +130,6 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    ui = MainMenu(False)
+    ui = MainMenu(False, 1, "Tester")
     ui.show()
     sys.exit(app.exec_())

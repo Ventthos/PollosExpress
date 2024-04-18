@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindowMenuAdmin(object):
     def setupUi(self, MainWindowMenuAdmin):
         MainWindowMenuAdmin.setObjectName("MainWindowMenuAdmin")
-        MainWindowMenuAdmin.resize(1068, 675)
+        MainWindowMenuAdmin.resize(1241, 675)
         self.centralwidgetMenuAdmin = QtWidgets.QWidget(MainWindowMenuAdmin)
         self.centralwidgetMenuAdmin.setStyleSheet("#BotonMiniMenu, #BotonMiniMenu_2{\n"
 "    background-color: #0363b7;\n"
@@ -71,11 +71,19 @@ class Ui_MainWindowMenuAdmin(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.topMinimenu)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.LabelEmpleado = QtWidgets.QLabel(self.topMinimenu)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.LabelEmpleado.sizePolicy().hasHeightForWidth())
+        self.LabelEmpleado.setSizePolicy(sizePolicy)
+        self.LabelEmpleado.setMinimumSize(QtCore.QSize(170, 0))
+        self.LabelEmpleado.setMaximumSize(QtCore.QSize(170, 16777215))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.LabelEmpleado.setFont(font)
+        self.LabelEmpleado.setWordWrap(True)
         self.LabelEmpleado.setObjectName("LabelEmpleado")
         self.horizontalLayout_2.addWidget(self.LabelEmpleado)
         self.BotonMiniMenu_2 = QtWidgets.QPushButton(self.topMinimenu)

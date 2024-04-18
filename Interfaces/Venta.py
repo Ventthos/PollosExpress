@@ -36,6 +36,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
     def LlenarDeProductos(self):
         resultados = self.productManager.ReadSimplified()
         if self.descargarImagenes:
+            print(resultados)
             self.productManager.downloadImages(resultados)
         print(resultados)
         scroll_layout = QtWidgets.QVBoxLayout(self.mainWidget)

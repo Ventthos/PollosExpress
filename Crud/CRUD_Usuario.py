@@ -55,16 +55,17 @@ if __name__ != "__main__":
                           f" WHERE id_empleado = {id};")
                 self._cursor.execute(script)
                 empleado = self._cursor.fetchone()
+                print(empleado)
                 return Empleado(nombre=empleado[1],
                                 apellido_paterno=empleado[2],
                                 apellido_materno=empleado[3],
                                 celular=empleado[4],
                                 sueldo=empleado[5],
-                                id_rol=empleado[11],
+                                id_rol=empleado[10],
                                 contraseña=empleado[7],
                                 administrator=empleado[8],
                                 id=empleado[0],
-                                active=empleado[8])
+                                active=empleado[9])
 
         def Delete(self, id) -> None:
             SQLScript = f"UPDATE empleado SET activo = 'F' WHERE id_empleado = {id}"

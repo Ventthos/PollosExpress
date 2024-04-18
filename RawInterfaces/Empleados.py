@@ -14,11 +14,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(857, 611)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setObjectName("verticalLayout")
+        Form.resize(857, 617)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(Form)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setSpacing(0)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.background = QtWidgets.QWidget(Form)
         self.background.setStyleSheet("#background{\n"
 "    background-color: #133259;\n"
@@ -36,6 +36,7 @@ class Ui_Form(object):
         self.horizontalLayout.setSpacing(20)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.listado = QtWidgets.QWidget(self.background)
+        self.listado.setMaximumSize(QtCore.QSize(427, 729))
         self.listado.setStyleSheet("#listado{\n"
 "    background-color: white;\n"
 "    border-radius: 14px;\n"
@@ -102,7 +103,7 @@ class Ui_Form(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 275, 462))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 271, 452))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -132,6 +133,7 @@ class Ui_Form(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.datos_widget = QtWidgets.QWidget(self.datos)
         self.datos_widget.setEnabled(True)
+        self.datos_widget.setMaximumSize(QtCore.QSize(619, 707))
         self.datos_widget.setStyleSheet("#datos_widget{\n"
 "    background-color: white;\n"
 "    border-radius: 14px;\n"
@@ -309,7 +311,7 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.datos)
         self.horizontalLayout.setStretch(0, 2)
         self.horizontalLayout.setStretch(2, 3)
-        self.verticalLayout.addWidget(self.background)
+        self.horizontalLayout_5.addWidget(self.background)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

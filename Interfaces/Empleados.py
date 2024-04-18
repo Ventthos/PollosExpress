@@ -23,6 +23,8 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         self.setupUi(self)
 
+        self.horizontalLayout.setAlignment(QtCore.Qt.AlignCenter )
+
         self.iconoBuscar.setPixmap(QtGui.QPixmap("../img/lupa.png"))
         self.label.setPixmap(QtGui.QPixmap("../img/Icons/Telefono.png"))
         self.label_2.setPixmap(QtGui.QPixmap("../img/Icons/Sueldo.png"))

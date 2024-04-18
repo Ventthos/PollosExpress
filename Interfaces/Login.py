@@ -33,11 +33,11 @@ class Login(Ui_MainWindow, QtWidgets.QMainWindow):
                 if result:
                     messagebox.showinfo("Mensaje de inicio de sesión", f"Sesión iniciada con éxito, bienvenido {user}")
                     if is_administrator == 1:
-                        menu = MainMenu(True)
+                        menu = MainMenu(True, idU, self.getUserName(userManager, idU))
                         messagebox.showinfo("Mensaje de inicio de sesión", "Entrando en modo administrador")
 
                     else:
-                        menu = MainMenu(False)
+                        menu = MainMenu(False, idU, self.getUserName(userManager, idU))
                         messagebox.showinfo("Mensaje de inicio de sesión", "Entrando en modo cajero")
                     menu.show()
                     self.hide()
@@ -51,6 +51,11 @@ class Login(Ui_MainWindow, QtWidgets.QMainWindow):
                 return
 
         messagebox.showerror("Error", "Debe rellenar todos los campos")
+
+    def getUserName(self, userManager, id):
+        usuario = userManager.Read(id)
+        return usuario.getNombre() + " " + usuario.getApellido_paterno()
+
 
 if __name__ == "__main__":
     import sys

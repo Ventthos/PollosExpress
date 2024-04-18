@@ -136,6 +136,10 @@ if __name__ != "__main__":
                 return producto
 
         def downloadImages(self, *elements):
+            if isinstance(elements[0], list):
+                elements = elements[0]
+
+            print(elements)
             for element in elements:
                 self.__driveConnection.downloadImage(element.driveCode, element.imagen)
 

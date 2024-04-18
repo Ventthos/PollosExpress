@@ -68,13 +68,14 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.iconoBuscar_producto.sizePolicy().hasHeightForWidth())
         self.iconoBuscar_producto.setSizePolicy(sizePolicy)
         self.iconoBuscar_producto.setMaximumSize(QtCore.QSize(26, 40))
-        self.iconoBuscar_producto.setStyleSheet("#iconoBuscar{\n"
+        self.iconoBuscar_producto.setStyleSheet("#iconoBuscar_producto{\n"
 "    background-color: #FFFFFF;\n"
 "    border-top-left-radius: 10px;\n"
 "    border-bottom-left-radius: 10px;\n"
 "    padding: 4px;\n"
 "}")
         self.iconoBuscar_producto.setScaledContents(True)
+        self.iconoBuscar_producto.setAlignment(QtCore.Qt.AlignCenter)
         self.iconoBuscar_producto.setWordWrap(True)
         self.iconoBuscar_producto.setObjectName("iconoBuscar_producto")
         self.horizontalLayout_2.addWidget(self.iconoBuscar_producto)
@@ -100,7 +101,7 @@ class Ui_Form(object):
         self.scrollArea_productos.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea_productos.setObjectName("scrollArea_productos")
         self.scrollAreaWidgetContents_productos = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 310, 468))
+        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 306, 452))
         self.scrollAreaWidgetContents_productos.setObjectName("scrollAreaWidgetContents_productos")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_productos)
         self.verticalLayout_6.setContentsMargins(6, -1, 6, -1)
@@ -139,7 +140,7 @@ class Ui_Form(object):
         self.scrollArea_producto.setWidgetResizable(True)
         self.scrollArea_producto.setObjectName("scrollArea_producto")
         self.scrollArea_producto_contents = QtWidgets.QWidget()
-        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 477, 676))
+        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 473, 737))
         self.scrollArea_producto_contents.setStyleSheet("#scrollArea_producto_contents{\n"
 "    background-color: white;\n"
 "}\n"
