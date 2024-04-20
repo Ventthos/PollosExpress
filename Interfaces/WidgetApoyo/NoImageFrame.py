@@ -1,6 +1,6 @@
 from RawInterfaces.WidgetApoyo.NoImageFrame import Ui_Form
 from PyQt5.QtWidgets import QWidget, QApplication
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QFont
 from PyQt5 import QtCore
 
 class NoImageFrame(Ui_Form, QWidget):
@@ -23,6 +23,15 @@ class NoImageFrame(Ui_Form, QWidget):
         self.funcion(self)
 
 
+    def resizeEvent(self, a0):
+        font = QFont()
+        font.setFamily("MS Shell Dlg 2")
+        self.punto.setMaximumSize(int((25 / 312) * self.width()), int((25 / 312) * self.width()))
+        font.setPointSize(int((10 / 312) * self.width()))
+        font.setBold(True)
+        self.nombre.setFont(font)
+
+
 class ImageFrame(NoImageFrame):
     def __init__(self, texto, data=None, img=""):
         super().__init__(texto, data)
@@ -34,7 +43,14 @@ class ImageFrame(NoImageFrame):
         else:
             self.punto.setPixmap(QPixmap(img))
 
-
+    def resizeEvent(self, a0):
+        font = QFont()
+        font.setFamily("MS Shell Dlg 2")
+        self.punto.setMaximumSize(int((66 / 312) * self.width()), int((55 / 312) * self.width()))
+        font.setPointSize(int((10 / 312) * self.width()))
+        font.setBold(True)
+        self.nombre.setFont(font)
+        self.setMaximumHeight(int((80 / 312) * self.width()))
 
 if __name__ == "__main__":
     import sys

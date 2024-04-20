@@ -24,7 +24,6 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.setupUi(self)
 
         self.proporcionMargenes = 20/1010
-        self.proporcionesLista = 312/1010
 
         self.iconoBuscar.setPixmap(QtGui.QPixmap("../img/lupa.png"))
         self.label.setPixmap(QtGui.QPixmap("../img/Icons/Telefono.png"))
@@ -277,8 +276,10 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.label_4.setFont(font)
         self.rolComboBox.setFont(font)
 
-        print("Tamaño del widget de la lista")
-        print(self.verticalLayout_6.itemAt(0).widget().width())
+        # Responsividad de los elementos de la lista
+
+
+
 
 if __name__ == "__main__":
     import sys

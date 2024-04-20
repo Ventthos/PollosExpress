@@ -378,6 +378,7 @@ class ProductosInterface(QWidget, Ui_Form):
         self.agregar_producto_paquete.setFont(font)
         self.editar_producto.setFont(font)
         self.boton_cambiarimg_producto.setFont(font)
+        self.eliminar_producto.setFont(font)
 
         font.setPointSize(int((10 / self.anchoReferencia) * self.width()))
         self.textEdit_desripcion_producto.setFont(font)
