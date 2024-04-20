@@ -33,7 +33,13 @@
     <widget class="QWidget" name="background_producto" native="true">
      <property name="styleSheet">
       <string notr="true">#background_producto{
-	border-image: url(../img/Producto.png);
+	background-color: #53b2f4;
+}
+
+#background_producto QPushButton{
+	border-radius: 6px;
+	padding: 6px;
+
 }</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,0,3">
@@ -176,7 +182,7 @@
               <x>0</x>
               <y>0</y>
               <width>306</width>
-              <height>452</height>
+              <height>454</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -234,6 +240,7 @@ padding:8px;
         <property name="styleSheet">
          <string notr="true">#widget{
 	margin-left: 20px;
+	
 }</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -266,7 +273,7 @@ padding:8px;
               <x>0</x>
               <y>0</y>
               <width>473</width>
-              <height>737</height>
+              <height>735</height>
              </rect>
             </property>
             <property name="styleSheet">

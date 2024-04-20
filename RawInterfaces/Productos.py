@@ -21,7 +21,13 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.background_producto = QtWidgets.QWidget(Form)
         self.background_producto.setStyleSheet("#background_producto{\n"
-"    border-image: url(../img/Producto.png);\n"
+"    background-color: #53b2f4;\n"
+"}\n"
+"\n"
+"#background_producto QPushButton{\n"
+"    border-radius: 6px;\n"
+"    padding: 6px;\n"
+"\n"
 "}")
         self.background_producto.setObjectName("background_producto")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background_producto)
@@ -101,7 +107,7 @@ class Ui_Form(object):
         self.scrollArea_productos.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea_productos.setObjectName("scrollArea_productos")
         self.scrollAreaWidgetContents_productos = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 306, 452))
+        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 306, 454))
         self.scrollAreaWidgetContents_productos.setObjectName("scrollAreaWidgetContents_productos")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_productos)
         self.verticalLayout_6.setContentsMargins(6, -1, 6, -1)
@@ -140,7 +146,7 @@ class Ui_Form(object):
         self.scrollArea_producto.setWidgetResizable(True)
         self.scrollArea_producto.setObjectName("scrollArea_producto")
         self.scrollArea_producto_contents = QtWidgets.QWidget()
-        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 473, 737))
+        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 473, 735))
         self.scrollArea_producto_contents.setStyleSheet("#scrollArea_producto_contents{\n"
 "    background-color: white;\n"
 "}\n"

@@ -69,7 +69,6 @@ if __name__ != "__main__":
                 result = self._cursor.fetchall()
                 productos = []
                 for resultado in result:
-                    print(resultado)
                     route = f"../img/userImages/product_{resultado[1]}.png"
                     self.__driveConnection.downloadImage(resultado[4], route)
                     producto = Producto(resultado[1], resultado[2], resultado[3], resultado[6], route, resultado[0],
@@ -99,18 +98,15 @@ if __name__ != "__main__":
                 result = self._cursor.fetchall()
                 productos = []
                 for resultado in result:
-                    print(resultado[1])
                     route = f"../img/userImages/product_{resultado[1]}.png"
                     producto = Producto(resultado[1], resultado[2], resultado[3], resultado[6], route, resultado[0],
                                         driveCode=resultado[4], activo=resultado[5])
 
                     # Resultado 6 es si es que es paquete, si lo es, le agregamos sus productos
                     if resultado[6]:
-                        print("Es paquete")
                         # Reconnect es para poder volver a lanzar otro comando SQL
                         self._conection.reconnect()
                         productosPaquete = self.readProductosPaquete(resultado[0])
-                        print(productosPaquete)
                         producto.productosPaquete = productosPaquete
 
                     productos.append(producto)
@@ -125,13 +121,10 @@ if __name__ != "__main__":
                                     driveCode=resultado[4])
 
                 if resultado[6]:
-                    print("Producto: ")
-                    print(resultado[1])
                     # Reconnect es para poder volver a lanzar otro comando SQL
                     self._conection.reconnect()
                     productosPaquete = self.readProductosPaquete(resultado[0])
                     producto.productosPaquete = productosPaquete
-                    print(productosPaquete)
 
                 return producto
 
@@ -139,7 +132,6 @@ if __name__ != "__main__":
             if isinstance(elements[0], list):
                 elements = elements[0]
 
-            print(elements)
             for element in elements:
                 self.__driveConnection.downloadImage(element.driveCode, element.imagen)
 

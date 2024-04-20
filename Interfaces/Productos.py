@@ -21,6 +21,8 @@ class ProductosInterface(QWidget, Ui_Form):
             password="$ShotGunKin0805",
             database="u119126_pollos2LaVengazaDelPollo"
         )
+        #Para la responsividad
+        self.anchoReferencia = 946
 
         # Lista Productos
         self.productos = []
@@ -252,7 +254,6 @@ class ProductosInterface(QWidget, Ui_Form):
         self.table_productos_paquete.setRowCount(self.table_productos_paquete.rowCount() + len(products))
 
         for producto in products:
-            print(producto)
             nombreProducto = QTableWidgetItem(producto[4])
             cantidadProducto = QLineEdit()
             cantidadProducto.setText(str(producto[2]))
@@ -353,6 +354,42 @@ class ProductosInterface(QWidget, Ui_Form):
             cursor = self.lineEdit_precio_producto.cursorPosition()
             self.lineEdit_precio_producto.setText(text[:-1])  # Elimina el último carácter
             self.lineEdit_precio_producto.setCursorPosition(cursor - 1)  # Mantiene el cursor en su posición
+
+    def resizeEvent(self, event):
+        margins = int((9/self.anchoReferencia) * self.width())
+        self.listado_producto.setContentsMargins(margins, margins, margins, margins)
+
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(int((9 / self.anchoReferencia) * self.width()))
+        self.barraBusqueda_Productos.setFont(font)
+
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(int((11/self.anchoReferencia)*self.width()))
+        self.label_nombre_producto.setFont(font)
+        self.label_precio_producto.setFont(font)
+        self.label_descripcion_producto.setFont(font)
+        self.lineEdit_nombre_producto.setFont(font)
+        self.lineEdit_precio_producto.setFont(font)
+        self.checkBox_paquete_producto.setFont(font)
+
+        font.setPointSize(int((8 / self.anchoReferencia) * self.width()))
+        self.agregar_producto.setFont(font)
+        self.agregar_producto_paquete.setFont(font)
+        self.editar_producto.setFont(font)
+        self.boton_cambiarimg_producto.setFont(font)
+
+        font.setPointSize(int((10 / self.anchoReferencia) * self.width()))
+        self.textEdit_desripcion_producto.setFont(font)
+
+        # Para la imagen
+        self.imagen_producto_producto.setMinimumSize(int((190/self.anchoReferencia)*self.width()),
+                                                     int((158/self.anchoReferencia)*self.width()))
+
+        # Para el icono de buscar
+        self.iconoBuscar_producto.setMaximumSize(int((26/self.anchoReferencia)*self.width()),
+                                                 int((40/self.anchoReferencia)*self.width()))
+
 
 if __name__ == "__main__":
     import sys
