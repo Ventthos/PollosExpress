@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>857</width>
-    <height>617</height>
+    <width>1010</width>
+    <height>706</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,15 @@
    </property>
    <item>
     <widget class="QWidget" name="background" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true">#background{
 	background-color: #133259;
@@ -47,7 +56,7 @@ padding: 6px;
        <number>20</number>
       </property>
       <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
+       <enum>QLayout::SetMaximumSize</enum>
       </property>
       <property name="leftMargin">
        <number>20</number>
@@ -63,10 +72,16 @@ padding: 6px;
       </property>
       <item>
        <widget class="QWidget" name="listado" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>372</width>
+          <height>666</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>427</width>
-          <height>729</height>
+          <width>444444</width>
+          <height>144444</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -182,8 +197,8 @@ padding:8px;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>271</width>
-              <height>452</height>
+              <width>348</width>
+              <height>541</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -226,6 +241,9 @@ padding:8px;
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Maximum</enum>
+        </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
@@ -236,6 +254,18 @@ padding:8px;
       </item>
       <item>
        <widget class="QWidget" name="datos" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>558</width>
+          <height>666</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>44444</width>
+          <height>444444</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">#widget{
 	margin-left: 20px;
@@ -249,8 +279,8 @@ padding:8px;
            </property>
            <property name="maximumSize">
             <size>
-             <width>619</width>
-             <height>707</height>
+             <width>44444</width>
+             <height>44444</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -271,6 +301,9 @@ padding:8px;
 }</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>10</number>
+            </property>
             <property name="leftMargin">
              <number>20</number>
             </property>
@@ -519,16 +552,7 @@ padding:8px;
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_3">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
+               <item row="2" column="1">
                 <widget class="QCheckBox" name="checkBox">
                  <property name="font">
                   <font>
@@ -540,13 +564,41 @@ padding:8px;
                  </property>
                 </widget>
                </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_3">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
                <widget class="QPushButton" name="pushButton_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
@@ -557,6 +609,12 @@ padding:8px;
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Eliminar</string>
                 </property>

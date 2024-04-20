@@ -14,12 +14,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(857, 617)
+        Form.resize(1010, 706)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_5.setSpacing(0)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.background = QtWidgets.QWidget(Form)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.background.sizePolicy().hasHeightForWidth())
+        self.background.setSizePolicy(sizePolicy)
+        self.background.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.background.setStyleSheet("#background{\n"
 "    background-color: #133259;\n"
 "}\n"
@@ -31,12 +37,13 @@ class Ui_Form(object):
 "}")
         self.background.setObjectName("background")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.background)
-        self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.horizontalLayout.setContentsMargins(20, 20, 20, 20)
         self.horizontalLayout.setSpacing(20)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.listado = QtWidgets.QWidget(self.background)
-        self.listado.setMaximumSize(QtCore.QSize(427, 729))
+        self.listado.setMinimumSize(QtCore.QSize(372, 666))
+        self.listado.setMaximumSize(QtCore.QSize(444444, 144444))
         self.listado.setStyleSheet("#listado{\n"
 "    background-color: white;\n"
 "    border-radius: 14px;\n"
@@ -103,7 +110,7 @@ class Ui_Form(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 271, 452))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 348, 541))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -122,9 +129,11 @@ class Ui_Form(object):
         self.horizontalLayout_4.addWidget(self.BotonRefrescar, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         self.horizontalLayout.addWidget(self.listado)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.datos = QtWidgets.QWidget(self.background)
+        self.datos.setMinimumSize(QtCore.QSize(558, 666))
+        self.datos.setMaximumSize(QtCore.QSize(44444, 444444))
         self.datos.setStyleSheet("#widget{\n"
 "    margin-left: 20px;\n"
 "}")
@@ -133,7 +142,7 @@ class Ui_Form(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.datos_widget = QtWidgets.QWidget(self.datos)
         self.datos_widget.setEnabled(True)
-        self.datos_widget.setMaximumSize(QtCore.QSize(619, 707))
+        self.datos_widget.setMaximumSize(QtCore.QSize(44444, 44444))
         self.datos_widget.setStyleSheet("#datos_widget{\n"
 "    background-color: white;\n"
 "    border-radius: 14px;\n"
@@ -284,19 +293,21 @@ class Ui_Form(object):
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_4)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox_2)
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.lineEdit_3.setFont(font)
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.lineEdit_3)
         self.checkBox = QtWidgets.QCheckBox(self.groupBox_2)
         font = QtGui.QFont()
         font.setPointSize(9)
         self.checkBox.setFont(font)
         self.checkBox.setObjectName("checkBox")
-        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.checkBox)
+        self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.checkBox)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox_2)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.lineEdit_3.setFont(font)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEdit_3)
         self.verticalLayout_4.addWidget(self.groupBox_2, 0, QtCore.Qt.AlignTop)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem1)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_3 = QtWidgets.QPushButton(self.datos_widget)

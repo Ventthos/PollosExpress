@@ -29,14 +29,14 @@ class Admin_Ventas(QMainWindow):
         # Crear widget de tabla para la primera tabla (venta)
         self.table_venta = QTableWidget()
         self.table_venta.setColumnCount(6)
-        self.table_venta.setHorizontalHeaderLabels(['ID Venta', 'Fecha', 'Total Compra ($)', 'ID Pago', 'ID Empleado', 'ID Cliente'])
+        self.table_venta.setHorizontalHeaderLabels(['ID Venta', 'Fecha', 'Total Compra ($)', 'Tipo de Pago', 'Empleado', 'Cliente'])
         self.table_venta.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table_venta.setSelectionMode(QAbstractItemView.SingleSelection)
 
         # Crear widget de tabla para la segunda tabla (venta_producto)
         self.table_venta_producto = QTableWidget()
         self.table_venta_producto.setColumnCount(4)
-        self.table_venta_producto.setHorizontalHeaderLabels(['ID Venta Producto', 'Cantidad', 'ID Venta', 'ID Producto'])
+        self.table_venta_producto.setHorizontalHeaderLabels(['ID Venta Producto', 'Cantidad', 'ID Venta', 'Producto'])
 
         # Ajustar ancho de columnas de la tabla venta
         self.table_venta.setColumnWidth(0, 135)  # ID Venta
@@ -89,7 +89,9 @@ class Admin_Ventas(QMainWindow):
 
     def cargar_ventas(self):
         cursor = self.__connection.cursor()
-        query_venta = "SELECT id_venta, fecha_De_Venta, total_De_Compra, id_pago, id_empleado, id_cliente FROM venta ORDER BY id_venta ASC"
+        query_venta = ("SELECT id_venta, fecha_De_Venta, total_De_Compra, P.nombre, CONCAT(E.nombre,\" \" ,"
+                       "E.apellido_paterno), id_cliente FROM venta as V JOIN pago as P ON V.id_pago = P.id_pago JOIN e"
+                       "mpleado E ON E.id_empleado = V.id_empleado ORDER BY id_venta DESC;")
 
         cursor.execute(query_venta)
         ventas = cursor.fetchall()
@@ -110,7 +112,8 @@ class Admin_Ventas(QMainWindow):
         if selected_row != -1:
             id_venta = self.table_venta.item(selected_row, 0).text()
             cursor = self.__connection.cursor()
-            query_productos_venta = "SELECT id_venta_producto, cantidad, id_venta, id_producto FROM venta_producto WHERE id_venta = %s"
+            query_productos_venta = ("SELECT id_venta_producto, cantidad, id_venta, P.nombre FROM venta_producto VP "
+                                     "INNER JOIN producto P ON P.id_producto = VP.id_producto WHERE id_venta = %s;")
             cursor.execute(query_productos_venta, (id_venta,))
             productos_venta = cursor.fetchall()
             cursor.close()
@@ -152,7 +155,7 @@ class Admin_Ventas(QMainWindow):
             reporte_content += "Tabla Venta:\n"
             for row in reporte_venta:
                 reporte_content += f"{'-' * 30}\n"
-                reporte_content += f"ID Venta: {row[0]}\nFecha: {row[1]}\nTotal Compra ($): {row[2]}\nID Pago: {row[3]}\nID Empleado: {row[4]}\nID Cliente: {row[5]}\n"
+                reporte_content += f"ID Venta: {row[0]}\nFecha: {row[1]}\nTotal Compra ($): {row[2]}\n Tipo de Pago: {row[3]}\nEmpleado: {row[4]}\nCliente: {row[5]}\n"
             reporte_content += f"{'-' * 30}\n"
             reporte_content += f"Reporte generado en: {fecha_actual} por el administrador con el ID {id_administrador}."
 

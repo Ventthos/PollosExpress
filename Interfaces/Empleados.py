@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5.QtGui import QFont
 from RawInterfaces.Empleados import Ui_Form
 import mysql.connector
 from Crud.CRUD_Usuario import CrudEmpleado, Empleado
@@ -20,10 +21,9 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         self.__userManager = CrudEmpleado(self.__conection)
         self.__rolManager = CrudRol(self.__conection)
-
         self.setupUi(self)
 
-        self.horizontalLayout.setAlignment(QtCore.Qt.AlignCenter )
+        self.proporcionMargenes = 20/1010
 
         self.iconoBuscar.setPixmap(QtGui.QPixmap("../img/lupa.png"))
         self.label.setPixmap(QtGui.QPixmap("../img/Icons/Telefono.png"))
@@ -58,6 +58,9 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
 
         # Habilitar actualización de datos manuales
         self.BotonRefrescar.clicked.connect(self.actualizarConWarnig)
+
+        # Redimensionar margenes?
+
 
 
     def __createEmpleadoObject(self) -> Empleado:
@@ -234,6 +237,45 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
     def actualizarConWarnig(self):
         self.__updateEmpleados()
         messagebox.showinfo("Actualizado", "Los datos del programa han sido actualizados")
+
+    def resizeEvent(self, event):
+        margenes = int(self.width()*self.proporcionMargenes)
+        self.background.setContentsMargins(margenes, margenes, margenes, margenes)
+        margenes = int((11 / 1010) * self.width())
+        self.listado.setContentsMargins(margenes, margenes, margenes,margenes)
+        self.iconoBuscar.setMaximumSize(int((26/1010) * self.width()), int((40/1010) * self.width()))
+        self.label.setMaximumSize(int((30/1010) * self.width()), int((50/1010)*self.width()))
+        self.label_2.setMaximumSize(int((30 / 1010) * self.width()), int((50 / 1010) * self.width()))
+
+        font = QFont()
+        font.setFamily("Arial")
+        font.setPointSize(int((9/1010)*self.width()))
+        self.barraBusqueda.setFont(font)
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(int((8 / 1010) * self.width()))
+        self.agregar_empleado.setFont(font)
+        self.BotonRefrescar.setFont(font)
+        self.groupBox.setFont(font)
+        self.nombre_label.setFont(font)
+        self.apellido_p_label.setFont(font)
+        self.apellido_m_label.setFont(font)
+        self.groupBox_2.setFont(font)
+        self.pushButton_3.setFont(font)
+        self.pushButton_2.setFont(font)
+        self.rolLabel.setFont(font)
+
+        font.setPointSize(int((9 / 1010) * self.width()))
+        print(font.pointSize())
+        self.nombre_entry.setFont(font)
+        self.apellido_p_entry.setFont(font)
+        self.apellido_m_entry.setFont(font)
+        self.lineEdit.setFont(font)
+        self.lineEdit_2.setFont(font)
+        self.lineEdit_3.setFont(font)
+        self.checkBox.setFont(font)
+        self.label_4.setFont(font)
+        self.rolComboBox.setFont(font)
+
 
 if __name__ == "__main__":
     import sys
