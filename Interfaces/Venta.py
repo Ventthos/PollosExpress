@@ -96,7 +96,7 @@ class VentaWidget(QtWidgets.QWidget):
         self.idProducto = idProducto
         self.nombreProducto = labelNombre_text
         self.precioProducto = float(labelPrecio_text[1:])
-        self.table = table
+        self.table: QtWidgets.QTableWidget = table
         self.labelTotal = labelTotal
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         buttonAgregar.clicked.connect(self.AgregarProductoAVenta)
@@ -118,29 +118,30 @@ class VentaWidget(QtWidgets.QWidget):
                       str(self.idProducto)
                       ]
             self.validador.BuscarPromocionesRelacionadas(values)
+
+            # Me arrepiento de todos mis cambios
+            """"
+            existente, index = self.buscarIndexEnTabla()
+            if not existente:
+                self.table.insertRow(row_count)
+                for i in range(5):
+                    self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
+            else:
+                self.table.item(index, 1).setText(str(float(self.table.item(index, 1).text()) + float(self.lineCantidad.text())))
+            """
             for i in range(5):
                 self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
 
             # Calcular el total actual sumando el subtotal actual al total anterior
             self.sacarTotal()
 
-            """""
-            total_anterior = 0.0
-            if row_count > 0:  # Verificar si hay filas anteriores en la tabla
-                total_anterior = float(self.table.item(row_count - 1, 4).text())  # Obtener el total de la fila anterior
-            total_actual = total_anterior + float(values[3])
-
-            # Agregar el total actual a la tabla
-            self.table.setItem(row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
-            self.lineCantidad.setText("")
-            self.validador.CalcularTotal()
-            """""
 
     def sacarTotal(self):
         total = 0
         if self.table.rowCount() > 0:
             for fila in range(self.table.rowCount()):
-                total += float(self.table.item(fila, 3).text())
+                if self.table.item(fila, 3) is not None:
+                    total += float(self.table.item(fila, 3).text())
         self.labelTotal.setText(f"${total}")
 
     def EliminarProductoDeTabla(self):
@@ -151,7 +152,7 @@ class VentaWidget(QtWidgets.QWidget):
 
     def buscar_producto(self, stringABuscar : str):
         texto_busqueda = stringABuscar.strip().lower()
-        for fila in range(self.table.rowCount()):
+        for fila in range(self.table.rowCount()-1, -1,-1):
             for columna in range(self.table.columnCount()):
                 item = self.table.item(fila, columna)
                 if item is not None and texto_busqueda in item.text().strip().lower():
@@ -159,23 +160,36 @@ class VentaWidget(QtWidgets.QWidget):
     def calcularCantidad(self):
         pass
 
-class CustomLineEditVentas(QtWidgets.QLineEdit):
+    def buscarIndexEnTabla(self):
+
+        for i in range(self.table.rowCount()):
+            if self.table.item(i,0) is not None and self.table.item(i, 0).text() == self.nombreProducto and float(self.table.item(i, 2).text()) == float(self.precioProducto):
+                return True, i
+        return False, -1
+
+class CustomLineEditVentas(QtWidgets.QSpinBox):
     def __init__(self, parent=None):
         super().__init__(parent)
+        #Con esto ya hago lo del rango
+        self.setRange(1, 30)
+        # Poner en defecto 1
+        self.setValue(1)
 
         # Configura la validación de entrada para permitir solo números enteros
-        self.setValidator(QtGui.QIntValidator())
+        #self.setValidator(QtGui.QIntValidator())
 
         # Establece la longitud máxima de caracteres
-        self.setMaxLength(2)  # Aquí se establece en 2 para limitar a un máximo de 25
-        self.textChanged.connect(self.limitar_a_25)
+        #self.setMaxLength(2)  # Aquí se establece en 2 para limitar a un máximo de 25
+        #self.textChanged.connect(self.limitar_a_25)
     def limitar_a_25(self):
         # Verifica si el valor actual es mayor a 25
         if self.text() and int(self.text()) > 25:
             # Si es mayor a 25, establece el valor a 25
-            self.setText("25")
+            self.setValue(25)
         if self.text() and int(self.text()) <= 0:
-            self.setText("1")
+            self.setValue(1)
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = Venta()
