@@ -276,10 +276,6 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.label_4.setFont(font)
         self.rolComboBox.setFont(font)
 
-        # Responsividad de los elementos de la lista
-
-
-
 
 if __name__ == "__main__":
     import sys

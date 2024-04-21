@@ -168,6 +168,7 @@ class Ui_MainWindow(object):
 "}")
         self.pageValoresTiempo.setObjectName("pageValoresTiempo")
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.pageValoresTiempo)
+        self.verticalLayout_11.setSpacing(10)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
         self.labelLineEdit_1 = QtWidgets.QWidget(self.pageValoresTiempo)
         self.labelLineEdit_1.setObjectName("labelLineEdit_1")
@@ -259,35 +260,8 @@ class Ui_MainWindow(object):
         self.PromGastos.setObjectName("PromGastos")
         self.verticalLayout_10.addWidget(self.PromGastos)
         self.verticalLayout_11.addWidget(self.labelLineEdit_4, 0, QtCore.Qt.AlignTop)
-        self.contenedorPagina = QtWidgets.QWidget(self.pageValoresTiempo)
-        self.contenedorPagina.setStyleSheet("#contenedorPagina QPushButton{\n"
-"    background-color: white;\n"
-"    border: none;\n"
-"    padding: 8px 12px;\n"
-"    border-radius: 12px;\n"
-"}\n"
-"\n"
-"#contenedorPagina QPushButton:Hover{\n"
-"    background-color: #e6e6e6;\n"
-"}")
-        self.contenedorPagina.setObjectName("contenedorPagina")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.contenedorPagina)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.pushButtonPaginaDatos_L = QtWidgets.QPushButton(self.contenedorPagina)
-        self.pushButtonPaginaDatos_L.setObjectName("pushButtonPaginaDatos_L")
-        self.horizontalLayout_3.addWidget(self.pushButtonPaginaDatos_L, 0, QtCore.Qt.AlignRight)
-        self.labelPaginaDatos = QtWidgets.QLabel(self.contenedorPagina)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.labelPaginaDatos.setFont(font)
-        self.labelPaginaDatos.setAlignment(QtCore.Qt.AlignCenter)
-        self.labelPaginaDatos.setObjectName("labelPaginaDatos")
-        self.horizontalLayout_3.addWidget(self.labelPaginaDatos, 0, QtCore.Qt.AlignHCenter)
-        self.pushButtonPaginaDatos_L_2 = QtWidgets.QPushButton(self.contenedorPagina)
-        self.pushButtonPaginaDatos_L_2.setObjectName("pushButtonPaginaDatos_L_2")
-        self.horizontalLayout_3.addWidget(self.pushButtonPaginaDatos_L_2, 0, QtCore.Qt.AlignLeft)
-        self.verticalLayout_11.addWidget(self.contenedorPagina)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_11.addItem(spacerItem)
         self.stackedWidgetDatos.addWidget(self.pageValoresTiempo)
         self.pageValoresPermanentes = QtWidgets.QWidget()
         self.pageValoresPermanentes.setObjectName("pageValoresPermanentes")
@@ -323,9 +297,6 @@ class Ui_MainWindow(object):
         self.labelRendimientoTotal.setText(_translate("MainWindow", "Ganancias totales"))
         self.text.setText(_translate("MainWindow", "Promedio de ventas por día"))
         self.labelPromedioGastoDia.setText(_translate("MainWindow", "Promedio de gastos por día"))
-        self.pushButtonPaginaDatos_L.setText(_translate("MainWindow", "<"))
-        self.labelPaginaDatos.setText(_translate("MainWindow", "1/2"))
-        self.pushButtonPaginaDatos_L_2.setText(_translate("MainWindow", ">"))
 
 
 if __name__ == "__main__":

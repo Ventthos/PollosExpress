@@ -2,6 +2,8 @@ import decimal
 
 from RawInterfaces.Analisis import Ui_MainWindow
 from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtGui import QIcon, QFont
+from tkinter import messagebox
 import mysql.connector
 import datetime
 import matplotlib.pyplot as plt
@@ -50,6 +52,17 @@ class Analisis(QMainWindow, Ui_MainWindow):
         self.setFecha()
 
         self.calcularGastosPorMes("2024-03-26")
+
+        # Automaticamente cambiar de modo
+        self.comboBoxModos.currentIndexChanged.connect(self.changeMode)
+
+        # Refresh
+        self.buttonBuscar.setText("")
+        self.buttonBuscar.setIcon(QIcon("../img/refreshNegro.png"))
+        self.buttonBuscar.clicked.connect(self.refrescar)
+
+        # Responsividad
+        self.referenceSize = 841
 
     def changeGraphicToGastos(self):
         if self.labelPaginaDatos_Graf.text()[0] == "1":
@@ -285,7 +298,7 @@ class Analisis(QMainWindow, Ui_MainWindow):
         self.PromGastos.setText(f"${sumaTotal}")
         self.gastosGrapic = [sumas,
                               ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
-                              "Ventas", "Mes", "Total"]
+                              "Gastos", "Mes", "Total"]
 
 
     def calcularSemana(self):
@@ -298,6 +311,42 @@ class Analisis(QMainWindow, Ui_MainWindow):
         today = datetime.date.today()
         mesActual = today + relativedelta(months=self.ticks)
         return mesActual
+
+    def changeMode(self):
+        self.ticks = 0
+        self.setFecha()
+
+    def refrescar(self):
+        self.setFecha()
+        messagebox.showinfo("Reload", "Los datos han sido actualizados")
+
+    def resizeEvent(self, event):
+        font = QFont()
+        font.setFamily("MS Shell Dlg 2")
+
+        font.setPointSize(int((10/self.referenceSize) * self.width()))
+        self.labelTiempo.setFont(font)
+
+        font.setPointSize(int((8 / self.referenceSize) * self.width()))
+        self.buttonRewind.setFont(font)
+        self.buttonFord.setFont(font)
+        self.pushButtonGraf_R.setFont(font)
+        self.pushButtonGraf_L.setFont(font)
+        self.buttonBuscar.setFont(font)
+
+        font.setPointSize(int((11 / self.referenceSize) * self.width()))
+        self.labelVentasTot.setFont(font)
+        self.lineEditVentasTot.setFont(font)
+        self.labelGastosTot.setFont(font)
+        self.lineEditGastosTot.setFont(font)
+        self.labelRendimientoTotal.setFont(font)
+        self.GananciasTotales.setFont(font)
+        self.text.setFont(font)
+        self.lineEditPromedioGananciaDia.setFont(font)
+        self.labelPromedioGastoDia.setFont(font)
+        self.PromGastos.setFont(font)
+        self.comboBoxModos.setFont(font)
+
 
 if __name__ == "__main__":
     import sys
