@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         self.scrollAreaProducto.setWidgetResizable(True)
         self.scrollAreaProducto.setObjectName("scrollAreaProducto")
         self.scrollAreaContentsProductos = QtWidgets.QWidget()
-        self.scrollAreaContentsProductos.setGeometry(QtCore.QRect(0, 0, 525, 589))
+        self.scrollAreaContentsProductos.setGeometry(QtCore.QRect(0, 0, 526, 589))
         self.scrollAreaContentsProductos.setStyleSheet("")
         self.scrollAreaContentsProductos.setObjectName("scrollAreaContentsProductos")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaContentsProductos)
@@ -129,6 +129,28 @@ class Ui_MainWindow(object):
         self.LabelPrecioTotalDecimal.setObjectName("LabelPrecioTotalDecimal")
         self.horizontalLayout.addWidget(self.LabelPrecioTotalDecimal, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addWidget(self.widgetTotal)
+        self.Layout_Total_Refresh = QtWidgets.QHBoxLayout()
+        self.Layout_Total_Refresh.setObjectName("Layout_Total_Refresh")
+        self.refresh_Button = QtWidgets.QPushButton(self.WidgetInteriorVentaTabla)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.refresh_Button.setFont(font)
+        self.refresh_Button.setStyleSheet("#refresh_Button{\n"
+"    color: white;\n"
+"    background-color: #f1473a;\n"
+"    border: none;\n"
+"    padding: 6px 24px;\n"
+"    border-radius: 8px;    \n"
+"    font-weight: bold;\n"
+"}\n"
+"\n"
+"#refresh_Button:Hover{\n"
+"    background-color: #C73A30;\n"
+"}")
+        self.refresh_Button.setObjectName("refresh_Button")
+        self.Layout_Total_Refresh.addWidget(self.refresh_Button)
         self.pushButton = QtWidgets.QPushButton(self.WidgetInteriorVentaTabla)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -148,7 +170,8 @@ class Ui_MainWindow(object):
 "    background-color: #C73A30;\n"
 "}")
         self.pushButton.setObjectName("pushButton")
-        self.verticalLayout_2.addWidget(self.pushButton, 0, QtCore.Qt.AlignRight)
+        self.Layout_Total_Refresh.addWidget(self.pushButton)
+        self.verticalLayout_2.addLayout(self.Layout_Total_Refresh)
         self.LayoutVenta.addWidget(self.WidgetInteriorVentaTabla)
         self.horizontalLayout_2.addWidget(self.WidgetVentaTabla)
         MainWindow.setCentralWidget(self.WidgetVentaTotal)
@@ -172,6 +195,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Id_producto"))
         self.labelPrecioTotal.setText(_translate("MainWindow", "Total"))
         self.LabelPrecioTotalDecimal.setText(_translate("MainWindow", "$0"))
+        self.refresh_Button.setText(_translate("MainWindow", "Recargar"))
         self.pushButton.setText(_translate("MainWindow", "Pagar"))
 
 

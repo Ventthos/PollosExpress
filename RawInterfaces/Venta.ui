@@ -59,7 +59,7 @@ background-color: #e7e7e5;
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>525</width>
+         <width>526</width>
          <height>589</height>
         </rect>
        </property>
@@ -247,17 +247,47 @@ background-color: #e7e7e5;
             </layout>
            </widget>
           </item>
-          <item alignment="Qt::AlignRight">
-           <widget class="QPushButton" name="pushButton">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#pushButton{
+          <item>
+           <layout class="QHBoxLayout" name="Layout_Total_Refresh">
+            <item>
+             <widget class="QPushButton" name="refresh_Button">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#refresh_Button{
+	color: white;
+	background-color: #f1473a;
+	border: none;
+	padding: 6px 24px;
+	border-radius: 8px;	
+	font-weight: bold;
+}
+
+#refresh_Button:Hover{
+	background-color: #C73A30;
+}</string>
+              </property>
+              <property name="text">
+               <string>Recargar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#pushButton{
 	color: white;
 	background-color: #f1473a;
 	border: none;
@@ -269,11 +299,13 @@ background-color: #e7e7e5;
 #pushButton:Hover{
 	background-color: #C73A30;
 }</string>
-            </property>
-            <property name="text">
-             <string>Pagar</string>
-            </property>
-           </widget>
+              </property>
+              <property name="text">
+               <string>Pagar</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

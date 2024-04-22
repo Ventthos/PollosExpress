@@ -18,13 +18,15 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
             password="$ShotGunKin0805",
             database="u119126_pollos2LaVengazaDelPollo"
         )
+        self.scroll_layout: QtWidgets.QVBoxLayout = None
+        self.row_layouts: list[QtWidgets.QHBoxLayout] = []
         self.cursor = self.conection.cursor()
         self.productManager = CrudProducto(self.conection)
         self.mainWidget = QtWidgets.QWidget()
         self.scrollAreaProducto.setWidget(self.mainWidget)
         self.descargarImagenes: bool = descargar
         self.LlenarDeProductos()
-
+        self.refresh_Button.clicked.connect(self.refresh)
         # Ventana del pago
         self.ventanaPago = PagarInterface(self.conection, 1, self)
         self.pushButton.clicked.connect(self.launchVenta)
@@ -32,18 +34,34 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
     def launchVenta(self):
         self.ventanaPago.show()
         self.ventanaPago.setTable(self.TablaVenta, self.LabelPrecioTotalDecimal.text())
-
+    def refresh(self):
+        for layout in self.row_layouts:
+            self.deleteItemsOfLayout(layout)
+        #self.descargarImagenes = True
+        self.LlenarDeProductos()
+    def deleteItemsOfLayout(self, layout):
+        if layout is not None:
+            while layout.count():
+                item = layout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.setParent(None)
+                else:
+                    self.deleteItemsOfLayout(item.layout())
     def LlenarDeProductos(self):
+        self.conection.reconnect()
         resultados = self.productManager.ReadSimplified()
         if self.descargarImagenes:
             print(resultados)
             self.productManager.downloadImages(resultados)
         print(resultados)
-        scroll_layout = QtWidgets.QVBoxLayout(self.mainWidget)
+        if self.scroll_layout is None:
+            self.scroll_layout = QtWidgets.QVBoxLayout(self.mainWidget)
         for i in range(len(resultados)):
             if i % 3 == 0:
-                row_layout = QtWidgets.QHBoxLayout()
-                scroll_layout.addLayout(row_layout)
+                self.row_layout = QtWidgets.QHBoxLayout()
+                self.row_layouts.append(self.row_layout)
+                self.scroll_layout.addLayout(self.row_layout)
             ventawidget = VentaWidget(f'../img/userImages/product_{resultados[i].nombre}.png',
                                       f'{resultados[i].nombre}',
                                       f'${resultados[i].precio}',
@@ -52,7 +70,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
                                       f"{resultados[i].id}",
                                       table=self.TablaVenta,
                                       labelTotal=self.LabelPrecioTotalDecimal)
-            row_layout.addWidget(ventawidget)
+            self.row_layout.addWidget(ventawidget)
 
 
 class VentaWidget(QtWidgets.QWidget):
