@@ -281,7 +281,12 @@ class Admin_Inventario(QMainWindow):
 
     def buscar_producto(self):
         # Obtener el texto del cuadro de búsqueda
-        texto_busqueda = self.input_buscar.text()
+        texto_busqueda = self.input_buscar.text().strip()  # Eliminar espacios al inicio y final del texto
+
+        # Verificar si el campo de búsqueda está vacío
+        if not texto_busqueda:
+            QMessageBox.warning(self, 'Advertencia', 'Por favor, ingrese un término para buscar.')
+            return  # Salir del método sin hacer más acciones
 
         # Realizar la búsqueda en la base de datos
         cursor = self.__conection.cursor()
