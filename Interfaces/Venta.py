@@ -152,7 +152,14 @@ class VentaWidget(QtWidgets.QWidget):
 
             # Calcular el total actual sumando el subtotal actual al total anterior
             self.sacarTotal()
+            self.ActualizarTablaVentas()
 
+    def ActualizarTablaVentas(self):
+        if self.table.rowCount() > 0:
+            for fila in range(self.table.rowCount()):
+                print(self.table.item(fila,0).text())
+                #Basicamente, checar si hay iguales, y juntarlos, lo cual suena mas facil de lo que en realidad es
+                #Bubblesort?
 
     def sacarTotal(self):
         total = 0
