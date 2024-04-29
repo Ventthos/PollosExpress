@@ -45,7 +45,7 @@ class Admin_Gastos(QMainWindow):
         self.fecha_edit.setDisplayFormat("yyyy-MM-dd HH:mm")
 
         # Botón para establecer la fecha y hora actuales
-        self.actual_button = QPushButton('Actual')
+        self.actual_button = QPushButton('Fecha Actual')
         self.actual_button.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;")
         self.actual_button.setFixedWidth(120)
         self.actual_button.clicked.connect(self.establecer_fecha_actual)
