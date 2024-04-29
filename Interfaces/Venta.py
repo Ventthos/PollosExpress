@@ -124,11 +124,17 @@ class VentaWidget(QtWidgets.QWidget):
 
     def AgregarProductoAVenta(self):
         # Obtener el subtotal actual
+        yaexiste = False
         print(self.idProducto)
         if self.lineCantidad.text() != "":
             subtotal_actual = float(self.lineCantidad.text()) * float(self.precioProducto)
-            row_count = self.table.rowCount()
-            self.table.insertRow(row_count)
+            IndiceNombre = self.BuscarEnTablaVentas(self.nombreProducto)
+            if IndiceNombre != None:
+                yaexiste = True
+                print(f"Ya existe un producto con el nombre: {self.nombreProducto}")
+            else:
+                row_count = self.table.rowCount()
+                self.table.insertRow(row_count)
             values = [self.nombreProducto, #nombre
                       self.lineCantidad.text(), #cantidad
                       str(self.precioProducto), #precio
@@ -147,19 +153,26 @@ class VentaWidget(QtWidgets.QWidget):
             else:
                 self.table.item(index, 1).setText(str(float(self.table.item(index, 1).text()) + float(self.lineCantidad.text())))
             """
-            for i in range(5):
-                self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
-
+            if yaexiste:
+                cantidadprevia = self.table.item(IndiceNombre, 1)
+                self.table.setItem(IndiceNombre, 1, QtWidgets.QTableWidgetItem(str(int(cantidadprevia.text()) + int(values[1]))))
+            if not yaexiste:
+                for i in range(5):
+                    self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
             # Calcular el total actual sumando el subtotal actual al total anterior
             self.sacarTotal()
-            self.ActualizarTablaVentas()
-
-    def ActualizarTablaVentas(self):
+#funcion que devuelve el indice de la tabla en la que el nombre es igual a el dado
+    def BuscarEnTablaVentas(self, name : str):
         if self.table.rowCount() > 0:
             for fila in range(self.table.rowCount()):
-                print(self.table.item(fila,0).text())
-                #Basicamente, checar si hay iguales, y juntarlos, lo cual suena mas facil de lo que en realidad es
-                #Bubblesort?
+                if self.table.item(fila,0) != None:
+                    nombreProducto = self.table.item(fila,0).text()
+                else:
+                    nombreProducto = None
+                print(nombreProducto)
+                if nombreProducto == name:
+                    return fila
+        return None
 
     def sacarTotal(self):
         total = 0

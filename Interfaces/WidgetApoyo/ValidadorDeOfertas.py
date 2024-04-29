@@ -92,15 +92,25 @@ class Validador:
 
 
         #Agregamos la row para mi promocioncita ay como la quiero a mi promocioncita
-        self.row_count = self.table.rowCount()
-        self.table.insertRow(self.row_count)
+        yaexiste = False
+        IndiceNombre = self.BuscarEnTablaVentas(arrDatos[0] + " 2X1")
+        if IndiceNombre != None:
+            yaexiste = True
+            print(f"Ya existe un producto con el nombre: {arrDatos[0] + ' 2X1'}")
+        else:
+            row_count = self.table.rowCount()
+            self.table.insertRow(row_count)
         values = [arrDatos[0] + " 2X1",
                   str(cantidadAAplicar),
                   "0.0",
                   "0.0",
                   arrDatos[4]]
-        for i in range(5):
-            self.table.setItem(self.row_count, i, QtWidgets.QTableWidgetItem(values[i]))
+        if yaexiste:
+            cantidadprevia = self.table.item(IndiceNombre,1)
+            self.table.setItem(IndiceNombre, 1, QtWidgets.QTableWidgetItem(str(int(cantidadprevia.text()) + int(values[1]))))
+        if not yaexiste:
+            for i in range(5):
+                self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
     def encontrarFila(self):
         for result in self.Promociones:
             texto_busqueda = result[4].strip().lower()
@@ -121,3 +131,14 @@ class Validador:
             # Agregar el total actual a la tabla
             self.table.setItem(self.row_count, 4, QtWidgets.QTableWidgetItem(str(total_actual)))
 
+    def BuscarEnTablaVentas(self, name: str):
+        if self.table.rowCount() > 0:
+            for fila in range(self.table.rowCount()):
+                if self.table.item(fila, 0) != None:
+                    nombreProducto = self.table.item(fila, 0).text()
+                else:
+                    nombreProducto = None
+                print(nombreProducto)
+                if nombreProducto == name:
+                    return fila
+        return None
