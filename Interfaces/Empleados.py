@@ -193,6 +193,7 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         messagebox.showinfo(title="Operación completada", message="El empleado ha sido agregado con éxito")
 
     def __editar_empleado(self):
+        self.pushButton_3.setEnabled(False)
         pantallaCarga = LoadingScreen()
         pantallaCarga.show()
         QtWidgets.QApplication.processEvents()
@@ -200,9 +201,12 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
         self.__userManager.Update(self.__empleadoActivo.getId(), self.__createEmpleadoObject())
         self.__updateEmpleados()
         pantallaCarga = None
+        self.pushButton_3.setEnabled(True)
+
         messagebox.showinfo(title="Operación completada", message="El empleado ha sido editado con éxito")
 
     def __eliminar_empleado(self):
+        self.pushButton_2.setEnabled(False)
         pantallaCarga = LoadingScreen()
         pantallaCarga.show()
         QtWidgets.QApplication.processEvents()
@@ -214,6 +218,7 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
             self.__configure_aregar_empleado()
         pantallaCarga = None
         messagebox.showinfo(title="Operación completada", message="El empleado ha sido eliminado con éxito")
+        self.pushButton_2.setEnabled(True)
 
     def buscarEmpleado(self):
         for widget in range(self.verticalLayout_6.count()-1,-1, -1):
@@ -235,8 +240,10 @@ class Empleados(Ui_Form, QtWidgets.QWidget):
                 self.verticalLayout_6.addWidget(newElement)
 
     def actualizarConWarnig(self):
+        self.BotonRefrescar.setEnabled(False)
         self.__updateEmpleados()
         messagebox.showinfo("Actualizado", "Los datos del programa han sido actualizados")
+        self.BotonRefrescar.setEnabled(True)
 
     def resizeEvent(self, event):
         margenes = int(self.width()*self.proporcionMargenes)

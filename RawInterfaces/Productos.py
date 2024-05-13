@@ -107,7 +107,7 @@ class Ui_Form(object):
         self.scrollArea_productos.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scrollArea_productos.setObjectName("scrollArea_productos")
         self.scrollAreaWidgetContents_productos = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 306, 454))
+        self.scrollAreaWidgetContents_productos.setGeometry(QtCore.QRect(0, 0, 306, 452))
         self.scrollAreaWidgetContents_productos.setObjectName("scrollAreaWidgetContents_productos")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_productos)
         self.verticalLayout_6.setContentsMargins(6, -1, 6, -1)
@@ -115,7 +115,10 @@ class Ui_Form(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.scrollArea_productos.setWidget(self.scrollAreaWidgetContents_productos)
         self.verticalLayout_2.addWidget(self.scrollArea_productos)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.agregar_producto = QtWidgets.QPushButton(self.listado_producto)
+        self.agregar_producto.setEnabled(True)
         self.agregar_producto.setStyleSheet("\n"
 "#agregar_producto {\n"
 "    background-color: #e73a4b;\n"
@@ -126,15 +129,39 @@ class Ui_Form(object):
 "\n"
 "#agregar_producto:hover {\n"
 "    background-color: #EC5B69;\n"
+"}\n"
+"\n"
+"#agregar_producto:disabled{\n"
+"    background-color: #74859d;\n"
 "}")
         self.agregar_producto.setObjectName("agregar_producto")
-        self.verticalLayout_2.addWidget(self.agregar_producto)
+        self.horizontalLayout_5.addWidget(self.agregar_producto, 0, QtCore.Qt.AlignLeft)
+        self.actualizar_productos = QtWidgets.QPushButton(self.listado_producto)
+        self.actualizar_productos.setEnabled(True)
+        self.actualizar_productos.setStyleSheet("#actualizar_productos {\n"
+"    background-color: #e73a4b;\n"
+"    color: white;\n"
+"    font-weight: bold;\n"
+"padding:8px;\n"
+"}\n"
+"\n"
+"#actualizar_productos:hover {\n"
+"    background-color: #EC5B69;\n"
+"}\n"
+"\n"
+"#actualizar_productos:disabled{\n"
+"    background-color: #74859d;\n"
+"}")
+        self.actualizar_productos.setObjectName("actualizar_productos")
+        self.horizontalLayout_5.addWidget(self.actualizar_productos, 0, QtCore.Qt.AlignRight)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
         self.horizontalLayout.addWidget(self.listado_producto)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.datos_producto = QtWidgets.QWidget(self.background_producto)
         self.datos_producto.setStyleSheet("#widget{\n"
 "    margin-left: 20px;\n"
+"    \n"
 "}")
         self.datos_producto.setObjectName("datos_producto")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.datos_producto)
@@ -146,7 +173,7 @@ class Ui_Form(object):
         self.scrollArea_producto.setWidgetResizable(True)
         self.scrollArea_producto.setObjectName("scrollArea_producto")
         self.scrollArea_producto_contents = QtWidgets.QWidget()
-        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, 0, 473, 735))
+        self.scrollArea_producto_contents.setGeometry(QtCore.QRect(0, -160, 473, 735))
         self.scrollArea_producto_contents.setStyleSheet("#scrollArea_producto_contents{\n"
 "    background-color: white;\n"
 "}\n"
@@ -324,12 +351,17 @@ class Ui_Form(object):
 "\n"
 "#widget_botones_producto QPushButton:Hover{\n"
 "    background-color: #EC5B69;\n"
+"}\n"
+"\n"
+"#widget_botones_producto QPushButton:disabled{\n"
+"    background-color: #74859d;\n"
 "}")
         self.widget_botones_producto.setObjectName("widget_botones_producto")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.widget_botones_producto)
         self.horizontalLayout_4.setContentsMargins(0, 20, 0, 0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.editar_producto = QtWidgets.QPushButton(self.widget_botones_producto)
+        self.editar_producto.setEnabled(True)
         self.editar_producto.setObjectName("editar_producto")
         self.horizontalLayout_4.addWidget(self.editar_producto)
         self.eliminar_producto = QtWidgets.QPushButton(self.widget_botones_producto)
@@ -353,6 +385,7 @@ class Ui_Form(object):
         self.iconoBuscar_producto.setText(_translate("Form", "aaaaa"))
         self.barraBusqueda_Productos.setPlaceholderText(_translate("Form", "Buscar Producto"))
         self.agregar_producto.setText(_translate("Form", "Agregar producto"))
+        self.actualizar_productos.setText(_translate("Form", "Actualizar"))
         self.label_nombre_producto.setText(_translate("Form", "Nombre"))
         self.label_precio_producto.setText(_translate("Form", "Precio"))
         self.label_tituloimagen_producto.setText(_translate("Form", "Imagen"))

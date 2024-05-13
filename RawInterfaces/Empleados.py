@@ -58,6 +58,10 @@ class Ui_Form(object):
 "\n"
 "#listado QPushButton:hover {\n"
 "    background-color: #EC5B69;\n"
+"}\n"
+"\n"
+"#listado QPushButton:disabled{\n"
+"    background-color: #74859d;\n"
 "}")
         self.listado.setObjectName("listado")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.listado)
@@ -125,6 +129,7 @@ class Ui_Form(object):
         self.agregar_empleado.setObjectName("agregar_empleado")
         self.horizontalLayout_4.addWidget(self.agregar_empleado, 0, QtCore.Qt.AlignLeft)
         self.BotonRefrescar = QtWidgets.QPushButton(self.listado)
+        self.BotonRefrescar.setEnabled(True)
         self.BotonRefrescar.setObjectName("BotonRefrescar")
         self.horizontalLayout_4.addWidget(self.BotonRefrescar, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
@@ -157,10 +162,15 @@ class Ui_Form(object):
 "\n"
 "#datos_widget QPushButton:Hover{\n"
 "    background-color: #EC5B69;\n"
+"}\n"
+"\n"
+"#datos_widget QPushButton:disabled{\n"
+"    background-color: #74859d;\n"
 "}")
         self.datos_widget.setObjectName("datos_widget")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.datos_widget)
         self.verticalLayout_4.setContentsMargins(20, 20, 20, 20)
+        self.verticalLayout_4.setSpacing(10)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.groupBox = QtWidgets.QGroupBox(self.datos_widget)
         self.groupBox.setStyleSheet("#groupBox QLineEdit {\n"
@@ -311,10 +321,22 @@ class Ui_Form(object):
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_3 = QtWidgets.QPushButton(self.datos_widget)
+        self.pushButton_3.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
+        self.pushButton_3.setSizePolicy(sizePolicy)
         self.pushButton_3.setStyleSheet("")
         self.pushButton_3.setObjectName("pushButton_3")
         self.horizontalLayout_3.addWidget(self.pushButton_3)
         self.pushButton_2 = QtWidgets.QPushButton(self.datos_widget)
+        self.pushButton_2.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
+        self.pushButton_2.setSizePolicy(sizePolicy)
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout_3.addWidget(self.pushButton_2)
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)

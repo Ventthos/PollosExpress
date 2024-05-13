@@ -72,6 +72,9 @@ class ProductosInterface(QWidget, Ui_Form):
         # Linkear para buscar
         self.barraBusqueda_Productos.textChanged.connect(self.buscarProducto)
 
+        # Linkear actualizar
+        self.actualizar_productos.clicked.connect(self.actualizarConWarnig)
+
         #Validar que el producto no pueda tener un precio menor a 0
         self.lineEdit_precio_producto.textChanged.connect(self.validate_positive_number)
 
@@ -108,6 +111,7 @@ class ProductosInterface(QWidget, Ui_Form):
             widget.deleteLater()
 
     def showProducto(self, widget: ImageFrame):
+        self.agregar_producto.setEnabled(True)
         self.creandoProducto = False
         self.paqueteModificado = False
         self.hasChangedImage = False
@@ -158,6 +162,7 @@ class ProductosInterface(QWidget, Ui_Form):
             self.agregar_producto_paquete.hide()
 
     def configure_agregar_producto(self):
+        self.agregar_producto.setEnabled(False)
         self.creandoProducto = True
         self.paqueteModificado = False
         self.hasChangedImage = False
@@ -278,6 +283,7 @@ class ProductosInterface(QWidget, Ui_Form):
         self.paqueteModificado = True
 
     def editProducto(self):
+        self.editar_producto.setEnabled(False)
         pantallaCarga = LoadingScreen()
         pantallaCarga.show()
         QApplication.processEvents()
@@ -285,6 +291,7 @@ class ProductosInterface(QWidget, Ui_Form):
             self.__productManager.Delete(self.productoActivo.id)
             self.crearProducto()
             pantallaCarga = None
+            self.editar_producto.setEnabled(True)
         else:
             objetoProducto = self.__crearObjetoProducto()
             if self.hasChangedImage:
@@ -295,9 +302,11 @@ class ProductosInterface(QWidget, Ui_Form):
             self.__productManager.Update(self.productoActivo.id, objetoProducto)
             self.__updateProductos()
             pantallaCarga = None
+            self.editar_producto.setEnabled(True)
 
 
     def eliminarProducto(self):
+        self.eliminar_producto.setEnabled(False)
         pantallaCarga = LoadingScreen()
         pantallaCarga.show()
         QApplication.processEvents()
@@ -312,6 +321,7 @@ class ProductosInterface(QWidget, Ui_Form):
         else:
             self.configure_agregar_producto()
         pantallaCarga = None
+        self.eliminar_producto.setEnabled(True)
 
     def changeImagen(self):
         ruta = filedialog.askopenfilename()
@@ -355,6 +365,12 @@ class ProductosInterface(QWidget, Ui_Form):
             self.lineEdit_precio_producto.setText(text[:-1])  # Elimina el último carácter
             self.lineEdit_precio_producto.setCursorPosition(cursor - 1)  # Mantiene el cursor en su posición
 
+    def actualizarConWarnig(self):
+        self.actualizar_productos.setEnabled(False)
+        self.__updateProductos()
+        messagebox.showinfo("Actualizado", "Los datos del programa han sido actualizados")
+        self.actualizar_productos.setEnabled(True)
+
     def resizeEvent(self, event):
         margins = int((9/self.anchoReferencia) * self.width())
         self.listado_producto.setContentsMargins(margins, margins, margins, margins)
@@ -375,6 +391,7 @@ class ProductosInterface(QWidget, Ui_Form):
 
         font.setPointSize(int((8 / self.anchoReferencia) * self.width()))
         self.agregar_producto.setFont(font)
+        self.actualizar_productos.setFont(font)
         self.agregar_producto_paquete.setFont(font)
         self.editar_producto.setFont(font)
         self.boton_cambiarimg_producto.setFont(font)
@@ -390,6 +407,7 @@ class ProductosInterface(QWidget, Ui_Form):
         # Para el icono de buscar
         self.iconoBuscar_producto.setMaximumSize(int((26/self.anchoReferencia)*self.width()),
                                                  int((40/self.anchoReferencia)*self.width()))
+
 
 
 if __name__ == "__main__":

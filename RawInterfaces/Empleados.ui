@@ -99,6 +99,10 @@ padding:8px;
 
 #listado QPushButton:hover {
 	background-color: #EC5B69;
+}
+
+#listado QPushButton:disabled{
+	background-color: #74859d;
 }</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -226,6 +230,9 @@ padding:8px;
            </item>
            <item alignment="Qt::AlignRight">
             <widget class="QPushButton" name="BotonRefrescar">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
              <property name="text">
               <string>Actualizar</string>
              </property>
@@ -298,6 +305,10 @@ padding:8px;
 
 #datos_widget QPushButton:Hover{
 	background-color: #EC5B69;
+}
+
+#datos_widget QPushButton:disabled{
+	background-color: #74859d;
 }</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -593,6 +604,9 @@ padding:8px;
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
                <widget class="QPushButton" name="pushButton_3">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -609,6 +623,9 @@ padding:8px;
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_2">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                   <horstretch>0</horstretch>
