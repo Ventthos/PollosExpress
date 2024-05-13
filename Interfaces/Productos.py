@@ -312,8 +312,7 @@ class ProductosInterface(QWidget, Ui_Form):
         QApplication.processEvents()
         codigoDrive = self.productoActivo.driveCode
         self.__productManager.Delete(self.productoActivo.id)
-        hilo = threading.Thread(target=self.__productManager.DeleteImage, args=[codigoDrive])
-        hilo.start()
+        self.__productManager.DeleteImage(codigoDrive)
         self.productoActivo= None
         self.__updateProductos()
         if self.verticalLayout_6.count() > 0:
@@ -324,7 +323,7 @@ class ProductosInterface(QWidget, Ui_Form):
         self.eliminar_producto.setEnabled(True)
 
     def changeImagen(self):
-        ruta = filedialog.askopenfilename()
+        ruta = filedialog.askopenfilename(filetypes=(("Imágenes", "*.jpg *.png"),))
         if ruta != "":
             self.hasChangedImage = True
             self.activeImage = ruta
