@@ -6,7 +6,7 @@ import mysql.connector
 from Crud.CRUD_producto import CrudProducto, Producto
 import WidgetApoyo.ValidadorDeOfertas
 from Interfaces.PagarInterface import PagarInterface
-
+from tkinter import messagebox
 class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self, descargar=False):
         super().__init__()
@@ -32,8 +32,23 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.pushButton.clicked.connect(self.launchVenta)
 
     def launchVenta(self):
-        self.ventanaPago.show()
-        self.ventanaPago.setTable(self.TablaVenta, self.LabelPrecioTotalDecimal.text())
+        sepuedevender : bool = True
+        for row in range(self.TablaVenta.rowCount()):
+            cantidad = int(self.TablaVenta.item(row, 1).text())
+            idProducto = self.TablaVenta.item(row, 4).text()
+            print(f"Hay {cantidad} del producto {idProducto}")
+            script = "SELECT cantidad FROM inventario WHERE id_producto = %s"
+            self.cursor.execute(script, [idProducto])
+            cantidadEnInventario = self.cursor.fetchone()
+            print(f"En el inventario hay {cantidadEnInventario[0]} de {idProducto}")
+            if cantidad > cantidadEnInventario[0]:
+                sepuedevender = False
+                break
+        if sepuedevender:
+            self.ventanaPago.show()
+            self.ventanaPago.setTable(self.TablaVenta, self.LabelPrecioTotalDecimal.text())
+        if not sepuedevender:
+            messagebox.askyesno("Inventario","No hay suficiente producto en el inventario")
     def refresh(self):
         for layout in self.row_layouts:
             self.deleteItemsOfLayout(layout)
@@ -159,8 +174,16 @@ class VentaWidget(QtWidgets.QWidget):
             if not yaexiste:
                 for i in range(5):
                     self.table.setItem(row_count, i, QtWidgets.QTableWidgetItem(values[i]))
+            self.ActualizarSubTotal()
             # Calcular el total actual sumando el subtotal actual al total anterior
             self.sacarTotal()
+    def ActualizarSubTotal(self):
+        if self.table.rowCount() > 0:
+            for fila in range(self.table.rowCount()):
+                cantidad = int(self.table.item(fila,1).text())
+                precio = float(self.table.item(fila,2).text())
+                nuevosubtotal = str(cantidad * precio)
+                self.table.setItem(fila,3,QtWidgets.QTableWidgetItem(nuevosubtotal))
 #funcion que devuelve el indice de la tabla en la que el nombre es igual a el dado
     def BuscarEnTablaVentas(self, name : str):
         if self.table.rowCount() > 0:
