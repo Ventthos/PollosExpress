@@ -89,6 +89,7 @@ class Admin_Ventas(QMainWindow):
 
     def cargar_ventas(self):
         cursor = self.__connection.cursor()
+        self.__connection.commit()
         query_venta = ("SELECT id_venta, fecha_De_Venta, total_De_Compra, P.nombre, CONCAT(E.nombre,\" \" ,"
                        "E.apellido_paterno), id_cliente FROM venta as V JOIN pago as P ON V.id_pago = P.id_pago JOIN e"
                        "mpleado E ON E.id_empleado = V.id_empleado ORDER BY id_venta DESC;")
@@ -112,6 +113,7 @@ class Admin_Ventas(QMainWindow):
         if selected_row != -1:
             id_venta = self.table_venta.item(selected_row, 0).text()
             cursor = self.__connection.cursor()
+            self.__connection.commit()
             query_productos_venta = ("SELECT id_venta_producto, cantidad, id_venta, P.nombre FROM venta_producto VP "
                                      "INNER JOIN producto P ON P.id_producto = VP.id_producto WHERE id_venta = %s;")
             cursor.execute(query_productos_venta, (id_venta,))
