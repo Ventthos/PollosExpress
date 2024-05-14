@@ -1,0 +1,46 @@
+==============================
+Reporte de gastos (2024-05-13 17:27)
+==============================
+
+------------------------------
+ID: 1
+Título: Compra de bolsas
+Descripción: Compra de bolsas jumbo para entregar pedidos
+Monto ($): 40
+Fecha: 2024-03-13 20:14:00
+ID Empleado: 1
+------------------------------
+ID: 2
+Título: Compra de tortillas
+Descripción: Tortillas blancas del reloj
+Monto ($): 20
+Fecha: 2024-03-13 20:16:00
+ID Empleado: 1
+------------------------------
+ID: 5
+Título: Compra de pollo
+Descripción: Compra de pollo
+Monto ($): 600
+Fecha: 2024-03-26 00:00:00
+ID Empleado: 1
+------------------------------
+ID: 6
+Título: Shampoo
+Descripción: xichitil
+Monto ($): 70000
+Fecha: 2024-04-19 00:00:00
+ID Empleado: 3
+------------------------------
+ID: 8
+Título: Compra de utencilios
+Descripción: Compra de tenedores, platos, cuchillos y charolas
+Monto ($): 200
+Fecha: 2024-05-13 17:26:00
+ID Empleado: 1
+------------------------------
+Presupuesto ($): 
+Gasto total ($): 70860.0
+Total restante ($): -70860.0
+------------------------------
+
+Reporte generado en: 2024-05-13 17:27 por el administrador con el ID 1.

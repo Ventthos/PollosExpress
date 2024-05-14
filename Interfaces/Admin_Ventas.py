@@ -36,7 +36,7 @@ class Admin_Ventas(QMainWindow):
         # Crear widget de tabla para la segunda tabla (venta_producto)
         self.table_venta_producto = QTableWidget()
         self.table_venta_producto.setColumnCount(4)
-        self.table_venta_producto.setHorizontalHeaderLabels(['ID Venta Producto', 'Cantidad', 'ID Venta', 'Producto'])
+        self.table_venta_producto.setHorizontalHeaderLabels(['ID Venta Producto', 'ID Venta', 'Cantidad', 'Producto'])
 
         # Ajustar ancho de columnas de la tabla venta
         self.table_venta.setColumnWidth(0, 135)  # ID Venta
@@ -122,10 +122,28 @@ class Admin_Ventas(QMainWindow):
 
             for row_number, producto_venta in enumerate(productos_venta):
                 self.table_venta_producto.insertRow(row_number)
+
+                item = QTableWidgetItem(str(producto_venta[0]))
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_venta_producto.setItem(row_number, 0, item)
+
+                item = QTableWidgetItem(str(producto_venta[2]))
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_venta_producto.setItem(row_number, 1, item)
+
+                item = QTableWidgetItem(str(producto_venta[1]))
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_venta_producto.setItem(row_number, 2, item)
+
+                item = QTableWidgetItem(str(producto_venta[3]))
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_venta_producto.setItem(row_number, 3, item)
+                """""
                 for column_number, data in enumerate(producto_venta):
                     item = QTableWidgetItem(str(data))
                     item.setTextAlignment(Qt.AlignCenter)
                     self.table_venta_producto.setItem(row_number, column_number, item)
+                """""
         else:
             # Limpiar la tabla venta_producto si no se selecciona ninguna venta
             self.table_venta_producto.setRowCount(0)
