@@ -398,6 +398,7 @@ class Admin_Inventario(QMainWindow):
         # Colocar los datos en los cuadros de texto correspondientes
         self.input_id.setText(id_producto)
         self.input_nombre.setText(nombre_producto)
+        self.input_cantidad.setText("No hay información disponible")
 
 if __name__ == '__main__':
     app = QApplication([])
