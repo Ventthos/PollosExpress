@@ -32,6 +32,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.pushButton.clicked.connect(self.launchVenta)
 
     def launchVenta(self):
+        self.conection.commit()
         sepuedevender : bool = True
         valoresacambiar : [tuple] = []
         for row in range(self.TablaVenta.rowCount()):
