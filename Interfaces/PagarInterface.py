@@ -16,7 +16,8 @@ class PagarInterface(QWidget, Ui_Form):
         self.idU = idUsuario
         self.buttonFinalizarCompra.clicked.connect(self.subirVenta)
         self.parentWidget = parent
-
+        #id, cantidad en inventario - cantidad pedida, arreglo de tuplas
+        self.valoresParaCambiar = []
     def setTable(self, table:QTableWidget, total:str):
         self.lineEditPagado.setText("")
         self.lineEditCambio.setText("")
@@ -47,6 +48,10 @@ class PagarInterface(QWidget, Ui_Form):
 
 
     def subirVenta(self):
+        script = "UPDATE inventario SET cantidad = %s WHERE id_producto = %s"
+        for venta in self.valoresParaCambiar:
+            self.connection.cursor().execute(script, [venta[1], venta[0]])
+        self.connection.commit()
         scrip = "INSERT INTO venta(fecha_De_Venta, total_De_Compra, id_pago, id_empleado) VALUES(%s, %s, %s, %s);"
         actual_time = time.localtime()
         timeFormatted = time.strftime("%Y/%m/%d", actual_time)

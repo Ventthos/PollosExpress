@@ -33,6 +33,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
 
     def launchVenta(self):
         sepuedevender : bool = True
+        valoresacambiar : [tuple] = []
         for row in range(self.TablaVenta.rowCount()):
             cantidad = int(self.TablaVenta.item(row, 1).text())
             idProducto = self.TablaVenta.item(row, 4).text()
@@ -44,9 +45,12 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
             if cantidad > cantidadEnInventario[0]:
                 sepuedevender = False
                 break
+            valoresacambiar.append((idProducto,cantidadEnInventario[0] - cantidad))
         if sepuedevender:
             self.ventanaPago.show()
             self.ventanaPago.setTable(self.TablaVenta, self.LabelPrecioTotalDecimal.text())
+            print(f"Los valores para cambiar son: {valoresacambiar}")
+            self.ventanaPago.valoresParaCambiar = valoresacambiar
         if not sepuedevender:
             messagebox.askyesno("Inventario","No hay suficiente producto en el inventario")
     def refresh(self):
