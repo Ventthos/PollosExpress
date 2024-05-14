@@ -62,8 +62,8 @@ class Admin_Inventario(QMainWindow):
         self.lista_layout.addWidget(self.table_widget)
 
         # Configuración del Data Grid
-        self.table_widget.setColumnCount(2)
-        self.table_widget.setHorizontalHeaderLabels(['ID', 'Nombre'])
+        self.table_widget.setColumnCount(3)
+        self.table_widget.setHorizontalHeaderLabels(['ID', 'Nombre', "Cantidad"])
 
         # Layout para los campos de entrada y botón
         self.input_layout = QVBoxLayout()
@@ -138,7 +138,7 @@ class Admin_Inventario(QMainWindow):
 
     def cargar_inventario(self):
         cursor = self.__conection.cursor()
-        query = "SELECT id_producto, nombre_producto FROM inventario"
+        query = "SELECT id_producto, nombre_producto, cantidad FROM inventario"
         cursor.execute(query)
         productos = cursor.fetchall()
 
@@ -151,8 +151,10 @@ class Admin_Inventario(QMainWindow):
         for row, producto in enumerate(productos):
             id_producto_item = QTableWidgetItem(str(producto[0]))
             nombre_producto_item = QTableWidgetItem(producto[1])
+            cantidad_producto_item = QTableWidgetItem(str(producto[2]))
             self.table_widget.setItem(row, 0, id_producto_item)
             self.table_widget.setItem(row, 1, nombre_producto_item)
+            self.table_widget.setItem(row, 2, cantidad_producto_item)
 
         cursor.close()
 
@@ -378,6 +380,7 @@ class Admin_Inventario(QMainWindow):
         # Obtener los datos de la celda seleccionada
         id_producto = self.table_widget.item(row, 0).text()
         nombre_producto = self.table_widget.item(row, 1).text()
+        cantidad = self.table_widget.item(row, 2).text()
 
         # Buscar el índice de la fila seleccionada en la tabla de inventario
         index = self.table_widget.indexFromItem(self.table_widget.item(row, 0))
@@ -385,6 +388,7 @@ class Admin_Inventario(QMainWindow):
         # Colocar los datos en los cuadros de texto correspondientes
         self.input_id.setText(id_producto)
         self.input_nombre.setText(nombre_producto)
+        self.input_cantidad.setText(cantidad)
 
     def cargar_datos_celda_seleccionada_producto(self, row, column):
         # Obtener los datos de la celda seleccionada
