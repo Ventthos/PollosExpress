@@ -177,7 +177,7 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
         print(results)
         for i in range(len(results)):
             #añadir los widgets que vamos a tener
-            widget = WidgetPromocion(results[i][2], results[i][1], results[i][0], results[i][3], results[i][4], results[i][5], container=self.scroll_widget, parent=self, conection=self.connection)
+            widget = WidgetPromocion(results[i][2], results[i][1], results[i][0], results[i][3], results[i][4], results[i][5], container=self.scroll_widget, parent=self, conection=self.connection, ui = self)
             self.scroll_layout.addWidget(widget)
         self.scrollAreaPromociones.setWidget(self.scroll_widget)
         # Este es un comentario secreto, Pepe es gay.
@@ -212,7 +212,7 @@ class Promociones(Ui_MainWindow, QtWidgets.QMainWindow ):
     def HelloWorld(self, str):
         print(str)
 class WidgetPromocion(QtWidgets.QWidget):
-    def __init__(self, desc: str, idprod: int, idpromo: int, fechaini: datetime.datetime, fechafin:datetime.datetime, idtipo: int, container:QtWidgets.QWidget, parent=None, arregloBotonesDias = None, conection = None):
+    def __init__(self, desc: str, idprod: int, idpromo: int, fechaini: datetime.datetime, fechafin:datetime.datetime, idtipo: int, container:QtWidgets.QWidget, parent=None, arregloBotonesDias = None, conection = None, ui = None):
         super().__init__(parent)
         self.conection = conection
         #parametros
@@ -223,6 +223,7 @@ class WidgetPromocion(QtWidgets.QWidget):
         self.fechafin = fechafin
         self.idtipo = idtipo
         self.container = container
+        self.ui = ui
         #Necesario para que se vea bien
         self.setMinimumHeight(80)
         self.setMinimumWidth(100)
@@ -258,7 +259,7 @@ class WidgetPromocion(QtWidgets.QWidget):
                            "margin: 0 0 0 0; "
                            "border-radius: 5px;")
         print(f"Hiciste click en {self.idprod,self.idpromo,self.label.text(), self.fechaini,self.fechafin, self.idtipo}")
-        Promociones.LLenarBoxCuandoClick(ui, self.desc, self.idprod, self.idpromo, self.fechaini, self.fechafin, self.idtipo, self.dias)
+        Promociones.LLenarBoxCuandoClick(self.ui, self.desc, self.idprod, self.idpromo, self.fechaini, self.fechafin, self.idtipo, self.dias)
 
 
 class ClickableLabel(QtWidgets.QLabel):

@@ -43,6 +43,7 @@ class Ui_MainWindow(object):
         self.scrollAreaContentsProductos.setObjectName("scrollAreaContentsProductos")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaContentsProductos)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.verticalLayout.setAlignment(QtCore.Qt.AlignTop)
         self.scrollAreaProducto.setWidget(self.scrollAreaContentsProductos)
         self.horizontalLayout_2.addWidget(self.scrollAreaProducto)
         self.WidgetVentaTabla = QtWidgets.QWidget(self.WidgetVentaTotal)

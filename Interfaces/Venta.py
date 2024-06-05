@@ -8,7 +8,7 @@ import WidgetApoyo.ValidadorDeOfertas
 from Interfaces.PagarInterface import PagarInterface
 from tkinter import messagebox
 class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
-    def __init__(self, descargar=False):
+    def __init__(self, descargar=False, idEmpleado = 1):
         super().__init__()
         super().setupUi(self)
         self.conection = mysql.connector.connect(
@@ -28,7 +28,7 @@ class Venta(Ui_MainWindow, QtWidgets.QMainWindow):
         self.LlenarDeProductos()
         self.refresh_Button.clicked.connect(self.refresh)
         # Ventana del pago
-        self.ventanaPago = PagarInterface(self.conection, 1, self)
+        self.ventanaPago = PagarInterface(self.conection, idEmpleado, self)
         self.pushButton.clicked.connect(self.launchVenta)
 
     def launchVenta(self):

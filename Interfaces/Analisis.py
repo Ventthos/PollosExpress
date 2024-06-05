@@ -151,7 +151,8 @@ class Analisis(QMainWindow, Ui_MainWindow):
         sumasSimplidified = []
         fechas = []
         for i in range(7):
-            fecha = fecha + datetime.timedelta(days=1)
+            fecha = fecha + datetime.timedelta(days=
+                                               1)
             fechas.append(fecha)
 
         for fechaInd in fechas:
@@ -213,36 +214,39 @@ class Analisis(QMainWindow, Ui_MainWindow):
         self.setFecha()
 
     def setFecha(self):
-        # Moday es el lunes de la semana si esta en modo semanal y el dia actual hace X meses
-        # si esta en mensual por un pequeño error xd
-        if self.comboBoxModos.currentText() == "Semanal":
-            monday, sunday = self.calcularSemana()
-        else:
-            monday = self.calcularMes()
+        try:
+            # Moday es el lunes de la semana si esta en modo semanal y el dia actual hace X meses
+            # si esta en mensual por un pequeño error xd
+            if self.comboBoxModos.currentText() == "Semanal":
+                monday, sunday = self.calcularSemana()
+            else:
+                monday = self.calcularMes()
 
-        ventas = self.calcularVentas(monday)
-        if ventas is not None:
-            self.lineEditVentasTot.setText(f"${ventas}")
-        else:
-            ventas = 0
-            self.lineEditVentasTot.setText("$0.0")
-        gastos = self.calcularGastos(monday)
-        if gastos is not None:
-            self.lineEditGastosTot.setText(f"${gastos}")
-        else:
-            gastos = 0
-            self.lineEditGastosTot.setText("$0.0")
-        self.GananciasTotales.setText(f"${decimal.Decimal(ventas)-gastos}")
+            ventas = self.calcularVentas(monday)
+            if ventas is not None:
+                self.lineEditVentasTot.setText(f"${ventas}")
+            else:
+                ventas = 0
+                self.lineEditVentasTot.setText("$0.0")
+            gastos = self.calcularGastos(monday)
+            if gastos is not None:
+                self.lineEditGastosTot.setText(f"${gastos}")
+            else:
+                gastos = 0
+                self.lineEditGastosTot.setText("$0.0")
+            self.GananciasTotales.setText(f"${decimal.Decimal(ventas)-gastos}")
 
-        if self.comboBoxModos.currentText() == "Semanal":
-            self.operacionesSemanales(monday)
-            monday = monday.strftime("%d/%m/%Y")
-            sunday = sunday.strftime("%d/%m/%Y")
-            self.labelTiempo.setText(f"Semana {monday} - {sunday}")
-        elif self.comboBoxModos.currentText() == "Mensual":
-            self.operacionesMensuales(monday)
-            mes = monday.strftime("%B")
-            self.labelTiempo.setText(f"Mes: {mes}")
+            if self.comboBoxModos.currentText() == "Semanal":
+                self.operacionesSemanales(monday)
+                monday = monday.strftime("%d/%m/%Y")
+                sunday = sunday.strftime("%d/%m/%Y")
+                self.labelTiempo.setText(f"Semana {monday} - {sunday}")
+            elif self.comboBoxModos.currentText() == "Mensual":
+                self.operacionesMensuales(monday)
+                mes = monday.strftime("%B")
+                self.labelTiempo.setText(f"Mes: {mes}")
+        except:
+            pass
 
     def operacionesSemanales(self, monday):
         # Calcula venta

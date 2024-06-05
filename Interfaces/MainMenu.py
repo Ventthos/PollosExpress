@@ -63,7 +63,7 @@ class MainMenu(QMainWindow, Ui_MainWindowMenuAdmin):
             self.stackedWidget.insertWidget(5, Admin_Gastos())
             self.stackedWidget.insertWidget(6, Analisis())
             self.stackedWidget.insertWidget(7, Admin_Inventario())
-            self.stackedWidget.insertWidget(8, Venta(False))
+            self.stackedWidget.insertWidget(8, Venta(False, idUser))
 
             # Conectar los eventos del menu a abrir las ventanas
             # ToDo falta por poner ventas y estadisticas
