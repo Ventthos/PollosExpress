@@ -15,12 +15,11 @@ class ProductosInterface(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
         self.__conection = mysql.connector.connect(
-            user="u119126_pollos2LaVengazaDelPollo",
-            host="174.136.28.78",
-            port="3306",
-            password="$ShotGunKin0805",
-            database="u119126_pollos2LaVengazaDelPollo"
-        )
+        user="root",
+        host="localhost",
+        port="3306",
+        database="pollosexpress"
+    )
         #Para la responsividad
         self.anchoReferencia = 946
 
